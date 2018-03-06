@@ -3,7 +3,7 @@
   pacman: name=openssh state=present
 
 - name: Configure OpenSSH daemon configuration file
-  lineinfile: path=/etc/ssh/sshd_config line={{ item.line }}
+  lineinfile: path=/etc/ssh/sshd_config line="{{ item.line }}"
   with_items:
     - { line: 'X11Forwarding yes' }
     - { line: 'PermitRootLogin yes' }

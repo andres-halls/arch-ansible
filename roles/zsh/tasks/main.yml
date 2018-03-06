@@ -3,7 +3,7 @@
   pacman: name=zsh,zsh-completions state=present
 
 - name: Copy zsh configuration files
-  copy: src={{ item.src }} dest={{ item.dest }}
+  copy: src="{{ item.src }}" dest="{{ item.dest }}"
   with_items:
     - { src: 'zsh', dest: '/etc/' }
     - { src: '.zshrc', dest: "{{ ansible_env.HOME }}/" }
