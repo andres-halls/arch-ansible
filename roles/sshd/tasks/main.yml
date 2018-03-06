@@ -1,0 +1,13 @@
+---
+- name: Install OpenSSH
+  pacman: name=openssh state=present
+
+- name: Configure OpenSSH daemon configuration file
+  lineinfile: path=/etc/ssh/sshd_config line={{ item.line }}
+  with_items:
+    - { line: 'X11Forwarding yes' }
+    - { line: 'PermitRootLogin yes' }
+    - { line: 'AllowUsers root' }
+
+- name: Enable and start OpenSSH daemon
+  service: name=sshd enabled=yes state=started

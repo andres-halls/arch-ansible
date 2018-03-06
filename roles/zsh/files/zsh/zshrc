@@ -1,0 +1,37 @@
+export ADOTDIR="/etc/zsh/antigen"
+source /usr/share/zsh/share/antigen.zsh
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle colored-man-pages
+antigen bundle systemd
+antigen bundle git
+antigen bundle history
+antigen bundle per-directory-history
+antigen bundle rsync
+#antigen bundle fasd
+antigen bundle autojump
+antigen bundle web-search
+antigen bundle psprint/history-search-multi-word
+antigen bundle horosgrisa/mysql-colorize
+antigen bundle skx/sysadmin-util
+antigen bundle peterhurford/up.zsh
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle djui/alias-tips
+antigen bundle bric3/nice-exit-code
+antigen bundle "$ADOTDIR/custom/plugins/auto-ls"
+
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+# Load the theme.
+antigen theme  "$ADOTDIR/custom/themes/juanghurtado"
+
+# Tell Antigen that you're done.
+antigen apply
+
+[ -r /etc/zsh/zsh_aliases ] && . /etc/zsh/zsh_aliases
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+_per-directory-history-set-global-history
