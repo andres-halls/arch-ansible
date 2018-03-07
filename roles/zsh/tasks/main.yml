@@ -6,12 +6,12 @@
   pacman: name=autojump state=present
 
 - name: Install antigen-git from AUR
-  aur: name='antigen-git'
+  aur: name=antigen-git
   become: yes
   become_user: aur_builder
 
 - name: Copy zsh configuration files
-  copy: src="{{ item.src }}" dest="{{ item.dest }}"
+  synchronize: src="{{ item.src }}" dest="{{ item.dest }}"
   with_items:
     - { src: 'zsh', dest: '/etc/' }
     - { src: '.zshrc', dest: "{{ ansible_env.HOME }}/" }
