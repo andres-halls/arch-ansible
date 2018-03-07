@@ -1,0 +1,22 @@
+---
+- name: Install vim
+  pacman: name=gvim state=present
+
+- name: Install vi-vim-symlink from AUR
+  aur: name=vi-vim-symlink
+
+- name: Deploy vim configuration via git
+  git:
+    repo: 'https://github.com/timss/vimconf.git'
+    dest: "{{ ansible_env.HOME }}/vimconf"
+
+- name: Create .vimrc symlink
+  file:
+    src: "{{ ansible_env.HOME }}/vimconf/.vimrc"
+    dest: "{{ ansible_env.HOME }}/.vimrc"
+    state: link
+
+- name: Deploy .vimrc.last
+  template:
+    src: '.vimrc.last.j2'
+    dest: "{{ ansible_env.HOME }}/.vimrc.last"
