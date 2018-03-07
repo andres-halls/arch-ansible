@@ -4,6 +4,8 @@
 
 - name: Install vi-vim-symlink from AUR
   aur: name=vi-vim-symlink
+  become: yes
+  become_user: aur_builder
 
 - name: Deploy vim configuration via git
   git:

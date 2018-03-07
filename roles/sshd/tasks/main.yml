@@ -9,7 +9,7 @@
     - { line: 'PermitRootLogin yes' }
     - { line: 'AllowUsers root' }
   notify:
-    - Restart sshd
+    - sshd restart
 
 - name: Enable and start OpenSSH daemon
   service: name=sshd enabled=yes state=started
