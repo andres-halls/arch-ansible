@@ -2,6 +2,14 @@
 - name: Install zsh
   pacman: name=zsh,zsh-completions state=present
 
+- name: Install autojump
+  pacman: name=autojump state=present
+
+- name: Install antigen-git from AUR
+  aur: name='antigen-git'
+  become: yes
+  become_user: aur_builder
+
 - name: Copy zsh configuration files
   copy: src="{{ item.src }}" dest="{{ item.dest }}"
   with_items:
