@@ -16,3 +16,6 @@
     - { src: 'zsh', dest: '/etc/' }
     - { src: '.zshrc', dest: "{{ ansible_env.HOME }}/" }
     - { src: '.zsh_aliases', dest: "{{ ansible_env.HOME }}/" }
+
+- name: Change root shell to zsh
+  user: name=root shell='/usr/bin/zsh'

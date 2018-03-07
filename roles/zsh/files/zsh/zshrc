@@ -21,13 +21,14 @@ antigen bundle peterhurford/up.zsh
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle djui/alias-tips
 antigen bundle bric3/nice-exit-code
-antigen bundle "$ADOTDIR/custom/plugins/auto-ls"
+#antigen bundle "$ADOTDIR/custom/plugins/auto-ls"
+antigen bundle desyncr/auto-ls
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Load the theme.
-antigen theme  "$ADOTDIR/custom/themes/juanghurtado"
+antigen theme "$ADOTDIR/custom/themes/juanghurtado"
 
 # Tell Antigen that you're done.
 antigen apply
