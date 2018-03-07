@@ -8,3 +8,8 @@
     line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
     create: yes
     validate: 'visudo -cf %s'
+
+- name: Install yay AUR helper
+  aur: name=yay-bin
+  become: yes
+  become_user: aur_builder
