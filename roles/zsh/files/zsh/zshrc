@@ -1,5 +1,3 @@
-# {{ ansible_managed }}
-
 export ADOTDIR="/etc/zsh/antigen"
 source /usr/share/zsh/share/antigen.zsh
 
