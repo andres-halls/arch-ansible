@@ -18,8 +18,8 @@ server {
     include snippets/ssl-example.com.conf;
     include snippets/cache-control.conf;
 
-    access_log /srv/www/vhosts/example.com/logs/access.log;
-    error_log  /srv/www/vhosts/example.com/logs/error.log;
+    access_log /srv/http/vhosts/example.com/logs/access.log;
+    error_log  /srv/http/vhosts/example.com/logs/error.log;
 
     location / {
         proxy_pass http://127.0.0.1:4859;

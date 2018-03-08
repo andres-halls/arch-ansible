@@ -1,9 +1,6 @@
 ---
-- name: Refresh pacman package lists
-  pacman: update_cache=yes
-
 - name: Install zsh
-  pacman: name=zsh,zsh-completions state=present
+  pacman: name=zsh,zsh-completions state=present update_cache=yes
 
 - name: Install autojump
   pacman: name=autojump state=present

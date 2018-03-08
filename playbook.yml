@@ -8,3 +8,4 @@
     - { role: vim, tags: [vim, aur] }
     - { role: syslog-ng, tags: [syslog-ng] }
     - { role: nginx, tags: [nginx] }
+    - { role: nodejs, tags: [nodejs] }

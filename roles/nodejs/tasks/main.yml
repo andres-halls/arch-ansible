@@ -1,0 +1,12 @@
+---
+- name: Install nodejs
+  pacman: name=nodejs state=present update_cache=yes
+
+- name: Install yarn
+  pacman: name=yarn state=present
+
+- name: Install pm2
+  pacman: name=pm2 state=present
+
+- name: Set PM2_HOME in zshrc
+  lineinfile: path=/etc/zsh/zshrc line='export PM2_HOME=/srv/http/.pm2'
