@@ -1,0 +1,3 @@
+---
+- name: Install syslog-ng
+  pacman: name=syslog-ng state=present update_cache=yes

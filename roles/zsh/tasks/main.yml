@@ -1,4 +1,7 @@
 ---
+- name: Refresh pacman package lists
+  pacman: update_cache=yes
+
 - name: Install zsh
   pacman: name=zsh,zsh-completions state=present
 

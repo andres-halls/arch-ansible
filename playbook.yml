@@ -6,3 +6,4 @@
     - { role: sshd, tags: [sshd] }
     - { role: zsh, tags: [zsh, aur] }
     - { role: vim, tags: [vim, aur] }
+    - { role: syslog-ng, tags: [syslog-ng] }

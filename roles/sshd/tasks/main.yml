@@ -1,6 +1,6 @@
 ---
 - name: Install OpenSSH
-  pacman: name=openssh state=present
+  pacman: name=openssh state=present update_cache=yes
 
 - name: Configure OpenSSH daemon configuration file
   lineinfile: path=/etc/ssh/sshd_config line="{{ item.line }}"

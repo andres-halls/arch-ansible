@@ -1,6 +1,6 @@
 ---
 - name: Install vim
-  pacman: name=gvim state=present
+  pacman: name=gvim state=present update_cache=yes
 
 - name: Install vi-vim-symlink from AUR
   aur: name=vi-vim-symlink
