@@ -1,0 +1,9 @@
+---
+- name: Install docker
+  pacman: name=docker state=present update_cache=yes
+
+- name: Install docker-compose
+  pacman: name=docker-compose state=present
+
+- name: Install python-docker
+  pacman: name=python-docker,python2-docker state=present

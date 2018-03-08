@@ -9,3 +9,5 @@
     - { role: syslog-ng, tags: [syslog-ng] }
     - { role: nginx, tags: [nginx] }
     - { role: nodejs, tags: [nodejs] }
+    - { role: docker, tags: [docker, docker-only] }
+    - { role: gitlab, tags: [gitlab, docker] }

@@ -1,0 +1,26 @@
+---
+- name: Ensure gitlab directory structure exists
+  file: dest="{{ item }}" recurse=yes state=directory
+  with_items:
+    - "{{ gitlab.config_dir }}"
+    - "{{ gitlab.logs_dir }}"
+    - "{{ gitlab.data_dir }}"
+
+- name: Run Gitlab docker container
+  docker_container:
+    name: gitlab
+    image: 'gitlab/gitlab-ce:latest'
+    state: started
+    restart_policy: always
+    recreate: yes
+    hostname: "{{ gitlab.host_name }}"
+    ports:
+      - "{{ gitlab.ssh_port }}:22"
+      - "{{ gitlab.http_port }}:80"
+      - "{{ gitlab.https_port }}:443"
+    volumes:
+      - "{{ gitlab.config_dir }}:/etc/gitlab"
+      - "{{ gitlab.logs_dir }}:/var/log/gitlab"
+      - "{{ gitlab.data_dir }}:/var/opt/gitlab"
+    env:
+      GITLAB_HOST: "{{ gitlab.host }}"

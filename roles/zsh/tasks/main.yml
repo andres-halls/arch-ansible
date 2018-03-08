@@ -8,7 +8,7 @@
 - name: Install antigen-git from AUR
   aur: name=antigen-git
   become: yes
-  become_user: aur_builder
+  become_user: "{{ aur_user }}"
 
 - name: Copy zsh configuration files
   synchronize: src="{{ item.src }}" dest="{{ item.dest }}"
