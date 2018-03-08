@@ -1,0 +1,23 @@
+---
+- name: Install nginx-mainline
+  pacman: name=nginx-mainline state=present update_cache=yes
+
+- name: Ensure directory structure exists
+  file: dest='/etc/nginx/{{ item.path }}' state=directory
+  with_filetree: '../templates'
+  when: item.state == 'directory'
+
+- name: Deploy nginx configuration files
+  template: src='{{ item.src }}' dest='/etc/nginx/{{ item.path }}'
+  with_filetree: '../templates'
+  when: item.state == 'file'
+  notify:
+    - nginx restart
+
+- name: Generate DH params
+  command: 'openssl dhparam -out /etc/nginx/conf.d/dhparam.pem 2048'
+  args:
+    creates: /etc/nginx/conf.d/dhparam.pem
+
+- name: Enable and start nginx daemon
+  service: name=nginx enabled=yes state=started
