@@ -3,7 +3,7 @@
   pacman: name=nginx-mainline state=present update_cache=yes
 
 - name: Ensure directory structure exists
-  file: dest='/etc/nginx/{{ item.path }}' state=directory
+  file: dest="/etc/nginx/{{ item.path }}" state=directory
   with_filetree: '../templates'
   when: item.state == 'directory'
 
