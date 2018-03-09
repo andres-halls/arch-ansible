@@ -33,7 +33,8 @@
   when: gitlab.nginx_proxy
   notify:
     - restart nginx
-  meta: flush_handlers
+
+- meta: flush_handlers
 
 - name: Generate SSL cert for {{ gitlab.host_name }} with letsencrypt
   command: "certbot certonly --webroot -w /var/lib/letsencrypt/ -d {{ gitlab.host_name }}"

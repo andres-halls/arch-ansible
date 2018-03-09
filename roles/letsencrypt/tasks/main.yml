@@ -11,7 +11,8 @@
   template: src=certbot.timer.j2 dest=/etc/systemd/system/certbot.timer
   notify:
     - reload systemd
-  meta: flush_handlers
+
+- meta: flush_handlers
 
 - name: Enable and start certbot.timer
   service: name=certbot.timer enabled=yes state=started
