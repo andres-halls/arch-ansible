@@ -53,7 +53,7 @@
 - name: Enable gitlab SSL
   lineinfile:
     path: "/etc/nginx/snippets/ssl-{{ gitlab.host_name }}.conf"
-    line: 'include snippets/ssl-{{ gitlab.host_name }}.conf';
+    line: 'include snippets/ssl-{{ gitlab.host_name }}.conf;'
   when: gitlab.nginx_proxy
   notify:
     - restart nginx
