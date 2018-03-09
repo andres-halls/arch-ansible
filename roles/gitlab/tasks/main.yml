@@ -6,6 +6,9 @@
     - "{{ gitlab.logs_dir }}"
     - "{{ gitlab.data_dir }}"
 
+- name: Enable and start docker daemon
+  service: name=docker enabled=yes state=started
+
 - name: Run Gitlab docker container
   docker_container:
     name: gitlab
@@ -24,3 +27,9 @@
       - "{{ gitlab.data_dir }}:/var/opt/gitlab"
     env:
       GITLAB_HOST: "{{ gitlab.host }}"
+
+- name: Deploy nginx vhost config
+  template: src=gitlab.conf.j2 dest="/etc/nginx/vhosts.d/{{ gitlab.host_name }}.conf"
+  when: gitlab.nginx_proxy
+  notify:
+    - restart nginx

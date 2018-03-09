@@ -8,11 +8,11 @@
   when: item.state == 'directory'
 
 - name: Deploy nginx configuration files
-  template: src='{{ item.src }}' dest='/etc/nginx/{{ item.path }}'
+  template: src="{{ item.src }}" dest="/etc/nginx/{{ item.path }}"
   with_filetree: '../templates'
   when: item.state == 'file'
   notify:
-    - nginx restart
+    - restart nginx
 
 - name: Generate DH params
   command: 'openssl dhparam -out /etc/nginx/conf.d/dhparam.pem 2048'

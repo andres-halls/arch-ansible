@@ -1,0 +1,43 @@
+#jinja2: lstrip_blocks: True
+# {{ ansible_managed }}
+
+server {
+    listen 80;
+    listen [::]:80;
+    {% if gitlab.host_name.split('.') | count == 2 %}
+    server_name {{ gitlab.host_name }} www.{{ gitlab.host_name }};
+    {% else %}
+    server_name {{ gitlab.host_name }};
+    {% endif %}
+    include snippets/letsencrypt.conf;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    {% if gitlab.host_name.split('.') | count == 2 %}
+    server_name {{ gitlab.host_name }} www.{{ gitlab.host_name }};
+    {% else %}
+    server_name {{ gitlab.host_name }};
+    {% endif %}
+    #include snippets/ssl-{{ gitlab.host_name }}.conf;
+
+    access_log {{ gitlab.logs_dir }}/{{ gitlab.host_name }}_access.log;
+    error_log  {{ gitlab.logs_dir }}/{{ gitlab.host_name }}_error.log;
+
+    location / {
+        {% if gitlab.http_port.split(':') | count == 2 %}
+        proxy_pass http://127.0.0.1:{{ gitlab.http_port.split(':')[1] }};
+        {% else %}
+        proxy_pass http://127.0.0.1:{{ gitlab.http_port }};
+        {% endif %}
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
