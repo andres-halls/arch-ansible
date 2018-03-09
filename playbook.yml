@@ -10,5 +10,6 @@
     - { role: nginx, tags: [nginx] }
     - { role: letsencrypt, tags: [letsencrypt, letsencrypt-only] }
     - { role: nodejs, tags: [nodejs] }
+    - { role: redis, tags: [redis] }
     - { role: docker, tags: [docker, docker-only] }
     - { role: gitlab, tags: [gitlab, docker, letsencrypt] }

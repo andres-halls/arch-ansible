@@ -1,0 +1,16 @@
+---
+- name: Install redis
+  pacman: name=redis state=present update_cache=yes
+
+- name: Disable Transparent Huge Pages (requires reboot)
+  template: src='tmpfiles_redis.conf.j2' dest='/etc/tmpfiles.d/redis.conf'
+
+- name: Deploy sysctl config
+  template: src='99-sysctl.conf.j2' dest='/etc/sysctl.d/99-sysctl.conf'
+  notify:
+    - reload sysctl
+
+- meta: flush_handlers
+
+- name: Enable and start redis daemon
+  service: name=redis enabled=yes state=started
