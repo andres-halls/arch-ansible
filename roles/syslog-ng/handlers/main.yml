@@ -1,3 +1,3 @@
 ---
-- name: syslog-ng restart
+- name: restart syslog-ng
   service: name=syslog-ng@default state=restarted

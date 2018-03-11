@@ -6,6 +6,9 @@
     - "{{ gitlab.logs_dir }}"
     - "{{ gitlab.data_dir }}"
 
+- name: Enable and start docker daemon
+  service: name=docker enabled=yes state=started
+
 - name: Run Gitlab docker container
   docker_container:
     name: gitlab
@@ -24,3 +27,33 @@
       - "{{ gitlab.data_dir }}:/var/opt/gitlab"
     env:
       GITLAB_HOST: "{{ gitlab.host }}"
+
+- name: Deploy nginx vhost config
+  template: src=nginx_gitlab.conf.j2 dest="/etc/nginx/vhosts.d/{{ gitlab.host_name }}.conf"
+  when: gitlab.nginx_proxy
+  notify:
+    - restart nginx
+
+- meta: flush_handlers
+
+- name: Generate SSL cert for {{ gitlab.host_name }} with letsencrypt
+  command: "certbot certonly --webroot -w /var/lib/letsencrypt/ -d {{ gitlab.host_name }}"
+  args:
+    creates: "/etc/letsencrypt/live/{{ gitlab.host_name }}/fullchain.pem"
+  when: gitlab.nginx_proxy
+  notify:
+    - restart nginx
+
+- name: Deploy nginx SSL config
+  template: src=nginx_ssl.conf.j2 dest="/etc/nginx/snippets/ssl-{{ gitlab.host_name }}.conf"
+  when: gitlab.nginx_proxy
+  notify:
+    - restart nginx
+
+- name: Enable gitlab SSL
+  lineinfile:
+    path: "/etc/nginx/snippets/ssl-{{ gitlab.host_name }}.conf"
+    line: 'include snippets/ssl-{{ gitlab.host_name }}.conf;'
+  when: gitlab.nginx_proxy
+  notify:
+    - restart nginx
