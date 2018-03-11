@@ -1,3 +1,15 @@
 ---
 aur_user: aur_builder
-tswbot: no
+install:
+  aur: yes
+  sshd: yes
+  zsh: yes
+  vim: yes
+  syslog-ng: yes
+  nginx: no
+  letsencrypt: no
+  nodejs: no
+  tswbot: no
+  redis: no
+  docker: no
+  gitlab: no

@@ -40,13 +40,13 @@
   command: "certbot certonly --webroot -w /var/lib/letsencrypt/ -d {{ gitlab.host_name }}"
   args:
     creates: "/etc/letsencrypt/live/{{ gitlab.host_name }}/fullchain.pem"
-  when: gitlab.nginx_proxy
+  when: gitlab.nginx_proxy and gitlab.ssl_enabled
   notify:
     - restart nginx
 
 - name: Deploy nginx SSL config
   template: src=nginx_ssl.conf.j2 dest="/etc/nginx/snippets/ssl-{{ gitlab.host_name }}.conf"
-  when: gitlab.nginx_proxy
+  when: gitlab.nginx_proxy and gitlab.ssl_enabled
   notify:
     - restart nginx
 
@@ -54,6 +54,6 @@
   lineinfile:
     path: "/etc/nginx/snippets/ssl-{{ gitlab.host_name }}.conf"
     line: 'include snippets/ssl-{{ gitlab.host_name }}.conf;'
-  when: gitlab.nginx_proxy
+  when: gitlab.nginx_proxy and gitlab.ssl_enabled
   notify:
     - restart nginx

@@ -1,15 +1,48 @@
 ---
 - hosts: all
   become: yes
-  roles:
-    - { role: aur, tags: [aur, aur-only] }
-    - { role: sshd, tags: [sshd] }
-    - { role: zsh, tags: [zsh, aur] }
-    - { role: vim, tags: [vim, aur] }
-    - { role: syslog-ng, tags: [syslog-ng] }
-    - { role: nginx, tags: [nginx] }
-    - { role: letsencrypt, tags: [letsencrypt, letsencrypt-only] }
-    - { role: nodejs, tags: [nodejs] }
-    - { role: redis, tags: [redis] }
-    - { role: docker, tags: [docker, docker-only] }
-    - { role: gitlab, tags: [gitlab, docker, letsencrypt] }
+  tasks:
+    - name: Include AUR
+      include_role: name=aur
+      tags: [aur, aur-only]
+      when: install.aur or install.zsh or install.vim
+    - name: Include sshd
+      include_role: name=sshd
+      tags: [sshd]
+      when: install.sshd
+    - name: Include zsh
+      include_role: name=zsh
+      tags: [zsh, aur]
+      when: install.zsh
+    - name: Include vim
+      include_role: name=vim
+      tags: [vim, aur]
+      when: install.vim
+    - name: Include syslog-ng
+      include_role: name=syslog-ng
+      tags: [syslog-ng]
+      when: install.syslog-ng
+    - name: Include nginx
+      include_role: name=nginx
+      tags: [nginx]
+      when: install.nginx
+    - name: Include letsencrypt
+      include_role: name=letsencrypt
+      tags: [letsencrypt, letsencrypt-only]
+      when: install.letsencrypt or gitlab.ssl_enabled
+    - name: Include nodejs
+      include_role: name=nodejs
+      tags: [nodejs]
+      when: install.nodejs
+    - name: Include redis
+      include_role: name=redis
+      tags: [redis]
+      when: install.redis
+    - name: Include docker
+      include_role: name=docker
+      tags: [docker, docker-only]
+      when: install.docker or install.gitlab
+    - name: Include Gitlab
+      include_role: name=gitlab
+      tags: [gitlab, docker, letsencrypt]
+      when: install.gitlab

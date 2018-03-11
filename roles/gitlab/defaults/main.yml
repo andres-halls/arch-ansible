@@ -9,3 +9,4 @@ gitlab:
   host_name: 'gitlab'
   host: 'https://gitlab'
   nginx_proxy: yes
+  ssl_enabled: yes
