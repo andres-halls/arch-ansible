@@ -38,6 +38,10 @@
       include_role: name=redis
       tags: [redis]
       when: install.redis
+    - name: Include mongodb
+      include_role: name=mongodb
+      tags: [mongodb]
+      when: install.mongodb
     - name: Include docker
       include_role: name=docker
       tags: [docker, docker-only]

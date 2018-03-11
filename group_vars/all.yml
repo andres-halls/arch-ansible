@@ -11,5 +11,6 @@ install:
   nodejs: no
   tswbot: no
   redis: no
+  mongodb: no
   docker: no
   gitlab: no

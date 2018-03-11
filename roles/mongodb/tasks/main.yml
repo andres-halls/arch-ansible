@@ -1,0 +1,6 @@
+---
+- name: Install mongodb
+  pacman: name=mongodb state=present update_cache=yes
+
+- name: Enable and start mongodb daemon
+  service: name=mongodb enabled=yes state=started
