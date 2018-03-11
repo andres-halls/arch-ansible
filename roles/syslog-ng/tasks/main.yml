@@ -22,9 +22,11 @@
   template: src=tswbot.conf.j2 dest='/etc/syslog-ng/log.d/tswbot.conf'
   notify:
     - restart syslog-ng
+  when: tswbot
 
 - name: Enable and start syslog-ng@default daemon
   service: name=syslog-ng@default enabled=yes state=started
 
 - name: Deploy tswbot logrotate configuration file
   template: src=tswbot.logrotate.j2 dest='/etc/logrotate.d/tswbot'
+  when: tswbot

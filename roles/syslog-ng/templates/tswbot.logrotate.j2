@@ -1,19 +1,13 @@
 # {{ ansible_managed }}
 
-log {
-	source(src);
-	filter { program("tswbot"); };
-	destination {
-		file("/srv/irc/tsw/logs/output.log" template(no_header));
-		pipe("/srv/irc/tsw/pipe.out" template(no_header));
-	};
-};
+/srv/irc/tsw/logs/output.log {
+  missingok
+  notifempty
+  su http log
+}
 
-log {
-	source(src);
-	filter { program("swlbot"); };
-	destination {
-		file("/srv/irc/swl/logs/output.log" template(no_header));
-		pipe("/srv/irc/swl/pipe.out" template(no_header));
-	};
-};
+/srv/irc/swl/logs/output.log {
+  missingok
+  notifempty
+  su http log
+}
