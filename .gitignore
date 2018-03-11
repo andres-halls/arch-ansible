@@ -1,3 +1,4 @@
 .idea
 *.retry
 hosts.yml
+vars.yml
