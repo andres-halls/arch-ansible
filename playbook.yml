@@ -42,6 +42,10 @@
       include_role: name=mongodb
       tags: [mongodb]
       when: install.mongodb
+    - name: Include tswbot
+      include_role: name=tswbot
+      tags: [tswbot]
+      when: install.tswbot
     - name: Include docker
       include_role: name=docker
       tags: [docker, docker-only]
