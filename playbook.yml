@@ -21,7 +21,7 @@
     - name: Include syslog-ng
       include_role: name=syslog-ng
       tags: [syslog-ng]
-      when: install.syslog-ng
+      when: install.syslog_ng
     - name: Include nginx
       include_role: name=nginx
       tags: [nginx]

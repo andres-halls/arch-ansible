@@ -3,20 +3,17 @@
   template: src=tswbot.service.j2 dest=/etc/systemd/system/tswbot.service
   notify:
     - reload systemd
-  when: install.tswbot
 
 - name: Deploy swlbot.service
   template: src=swlbot.service.j2 dest=/etc/systemd/system/swlbot.service
   notify:
     - reload systemd
-  when: install.tswbot
 
 - name: Deploy tswbot logrotate configuration file
   template: src=tswbot.logrotate.j2 dest='/etc/logrotate.d/tswbot'
-  when: install.tswbot
 
 - name: Deploy tswbot syslog-ng configuration file
   template: src=tswbot.conf.j2 dest='/etc/syslog-ng/log.d/tswbot.conf'
   notify:
     - restart syslog-ng
-  when: install.tswbot and install.syslog-ng
+  when: install.syslog_ng

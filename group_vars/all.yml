@@ -5,7 +5,7 @@ install:
   sshd: yes
   zsh: yes
   vim: yes
-  syslog-ng: yes
+  syslog_ng: yes
   nginx: no
   letsencrypt: no
   nodejs: no
