@@ -19,3 +19,7 @@
 
 - name: Change root shell to zsh
   user: name=root shell='/usr/bin/zsh'
+
+- name: Include nodejs role
+  include_role: name=nodejs
+  when: install.nodejs
