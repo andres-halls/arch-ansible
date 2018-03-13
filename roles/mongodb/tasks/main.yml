@@ -3,7 +3,7 @@
   pacman: name=mongodb state=present update_cache=yes
 
 - name: Install mongodb-tools
-  pacman: name=mongodb state=present
+  pacman: name=mongodb-tools state=present
 
 - name: Enable and start mongodb daemon
   service: name=mongodb enabled=yes state=started
