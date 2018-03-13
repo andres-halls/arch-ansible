@@ -6,6 +6,9 @@
     - "{{ gitlab.logs_dir }}"
     - "{{ gitlab.data_dir }}"
 
+- name: Pull latest Gitlab docker image
+  docker_image: name='gitlab/gitlab-ce:latest'
+
 - name: Run Gitlab docker container
   docker_container:
     name: gitlab
