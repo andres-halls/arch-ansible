@@ -6,9 +6,6 @@
     - "{{ gitlab.logs_dir }}"
     - "{{ gitlab.data_dir }}"
 
-- name: Enable and start docker daemon
-  service: name=docker enabled=yes state=started
-
 - name: Run Gitlab docker container
   docker_container:
     name: gitlab
@@ -52,7 +49,8 @@
 
 - name: Enable gitlab SSL
   lineinfile:
-    path: "/etc/nginx/snippets/ssl-{{ gitlab.host_name }}.conf"
+    path: "/etc/nginx/vhosts.d/{{ gitlab.host_name }}.conf"
+    regexp: 'include snippets\/ssl'
     line: 'include snippets/ssl-{{ gitlab.host_name }}.conf;'
   when: gitlab.nginx_proxy and gitlab.ssl_enabled
   notify:

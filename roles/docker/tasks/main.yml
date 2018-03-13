@@ -7,3 +7,6 @@
 
 - name: Install python-docker
   pacman: name=python-docker,python2-docker state=present
+
+- name: Enable and start docker daemon
+  service: name=docker enabled=yes state=started
