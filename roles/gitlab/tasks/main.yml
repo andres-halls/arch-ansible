@@ -6,15 +6,12 @@
     - "{{ gitlab.logs_dir }}"
     - "{{ gitlab.data_dir }}"
 
-- name: Pull latest Gitlab docker image
-  docker_image: name='gitlab/gitlab-ce:latest'
-
-- name: Run Gitlab docker container
+- name: Pull latest Gitlab image and run docker container
   docker_container:
     name: gitlab
     image: 'gitlab/gitlab-ce:latest'
+    pull: yes
     state: started
-    restart_policy: always
     recreate: yes
     hostname: "{{ gitlab.host_name }}"
     ports:
