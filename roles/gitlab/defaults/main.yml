@@ -4,7 +4,7 @@ gitlab:
   logs_dir: '/srv/gitlab/logs'
   data_dir: '/srv/gitlab/data'
   runner_dir: '/srv/gitlab-runner/config'
-  ssh_port: '2222'
+  ssh_port: '10020'
   http_port: '127.0.0.1:10080'
   https_port: '127.0.0.1:10443'
   host_name: 'gitlab'

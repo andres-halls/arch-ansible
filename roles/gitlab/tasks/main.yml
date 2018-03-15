@@ -25,6 +25,7 @@
     env:
       GITLAB_OMNIBUS_CONFIG: |
         external_url '{{ gitlab.host }}'
+        gitlab_rails['gitlab_shell_ssh_port'] = {{ gitlab.ssh_port }}
         {% if gitlab.nginx_proxy and gitlab.ssl_enabled %}
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
