@@ -29,6 +29,7 @@
         {% if gitlab.nginx_proxy and gitlab.ssl_enabled %}
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
+		nginx['hsts_max_age'] = 0
         {% endif %}
 
 - name: Deploy nginx vhost config
