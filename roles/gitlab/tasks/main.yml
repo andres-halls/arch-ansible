@@ -23,7 +23,12 @@
       - "{{ gitlab.logs_dir }}:/var/log/gitlab"
       - "{{ gitlab.data_dir }}:/var/opt/gitlab"
     env:
-      GITLAB_HOST: "{{ gitlab.host }}"
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url '{{ gitlab.host }}'
+        {% if gitlab.nginx_proxy and gitlab.ssl_enabled %}
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+        {% endif %}
 
 - name: Deploy nginx vhost config
   template: src=nginx_gitlab.conf.j2 dest="/etc/nginx/vhosts.d/{{ gitlab.host_name }}.conf"
@@ -51,7 +56,7 @@
   lineinfile:
     path: "/etc/nginx/vhosts.d/{{ gitlab.host_name }}.conf"
     regexp: 'include snippets\/ssl'
-    line: 'include snippets/ssl-{{ gitlab.host_name }}.conf;'
+    line: '    include snippets/ssl-{{ gitlab.host_name }}.conf;'
   when: gitlab.nginx_proxy and gitlab.ssl_enabled
   notify:
     - restart nginx
