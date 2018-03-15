@@ -68,11 +68,12 @@
 
 - name: Pull latest Gitlab runner image and run docker container
   docker_container:
-    name: gitlab-runner
+    name: 'gitlab-runner'
     image: 'gitlab/gitlab-runner:latest'
     pull: yes
     state: started
     recreate: yes
+    hostname: 'gitlab-runner'
     volumes:
       - "{{ gitlab.runner_dir }}:/etc/gitlab-runner"
       - "/var/run/docker.sock:/var/run/docker.sock"

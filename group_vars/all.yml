@@ -14,3 +14,4 @@ install:
   mongodb: no
   docker: no
   gitlab: no
+  naemon: no

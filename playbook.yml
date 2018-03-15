@@ -54,3 +54,7 @@
       include_role: name=gitlab
       tags: [gitlab, docker, letsencrypt]
       when: install.gitlab
+    - name: Include Naemon
+      include_role: name=naemon
+      tags: [naemon, docker, letsencrypt]
+      when: install.naemon

@@ -1,0 +1,12 @@
+---
+naemon:
+  host_name: 'naemon'
+  data_dir: '/srv/naemon/data'
+  logs_dir: '/srv/naemon/logs'
+  http_port: '127.0.0.1:11080'
+  smtp_host: ''
+  smtp_port: '25'
+  smtp_user: ''
+  smtp_pass: ''
+  nginx_proxy: yes
+  ssl_enabled: yes
