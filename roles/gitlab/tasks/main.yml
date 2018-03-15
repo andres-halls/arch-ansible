@@ -60,3 +60,19 @@
   when: gitlab.nginx_proxy and gitlab.ssl_enabled
   notify:
     - restart nginx
+
+- name: Create gitlab-runner config dir
+  file: dest="{{ gitlab.runner_dir }}" recurse=yes state=directory
+  when: gitlab.runner
+
+- name: Pull latest Gitlab runner image and run docker container
+  docker_container:
+    name: gitlab-runner
+    image: 'gitlab/gitlab-runner:latest'
+    pull: yes
+    state: started
+    recreate: yes
+    volumes:
+      - "{{ gitlab.runner_dir }}:/etc/gitlab-runner"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  when: gitlab.runner

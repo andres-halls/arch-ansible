@@ -3,6 +3,7 @@ gitlab:
   config_dir: '/srv/gitlab/config'
   logs_dir: '/srv/gitlab/logs'
   data_dir: '/srv/gitlab/data'
+  runner_dir: '/srv/gitlab-runner/config'
   ssh_port: '2222'
   http_port: '127.0.0.1:10080'
   https_port: '127.0.0.1:10443'
@@ -10,3 +11,4 @@ gitlab:
   host: 'https://gitlab'
   nginx_proxy: yes
   ssl_enabled: yes
+  runner: yes
