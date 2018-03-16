@@ -6,9 +6,7 @@
     - "{{ naemon.logs_dir }}"
 
 - name: Generate random thrukadmin password
-  set_fact:
-    naemon:
-      web_admin_pass: "{{ lookup('password', '/dev/null length=12 chars=ascii_letters') }}"
+  set_fact: random_pass="{{ lookup('password', '/dev/null length=12 chars=ascii_letters') }}"
   when: naemon.web_admin_pass == ''
 
 - name: Pull latest Naemon image and run docker container
@@ -28,6 +26,7 @@
       SMTP_PORT: "{{ naemon.smtp_port }}"
       SMTP_USER: "{{ naemon.smtp_user }}"
       SMTP_PASS: "{{ naemon.smtp_pass }}"
+      WEB_ADMIN_PASSWORD: "{% if naemon.web_admin_pass != '' %}{{ naemon.web_admin_pass }}{% else %}{{ random_pass }}{% endif %}"
 
 - name: Deploy nginx vhost config
   template: src=nginx_naemon.conf.j2 dest="/etc/nginx/vhosts.d/{{ naemon.host_name }}.conf"
@@ -64,4 +63,4 @@
   debug:
     msg:
       - 'User: thrukadmin'
-      - "Pass: {{ naemon.web_admin_pass }}"
+      - "Pass: {% if naemon.web_admin_pass != '' %}{{ naemon.web_admin_pass }}{% else %}{{ random_pass }}{% endif %}"
