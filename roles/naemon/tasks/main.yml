@@ -1,6 +1,9 @@
 ---
-- name: Ensure Naemon data dir exists
-  file: dest="{{ naemon.data_dir }}" recurse=yes state=directory
+- name: Ensure Naemon directory structure exists
+  file: dest="{{ item }}" recurse=yes state=directory
+  with_items:
+    - "{{ naemon.data_dir }}"
+    - "{{ naemon.logs_dir }}"
 
 - name: Pull latest Naemon image and run docker container
   docker_container:
