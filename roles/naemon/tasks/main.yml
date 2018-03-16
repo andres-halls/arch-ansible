@@ -24,8 +24,9 @@
     env:
       SMTP_HOST: "{{ naemon.smtp_host }}"
       SMTP_PORT: "{{ naemon.smtp_port }}"
-      SMTP_USER: "{{ naemon.smtp_user }}"
+      SMTP_LOGIN: "{{ naemon.smtp_user }}"
       SMTP_PASS: "{{ naemon.smtp_pass }}"
+      NOTIFICATION_FROM: "{{ naemon.notification_from }}"
       WEB_ADMIN_PASSWORD: "{% if naemon.web_admin_pass != '' %}{{ naemon.web_admin_pass }}{% else %}{{ random_pass }}{% endif %}"
 
 - name: Deploy nginx vhost config
