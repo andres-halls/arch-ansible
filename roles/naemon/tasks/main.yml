@@ -5,6 +5,12 @@
     - "{{ naemon.data_dir }}"
     - "{{ naemon.logs_dir }}"
 
+- name: Generate random thrukadmin password
+  set_fact:
+    naemon:
+      web_admin_pass: "{{ lookup('password', '/dev/null length=12 chars=ascii_letters') }}"
+  when: naemon.web_admin_pass == ''
+
 - name: Pull latest Naemon image and run docker container
   docker_container:
     name: naemon
@@ -53,3 +59,9 @@
   when: naemon.nginx_proxy and naemon.ssl_enabled
   notify:
     - restart nginx
+
+- name: Display Thruk user and pass
+  debug:
+    msg:
+      - 'User: thrukadmin'
+      - "Pass: {{ naemon.web_admin_pass }}"

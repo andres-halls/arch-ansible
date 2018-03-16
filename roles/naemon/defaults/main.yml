@@ -10,3 +10,4 @@ naemon:
   smtp_pass: ''
   nginx_proxy: yes
   ssl_enabled: yes
+  web_admin_pass: ''
