@@ -9,11 +9,15 @@
   set_fact: random_pass="{{ lookup('password', '/dev/null length=12 chars=ascii_letters') }}"
   when: naemon.web_admin_pass == ''
 
-- name: Pull latest Naemon image and run docker container
+- name: Build Naemon+PNP4Nagios image
+  docker_image:
+    name: 'local/naemon'
+    path: .
+
+- name: Run Naemon docker container
   docker_container:
     name: naemon
-    image: 'xetusoss/naemon:latest'
-    pull: yes
+    image: 'local/naemon'
     state: started
     recreate: yes
     hostname: "{{ naemon.host_name }}"
