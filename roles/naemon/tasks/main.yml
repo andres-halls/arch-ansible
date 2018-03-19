@@ -13,6 +13,8 @@
   docker_image:
     name: 'local/naemon'
     path: .
+    buildargs:
+      TIME_ZONE: "{{ naemon.time_zone }}"
 
 - name: Run Naemon docker container
   docker_container:
