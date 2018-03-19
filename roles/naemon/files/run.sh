@@ -72,5 +72,8 @@ mv /etc/thruk/ssi/status-header.ssi.example /etc/thruk/ssi/status-header.ssi
 
 fi
 
+# ensure pnp4nagios var dir has consistent ownership
+chown -R naemon:naemon /usr/local/pnp4nagios/var
+
 service npcd start
 wait $run # wait for original entrypoint to exit
