@@ -3,6 +3,7 @@ naemon:
   host_name: 'naemon'
   data_dir: '/srv/naemon/data'
   logs_dir: '/srv/naemon/logs'
+  pnp4nagios_dir: '/srv/naemon/data/pnp4nagios/var'
   http_port: '127.0.0.1:11080'
   smtp_host: ''
   smtp_port: '25'

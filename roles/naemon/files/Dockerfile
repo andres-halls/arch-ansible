@@ -39,5 +39,6 @@ RUN mv /etc/httpd/conf.d/pnp4nagios.conf /etc/apache2/conf-available && \
 ARG TIME_ZONE=Etc/UTC
 RUN cp "/usr/share/zoneinfo/$TIME_ZONE" /etc/localtime && echo "$TIME_ZONE" > /etc/timezone
 
+VOLUME ["/usr/local/pnp4nagios/var"]
 ADD run.sh /run.sh
 ENTRYPOINT ["/run.sh"]
