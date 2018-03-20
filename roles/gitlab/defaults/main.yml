@@ -8,7 +8,7 @@ gitlab:
   http_port: '127.0.0.1:10080'
   https_port: '127.0.0.1:10443'
   host_name: 'gitlab'
-  host: 'https://gitlab'
+  host: 'https://localhost'
   nginx_proxy: yes
   ssl_enabled: yes
   runner: yes

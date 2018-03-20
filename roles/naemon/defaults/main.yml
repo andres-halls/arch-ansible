@@ -10,7 +10,7 @@ naemon:
   smtp_user: ''
   smtp_pass: ''
   notification_from: ''
-  nginx_proxy: yes
-  ssl_enabled: yes
   web_admin_pass: ''
   time_zone: 'Etc/UTC'
+  nginx_proxy: yes
+  ssl_enabled: yes

@@ -1,0 +1,12 @@
+---
+plex:
+  config_dir: '/srv/plex/config'
+  transcode_dir: '/srv/plex/transcode'
+  media_dir: '/home/plex/media'
+  host_name: 'plex'
+  time_zone: 'Etc/UTC'
+  advertise_ip: ''
+  uid: ''
+  gid: ''
+  nginx_proxy: yes
+  ssl_enabled: yes
