@@ -58,3 +58,7 @@
       include_role: name=naemon
       tags: [naemon, docker, letsencrypt]
       when: install.naemon
+    - name: Include Plex
+      include_role: name=plex
+      tags: [plex, docker, letsencrypt]
+      when: install.plex

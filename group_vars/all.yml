@@ -15,3 +15,4 @@ install:
   docker: no
   gitlab: no
   naemon: no
+  plex: no
