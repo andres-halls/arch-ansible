@@ -1,0 +1,6 @@
+[Unit]
+Description=Plex update
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker restart plex

@@ -1,5 +1,6 @@
 ---
 dependencies:
   - { role: docker }
+  - { role: systemd }
   - { role: nginx, when: plex.nginx_proxy }
   - { role: letsencrypt, when: plex.nginx_proxy and plex.ssl_enabled }

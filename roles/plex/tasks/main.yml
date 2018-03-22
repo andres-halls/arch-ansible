@@ -72,3 +72,16 @@
   when: plex.nginx_proxy and plex.ssl_enabled
   notify:
     - restart nginx
+
+- name: Deploy plex update systemd timer
+  copy: src="{{ item }}" dest="/etc/systemd/system/{{ item }}"
+  with_items:
+    - 'plex-update.service'
+    - 'plex-update.timer'
+  notify:
+    - reload systemd
+
+- meta: flush_handlers
+
+- name: Enable and start plex-update.timer
+  service: name='plex-update.timer' enabled=yes state=started
