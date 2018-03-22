@@ -42,7 +42,7 @@
       PLEX_UID: "{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}"
       PLEX_GID: "{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}"
 
-  - name: Deploy nginx vhost config
+- name: Deploy nginx vhost config
   template: src=nginx_plex.conf.j2 dest="/etc/nginx/vhosts.d/{{ plex.host_name }}.conf"
   when: plex.nginx_proxy
   notify:
