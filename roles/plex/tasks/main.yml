@@ -12,6 +12,7 @@
     - "{{ plex.config_dir }}"
     - "{{ plex.transcode_dir }}"
     - "{{ plex.media_dir }}"
+    - "{{ plex.logs_dir }}"
 
 - name: Pull latest Plex Media Server image and run docker container
   docker_container:
@@ -40,3 +41,34 @@
       ADVERTISE_IP: "{{ plex.advertise_ip }}"
       PLEX_UID: "{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}"
       PLEX_GID: "{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}"
+
+  - name: Deploy nginx vhost config
+  template: src=nginx_plex.conf.j2 dest="/etc/nginx/vhosts.d/{{ plex.host_name }}.conf"
+  when: plex.nginx_proxy
+  notify:
+    - restart nginx
+
+- meta: flush_handlers
+
+- name: Generate SSL cert for {{ plex.host_name }} with letsencrypt
+  command: "certbot certonly --webroot -w /var/lib/letsencrypt/ -d {{ plex.host_name }}"
+  args:
+    creates: "/etc/letsencrypt/live/{{ plex.host_name }}/fullchain.pem"
+  when: plex.nginx_proxy and plex.ssl_enabled
+  notify:
+    - restart nginx
+
+- name: Deploy nginx SSL config
+  template: src=nginx_ssl.conf.j2 dest="/etc/nginx/snippets/ssl-{{ plex.host_name }}.conf"
+  when: plex.nginx_proxy and plex.ssl_enabled
+  notify:
+    - restart nginx
+
+- name: Enable plex SSL
+  lineinfile:
+    path: "/etc/nginx/vhosts.d/{{ plex.host_name }}.conf"
+    regexp: 'include snippets\/ssl'
+    line: '    include snippets/ssl-{{ plex.host_name }}.conf;'
+  when: plex.nginx_proxy and plex.ssl_enabled
+  notify:
+    - restart nginx

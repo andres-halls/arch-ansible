@@ -2,6 +2,7 @@
 plex:
   config_dir: '/srv/plex/config'
   transcode_dir: '/srv/plex/transcode'
+  logs_dir: '/srv/plex/logs'
   media_dir: '/home/plex/media'
   host_name: 'plex'
   time_zone: 'Etc/UTC'
