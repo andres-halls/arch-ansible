@@ -1,0 +1,9 @@
+---
+transmission:
+  config_dir: '/srv/transmission/config'
+  downloads_dir: '/srv/transmission/downloads'
+  watch_dir: '/srv/transmission/watch'
+  host_name: 'transmission'
+  time_zone: 'Etc/UTC'
+  uid: ''
+  gid: ''

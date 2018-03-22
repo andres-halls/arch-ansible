@@ -62,3 +62,7 @@
       include_role: name=plex
       tags: [plex, docker, letsencrypt]
       when: install.plex
+    - name: Include Transmission
+      include_role: name=transmission
+      tags: [transmission, docker]
+      when: install.transmission

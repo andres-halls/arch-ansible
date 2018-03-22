@@ -1,0 +1,31 @@
+---
+- name: Check if plex user exists
+  getent: database=passwd key=plex fail_key=no
+  when: install.plex
+
+- name: Ensure transmission directory structure exists
+  file: dest="{{ item }}" recurse=yes state=directory
+  with_items:
+    - "{{ transmission.config_dir }}"
+    - "{% if install.plex %}{{ plex.media_dir }}{% else %}{{ transmission.downloads_dir }}"
+    - "{{ transmission.watch_dir }}"
+
+- name: Pull latest Transmission image and run docker container
+  docker_container:
+    name: transmission
+    image: 'linuxserver/transmission'
+    pull: yes
+    state: started
+    recreate: yes
+    hostname: "{{ transmission.host_name }}"
+    ports:
+      - "9091:9091"
+      - "51413:51413/udp"
+    volumes:
+      - "{{ transmission.config_dir }}:/config"
+      - "{% if install.plex %}{{ plex.media_dir }}{% else %}{{ transmission.downloads_dir }}:/downloads"
+      - "{{ transmission.watch_dir }}:/watch"
+    env:
+      TZ: "{{ transmission.time_zone }}"
+      PUID: "{% if install.plex %}{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}{% else %}{{ transmission.uid }}"
+      PGID: "{% if install.plex %}{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ transmission.gid }}"

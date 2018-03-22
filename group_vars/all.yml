@@ -16,3 +16,4 @@ install:
   gitlab: no
   naemon: no
   plex: no
+  transmission: no
