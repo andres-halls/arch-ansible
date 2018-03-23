@@ -17,6 +17,7 @@
     pull: yes
     state: started
     recreate: yes
+    restart_policy: always
     hostname: "{{ transmission.host_name }}"
     ports:
       - "9091:9091"

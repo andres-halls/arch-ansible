@@ -23,6 +23,7 @@
     image: 'local/naemon'
     state: started
     recreate: yes
+    restart_policy: always
     hostname: "{{ naemon.host_name }}"
     ports:
       - "{{ naemon.http_port }}:80"

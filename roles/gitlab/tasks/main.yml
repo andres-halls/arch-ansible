@@ -13,6 +13,7 @@
     pull: yes
     state: started
     recreate: yes
+    restart_policy: always
     hostname: "{{ gitlab.host_name }}"
     ports:
       - "{{ gitlab.ssh_port }}:22"
@@ -74,6 +75,7 @@
     pull: yes
     state: started
     recreate: yes
+    restart_policy: always
     hostname: 'gitlab-runner'
     volumes:
       - "{{ gitlab.runner_dir }}:/etc/gitlab-runner"
