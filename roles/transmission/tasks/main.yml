@@ -30,3 +30,19 @@
       TZ: "{{ transmission.time_zone }}"
       PUID: "{% if install.plex %}{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}{% else %}{{ transmission.uid }}{% endif %}"
       PGID: "{% if install.plex %}{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ transmission.gid }}{% endif %}"
+
+- name: Stop transmission docker container before config change
+  docker_container:
+    name: transmission
+    state: stopped
+
+- name: Add host names to whitelist
+  lineinfile:
+    path: "{{ transmission.config_dir }}/settings.json"
+    regexp: 'rpc-host-whitelist'
+    line: '    "rpc-host-whitelist": "{{ transmission.host_whitelist }}",'
+
+- name: Restart transmission docker container
+  docker_container:
+    name: transmission
+    state: started
