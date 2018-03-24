@@ -38,3 +38,16 @@
     name: flexget
     state: started
     restart: yes
+
+- name: Deploy flexget update systemd timer
+  copy: src="{{ item }}" dest="/etc/systemd/system/{{ item }}"
+  with_items:
+    - 'flexget-update.service'
+    - 'flexget-update.timer'
+  notify:
+    - reload systemd
+
+- meta: flush_handlers
+
+- name: Enable and start flexget-update.timer
+  service: name='flexget-update.timer' enabled=yes state=started

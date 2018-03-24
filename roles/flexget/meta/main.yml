@@ -2,4 +2,5 @@
 dependencies:
   - { role: docker }
   - { role: transmission }
+  - { role: systemd }
   - { role: plex, when: install.plex }

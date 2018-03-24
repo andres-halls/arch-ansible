@@ -1,0 +1,6 @@
+[Unit]
+Description=FlexGet update
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker restart flexget
