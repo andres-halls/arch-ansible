@@ -61,6 +61,12 @@
     regexp: 'script-torrent-done-filename'
     line: '    "script-torrent-done-filename": "/config/torrent-add.sh",'
 
+- name: Download one torrent at a time
+  lineinfile:
+    path: "{{ transmission.config_dir }}/settings.json"
+    regexp: 'download-queue-size'
+    line: '    "download-queue-size": 1,'
+
 - name: Restart transmission docker container
   docker_container:
     name: transmission
