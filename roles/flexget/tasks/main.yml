@@ -30,6 +30,9 @@
 - name: Copy flexget config.yml
   template: src=config.yml dest="{{ flexget.config_dir }}"
 
+- name: Change flexget docker container time zone
+  command: docker exec flexget bash -c 'ln -sf "/usr/share/zoneinfo/{{ flexget.time_zone }}" /etc/localtime && echo "{{ flexget.time_zone }}" > /etc/timezone'
+
 - name: Restart flexget docker container
   docker_container:
     name: flexget

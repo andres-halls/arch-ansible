@@ -42,6 +42,18 @@
     regexp: 'rpc-host-whitelist'
     line: '    "rpc-host-whitelist": "{{ transmission.host_whitelist }}",'
 
+- name: Enable torrent done script
+  lineinfile:
+    path: "{{ transmission.config_dir }}/settings.json"
+    regexp: 'script-torrent-done-enabled'
+    line: '    "script-torrent-done-enabled": true,'
+
+- name: Remove torrent after completion
+  lineinfile:
+    path: "{{ transmission.config_dir }}/settings.json"
+    regexp: 'script-torrent-done-filename'
+    line: '    "script-torrent-done-filename": "/config/torrent-add.sh",'
+
 - name: Restart transmission docker container
   docker_container:
     name: transmission
