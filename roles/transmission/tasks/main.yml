@@ -42,6 +42,9 @@
     regexp: 'rpc-host-whitelist'
     line: '    "rpc-host-whitelist": "{{ transmission.host_whitelist }}",'
 
+- name: Deploy torrent done script
+  copy: src="torrent-add.sh" dest="{{ transmission.config_dir }}"
+
 - name: Enable torrent done script
   lineinfile:
     path: "{{ transmission.config_dir }}/settings.json"
