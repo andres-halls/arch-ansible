@@ -22,7 +22,9 @@ tasks:
     transmission:
       host: 172.17.0.1
       port: 9091
-      path: {% raw %}/downloads/tv_shows/{{series_name}}/Season {{series_season}}{% endraw %}
+      {% raw %}
+      path: /downloads/tv_shows/{{series_name}}/Season {{series_season}}
+      {% endraw %}
       addpaused: no
 schedules:
   - tasks: update_series
