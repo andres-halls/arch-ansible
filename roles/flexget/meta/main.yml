@@ -1,0 +1,5 @@
+---
+dependencies:
+  - { role: docker }
+  - { role: transmission }
+  - { role: plex, when: install.plex }

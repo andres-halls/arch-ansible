@@ -1,0 +1,30 @@
+web_server: yes
+
+templates:
+  tv-series:
+    series:
+      agroup:
+        - Better Call Saul
+        - Game of Thrones
+        - Jessica Jones
+        - Marvels Daredevil
+        - Marvels The Punisher
+        - Mr Robot
+        - Rick and Morty
+        - Star Trek Discovery
+        - The Walking Dead
+        - Fear The Walking Dead
+        - Westworld
+tasks:
+  update_series:
+    rss: {{ flexget.rss_url }}
+    all_series: yes
+    transmission:
+      host: 172.17.0.1
+      port: 9091
+      path: {% raw %}/downloads/tv_shows/{{series_name}}/Season {{series_season}}{% endraw %}
+      addpaused: no
+schedules:
+  - tasks: update_series
+    schedule:
+      hour: 4-17/1

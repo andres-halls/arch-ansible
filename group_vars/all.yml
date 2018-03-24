@@ -17,3 +17,4 @@ install:
   naemon: no
   plex: no
   transmission: no
+  flexget: no

@@ -64,5 +64,9 @@
       when: install.plex
     - name: Include Transmission
       include_role: name=transmission
-      tags: [transmission, docker]
+      tags: [transmission, transmission-only, docker]
       when: install.transmission
+    - name: Include FlexGet
+      include_role: name=flexget
+      tags: [flexget, transmission, docker]
+      when: install.flexget

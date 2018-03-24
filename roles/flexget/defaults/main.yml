@@ -1,0 +1,8 @@
+---
+flexget:
+  config_dir: '/srv/flexget/config'
+  host_name: 'flexget'
+  web_passwd: 'yourhorriblesecret69'
+  uid: ''
+  gid: ''
+  rss_url: 'http://showrss.info'
