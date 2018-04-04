@@ -30,6 +30,8 @@ server {
     access_log {{ gitlab.logs_dir }}/{{ gitlab.registry_host }}_access.log;
     error_log  {{ gitlab.logs_dir }}/{{ gitlab.registry_host }}_error.log;
 
+    client_max_body_size 0;
+
     location / {
         {% if gitlab.registry_port.split(':') | count == 2 %}
         proxy_pass http://127.0.0.1:{{ gitlab.registry_port.split(':')[1] }};
