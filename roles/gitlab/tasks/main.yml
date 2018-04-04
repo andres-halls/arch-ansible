@@ -19,6 +19,7 @@
       - "{{ gitlab.ssh_port }}:22"
       - "{{ gitlab.http_port }}:80"
       - "{{ gitlab.https_port }}:443"
+      - "{{ gitlab.registry_port }}:{% if gitlab.registry_port.split(':') | count == 2 %}{{ gitlab.registry_port.split(':')[1] }}{% else %}{{ gitlab.registry_port }}{% endif %}"
     volumes:
       - "{{ gitlab.config_dir }}:/etc/gitlab"
       - "{{ gitlab.logs_dir }}:/var/log/gitlab"
@@ -27,10 +28,26 @@
       GITLAB_OMNIBUS_CONFIG: |
         external_url '{{ gitlab.host }}'
         gitlab_rails['gitlab_shell_ssh_port'] = {{ gitlab.ssh_port }}
+        {% if gitlab.registry_host != '' %}registry_external_url '{{ gitlab.registry_protocol }}://{{ gitlab.registry_host }}'{% endif %}
+
         {% if gitlab.nginx_proxy and gitlab.ssl_enabled %}
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
         nginx['hsts_max_age'] = 0
+        {% if gitlab.registry_port.split(':') | count == 2 %}
+        registry_nginx['listen_port'] = {{ gitlab.registry_port.split(':')[1] }}
+        {% else %}
+        registry_nginx['listen_port'] = {{ gitlab.registry_port }}
+        {% endif %}
+
+        registry_nginx['listen_https'] = false
+        registry_nginx['proxy_set_headers'] = {
+            "Host" => "$http_host",
+            "X-Real-IP" => "$remote_addr",
+            "X-Forwarded-For" => "$proxy_add_x_forwarded_for",
+            "X-Forwarded-Proto" => "https",
+            "X-Forwarded-Ssl" => "on"
+        }
         {% endif %}
 
 - name: Deploy nginx vhost config
@@ -81,3 +98,34 @@
       - "{{ gitlab.runner_dir }}:/etc/gitlab-runner"
       - "/var/run/docker.sock:/var/run/docker.sock"
   when: gitlab.runner
+
+- name: Deploy gitlab registry nginx vhost config
+  template: src=nginx_gitlab_registry.conf.j2 dest="/etc/nginx/vhosts.d/{{ gitlab.registry_host }}.conf"
+  when: gitlab.nginx_proxy and gitlab.registry_host != ''
+  notify:
+    - restart nginx
+
+- meta: flush_handlers
+
+- name: Generate SSL cert for {{ gitlab.registry_host }} with letsencrypt
+  command: "certbot certonly --webroot -w /var/lib/letsencrypt/ -d {{ gitlab.registry_host }}"
+  args:
+    creates: "/etc/letsencrypt/live/{{ gitlab.registry_host }}/fullchain.pem"
+  when: gitlab.nginx_proxy and gitlab.ssl_enabled and gitlab.registry_host != ''
+  notify:
+    - restart nginx
+
+- name: Deploy gitlab registry nginx SSL config
+  template: src=nginx_ssl_registry.conf.j2 dest="/etc/nginx/snippets/ssl-{{ gitlab.registry_host }}.conf"
+  when: gitlab.nginx_proxy and gitlab.ssl_enabled and gitlab.registry_host != ''
+  notify:
+    - restart nginx
+
+- name: Enable gitlab registry SSL
+  lineinfile:
+    path: "/etc/nginx/vhosts.d/{{ gitlab.registry_host }}.conf"
+    regexp: 'include snippets\/ssl'
+    line: '    include snippets/ssl-{{ gitlab.registry_host }}.conf;'
+  when: gitlab.nginx_proxy and gitlab.ssl_enabled and gitlab.registry_host != ''
+  notify:
+    - restart nginx
