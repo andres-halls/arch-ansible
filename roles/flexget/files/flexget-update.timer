@@ -1,8 +1,9 @@
 [Unit]
-Description=FlexGet daily update
+Description=FlexGet weekly update
 
 [Timer]
-OnCalendar=05:00:00
+OnCalendar=Mon *-*-* 13:00:00
+RandomizedDelaySec=1h
 Persistent=true
 
 [Install]
