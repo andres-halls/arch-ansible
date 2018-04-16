@@ -24,6 +24,7 @@ templates:
         - The Good Place
         - The Walking Dead
         - Westworld
+
 tasks:
   update_series:
     rss: {{ flexget.rss_url }}
@@ -33,6 +34,7 @@ tasks:
       port: 9091
       path: /downloads/tv_shows/{{ '{{' }}series_name{{ '}}' }}/Season {{ '{{' }}series_season{{ '}}' }}
       addpaused: no
+
 schedules:
   - tasks: update_series
     schedule:
