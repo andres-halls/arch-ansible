@@ -6,7 +6,10 @@
   template: src='tmpfiles_redis.conf.j2' dest='/etc/tmpfiles.d/redis.conf'
 
 - name: Deploy sysctl config
-  template: src='99-sysctl.conf.j2' dest='/etc/sysctl.d/99-sysctl.conf'
+  lineinfile: path='/etc/sysctl.d/99-sysctl.conf' line="{{ item.line }}" create=yes
+  with_items:
+    - { line: 'net.core.somaxconn=512' }
+    - { line: 'vm.overcommit_memory=1' }
   notify:
     - reload sysctl
 
