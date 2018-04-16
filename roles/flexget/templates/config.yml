@@ -4,16 +4,25 @@ templates:
   tv-series:
     series:
       agroup:
+        - Altered Carbon
         - Better Call Saul
+        - Black Mirror
+        - Fear The Walking Dead
         - Game of Thrones
+        - Humans
         - Jessica Jones
         - Marvels Daredevil
+        - Marvels Runaways
         - Marvels The Punisher
         - Mr Robot
+        - My Little Pony Friendship is Magic
+        - Once Upon a Time
+        - Philip K Dicks Electric Dreams
         - Rick and Morty
         - Star Trek Discovery
+        - Stranger Things
+        - The Good Place
         - The Walking Dead
-        - Fear The Walking Dead
         - Westworld
 tasks:
   update_series:
