@@ -33,12 +33,6 @@
 - name: Change flexget docker container time zone
   command: docker exec flexget bash -c 'ln -sf "/usr/share/zoneinfo/{{ flexget.time_zone }}" /etc/localtime && echo "{{ flexget.time_zone }}" > /etc/timezone'
 
-- name: Restart flexget docker container
-  docker_container:
-    name: flexget
-    state: started
-    restart: yes
-
 - name: Deploy flexget update systemd timer
   copy: src="{{ item }}" dest="/etc/systemd/system/{{ item }}"
   with_items:
