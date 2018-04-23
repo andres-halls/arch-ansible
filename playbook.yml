@@ -1,13 +1,14 @@
 ---
 - hosts: all
-  become: yes
   tasks:
     - name: Include AUR
       import_role: name=aur
+      become: yes
       tags: [aur, aur-only]
       when: install.aur or install.zsh or install.vim
     - name: Include sshd
       import_role: name=sshd
+      become: yes
       tags: [sshd]
       when: install.sshd
     - name: Include zsh
@@ -20,53 +21,66 @@
       when: install.vim
     - name: Include syslog-ng
       import_role: name=syslog-ng
+      become: yes
       tags: [syslog-ng]
       when: install.syslog_ng
     - name: Include nginx
       import_role: name=nginx
+      become: yes
       tags: [nginx]
       when: install.nginx
     - name: Include letsencrypt
       import_role: name=letsencrypt
+      become: yes
       tags: [letsencrypt, letsencrypt-only]
       when: install.letsencrypt or gitlab.ssl_enabled
     - name: Include nodejs
       import_role: name=nodejs
+      become: yes
       tags: [nodejs]
       when: install.nodejs
     - name: Include redis
       import_role: name=redis
+      become: yes
       tags: [redis]
       when: install.redis
     - name: Include mongodb
       import_role: name=mongodb
+      become: yes
       tags: [mongodb]
       when: install.mongodb
     - name: Include tswbot
       import_role: name=tswbot
+      become: yes
       tags: [tswbot]
       when: install.tswbot
     - name: Include docker
       import_role: name=docker
+      become: yes
       tags: [docker, docker-only]
       when: install.docker or install.gitlab
     - name: Include Gitlab
       import_role: name=gitlab
+      become: yes
       tags: [gitlab, docker, letsencrypt]
       when: install.gitlab
     - name: Include Naemon
       import_role: name=naemon
+      become: yes
       tags: [naemon, docker, letsencrypt]
       when: install.naemon
     - name: Include Plex
       import_role: name=plex
+      become: yes
       tags: [plex, docker, letsencrypt]
       when: install.plex
     - name: Include Transmission
       import_role: name=transmission
+      become: yes
       tags: [transmission, transmission-only, docker]
       when: install.transmission
     - name: Include FlexGet
       import_role: name=flexget
+      become: yes
       tags: [flexget, transmission, docker]
       when: install.flexget

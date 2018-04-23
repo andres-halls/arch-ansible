@@ -1,25 +1,34 @@
 ---
 - name: Install zsh
   pacman: name=zsh,zsh-completions state=present update_cache=yes
+  become: yes
 
 - name: Install autojump
   pacman: name=autojump state=present
+  become: yes
 
 - name: Install antigen-git from AUR
   aur: name=antigen-git
   become: yes
   become_user: "{{ aur_user }}"
 
-- name: Copy zsh configuration files
+- name: Copy zsh configuration files to /etc/
   synchronize: src="{{ item.src }}" dest="{{ item.dest }}"
   with_items:
     - { src: 'zsh', dest: '/etc/' }
+  become: yes
+
+- name: Copy zsh configuration files to {{ ansible_env.HOME }}
+  synchronize: src="{{ item.src }}" dest="{{ item.dest }}"
+  with_items:
     - { src: '.zshrc', dest: "{{ ansible_env.HOME }}/" }
     - { src: '.zsh_aliases', dest: "{{ ansible_env.HOME }}/" }
 
 - name: Change root shell to zsh
   user: name=root shell='/usr/bin/zsh'
+  become: yes
 
 - name: Include nodejs role
   include_role: name=nodejs
+  become: yes
   when: install.nodejs
