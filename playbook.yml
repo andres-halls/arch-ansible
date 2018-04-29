@@ -3,7 +3,6 @@
   tasks:
     - name: Include AUR
       include_role: name=aur
-      become: yes
       tags: [aur, aur-only]
       when: install.aur or install.zsh or install.vim
     - name: Include sshd
@@ -33,7 +32,7 @@
       include_role: name=letsencrypt
       become: yes
       tags: [letsencrypt, letsencrypt-only]
-      when: install.letsencrypt or gitlab.ssl_enabled
+      when: install.letsencrypt or (install.gitlab and gitlab.ssl_enabled)
     - name: Include nodejs
       include_role: name=nodejs
       become: yes

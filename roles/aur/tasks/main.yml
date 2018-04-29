@@ -1,6 +1,7 @@
 ---
 - name: Ensure {{ aur_user }} user exists
   user: name={{ aur_user }} group=wheel
+  become: yes
 
 - name: Ensure {{ aur_user }} user has passwordless sudo access to pacman
   lineinfile:
@@ -8,6 +9,7 @@
     line: "{{ aur_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
     create: yes
     validate: 'visudo -cf %s'
+  become: yes
 
 - name: Install yay AUR helper
   aur: name=yay-bin
