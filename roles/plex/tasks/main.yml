@@ -23,7 +23,10 @@
     recreate: yes
     restart_policy: always
     hostname: "{{ plex.host_name }}"
-    ports:
+    exposed_ports:
+      - "{% if plex.webtools %}33400:33400/tcp{% endif %}"
+      - "{% if plex.webtools %}33443:33443/tcp{% endif %}"
+    published_ports:
       - "32400:32400/tcp"
       - "3005:3005/tcp"
       - "8324:8324/tcp"
@@ -33,6 +36,8 @@
       - "32412:32412/udp"
       - "32413:32413/udp"
       - "32414:32414/udp"
+      - "{% if plex.webtools %}33400:33400/tcp{% endif %}"
+      - "{% if plex.webtools %}33443:33443/tcp{% endif %}"
     volumes:
       - "{{ plex.config_dir }}:/config"
       - "{{ plex.transcode_dir }}:/transcode"
@@ -42,6 +47,30 @@
       ADVERTISE_IP: "{{ plex.advertise_ip }}"
       PLEX_UID: "{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}"
       PLEX_GID: "{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}"
+
+- name: Ensure Plex plugins directory structure exists
+  file: dest="{{ plex.config_dir }}/Library/Application Support/Plex Media Server/Plug-ins" recurse=yes state=directory
+  when: plex.webtools
+
+- name: Download latest WebTools plug-in
+  shell: "curl -s https://api.github.com/repos/ukdtom/WebTools.bundle/releases/latest | grep browser_download_url | cut -d \" -f 4 | wget -qi -"
+  when: plex.webtools
+
+- name: Unzip WebTools plug-in and remove zip
+  shell: "unzip WebTools.bundle.zip && rm WebTools.bundle.zip"
+  when: plex.webtools
+
+- name: Install WebTools plug-in
+  shell: "mv WebTools.bundle {{ plex.config_dir }}/Library/Application Support/Plex Media Server/Plug-ins/"
+  when: plex.webtools
+
+- name: Change WebTools folder owner and group
+  file:
+    dest: "{{ plex.config_dir }}/Library/Application Support/Plex Media Server/Plug-ins/WebTools.bundle"
+    recurse: yes
+    owner: "{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}"
+    group: "{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}"
+  when: plex.webtools
 
 - name: Deploy nginx vhost config
   template: src=nginx_plex.conf.j2 dest="/etc/nginx/vhosts.d/{{ plex.host_name }}.conf"

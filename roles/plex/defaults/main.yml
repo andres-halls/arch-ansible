@@ -11,3 +11,4 @@ plex:
   advertise_ip: ''
   nginx_proxy: yes
   ssl_enabled: yes
+  webtools: yes
