@@ -2,84 +2,84 @@
 - hosts: all
   tasks:
     - name: Include AUR
-      include_role: name=aur
+      import_role: name=aur
       tags: [aur, aur-only]
       when: install.aur or install.zsh or install.vim
     - name: Include sshd
-      include_role: name=sshd
+      import_role: name=sshd
       become: yes
       tags: [sshd]
       when: install.sshd
     - name: Include zsh
-      include_role: name=zsh
+      import_role: name=zsh
       tags: [zsh, aur]
       when: install.zsh
     - name: Include vim
-      include_role: name=vim
+      import_role: name=vim
       tags: [vim, aur]
       when: install.vim
     - name: Include syslog-ng
-      include_role: name=syslog-ng
+      import_role: name=syslog-ng
       become: yes
       tags: [syslog-ng]
       when: install.syslog_ng
     - name: Include nginx
-      include_role: name=nginx
+      import_role: name=nginx
       become: yes
       tags: [nginx]
       when: install.nginx
     - name: Include letsencrypt
-      include_role: name=letsencrypt
+      import_role: name=letsencrypt
       become: yes
       tags: [letsencrypt, letsencrypt-only]
       when: install.letsencrypt or (install.gitlab and gitlab.ssl_enabled)
     - name: Include nodejs
-      include_role: name=nodejs
+      import_role: name=nodejs
       become: yes
       tags: [nodejs]
       when: install.nodejs
     - name: Include redis
-      include_role: name=redis
+      import_role: name=redis
       become: yes
       tags: [redis]
       when: install.redis
     - name: Include mongodb
-      include_role: name=mongodb
+      import_role: name=mongodb
       become: yes
       tags: [mongodb]
       when: install.mongodb
     - name: Include tswbot
-      include_role: name=tswbot
+      import_role: name=tswbot
       become: yes
       tags: [tswbot]
       when: install.tswbot
     - name: Include docker
-      include_role: name=docker
+      import_role: name=docker
       become: yes
       tags: [docker, docker-only]
       when: install.docker or install.gitlab
     - name: Include Gitlab
-      include_role: name=gitlab
+      import_role: name=gitlab
       become: yes
       tags: [gitlab, docker, letsencrypt]
       when: install.gitlab
     - name: Include Naemon
-      include_role: name=naemon
+      import_role: name=naemon
       become: yes
       tags: [naemon, docker, letsencrypt]
       when: install.naemon
     - name: Include Plex
-      include_role: name=plex
+      import_role: name=plex
       become: yes
       tags: [plex, docker, letsencrypt]
       when: install.plex
     - name: Include Transmission
-      include_role: name=transmission
+      import_role: name=transmission
       become: yes
       tags: [transmission, transmission-only, docker]
       when: install.transmission
     - name: Include FlexGet
-      include_role: name=flexget
+      import_role: name=flexget
       become: yes
       tags: [flexget, transmission, docker]
       when: install.flexget

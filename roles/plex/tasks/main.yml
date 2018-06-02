@@ -23,21 +23,8 @@
     recreate: yes
     restart_policy: always
     hostname: "{{ plex.host_name }}"
-    exposed_ports:
-      - "{% if plex.webtools %}33400:33400/tcp{% endif %}"
-      - "{% if plex.webtools %}33443:33443/tcp{% endif %}"
-    published_ports:
-      - "32400:32400/tcp"
-      - "3005:3005/tcp"
-      - "8324:8324/tcp"
-      - "32469:32469/tcp"
-      - "1900:1900/udp"
-      - "32410:32410/udp"
-      - "32412:32412/udp"
-      - "32413:32413/udp"
-      - "32414:32414/udp"
-      - "{% if plex.webtools %}33400:33400/tcp{% endif %}"
-      - "{% if plex.webtools %}33443:33443/tcp{% endif %}"
+    exposed_ports: "{{ webtools_ports if plex.webtools else [] }}"
+    published_ports: "{{ plex_ports + webtools_ports if plex.webtools else plex_ports }}"
     volumes:
       - "{{ plex.config_dir }}:/config"
       - "{{ plex.transcode_dir }}:/transcode"
@@ -53,15 +40,15 @@
   when: plex.webtools
 
 - name: Download latest WebTools plug-in
-  shell: "curl -s https://api.github.com/repos/ukdtom/WebTools.bundle/releases/latest | grep browser_download_url | cut -d \" -f 4 | wget -qi -"
+  shell: 'curl -s https://api.github.com/repos/ukdtom/WebTools.bundle/releases/latest | grep browser_download_url | cut -d \" -f 4 | wget -qi -'
   when: plex.webtools
 
-- name: Unzip WebTools plug-in and remove zip
+- name: Unzip WebTools plug-in
   shell: "unzip WebTools.bundle.zip && rm WebTools.bundle.zip"
   when: plex.webtools
 
 - name: Install WebTools plug-in
-  shell: "mv WebTools.bundle {{ plex.config_dir }}/Library/Application Support/Plex Media Server/Plug-ins/"
+  shell: 'cp -r WebTools.bundle "{{ plex.config_dir }}/Library/Application Support/Plex Media Server/Plug-ins/" && rm -r WebTools.bundle'
   when: plex.webtools
 
 - name: Change WebTools folder owner and group
