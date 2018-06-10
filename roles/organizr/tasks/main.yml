@@ -24,7 +24,13 @@
 
 - name: Deploy nginx vhost config
   template: src=nginx_organizr.conf.j2 dest="/etc/nginx/vhosts.d/{{ organizr.host_name }}.conf"
-  when: organizr.nginx_proxy
+  when: organizr.nginx_proxy and not organizr.ssl_enabled
+  notify:
+    - restart nginx
+
+- name: Deploy temporary letsencrypt nginx vhost config
+  template: src=nginx_letsencrypt.conf.j2 dest="/etc/nginx/vhosts.d/{{ organizr.host_name }}.conf"
+  when: organizr.nginx_proxy and organizr.ssl_enabled
   notify:
     - restart nginx
 
@@ -44,11 +50,8 @@
   notify:
     - restart nginx
 
-- name: Enable organizr SSL
-  lineinfile:
-    path: "/etc/nginx/vhosts.d/{{ organizr.host_name }}.conf"
-    regexp: 'include snippets\/ssl'
-    line: '    include snippets/ssl-{{ organizr.host_name }}.conf;'
+- name: Deploy nginx vhost config
+  template: src=nginx_organizr.conf.j2 dest="/etc/nginx/vhosts.d/{{ organizr.host_name }}.conf"
   when: organizr.nginx_proxy and organizr.ssl_enabled
   notify:
     - restart nginx

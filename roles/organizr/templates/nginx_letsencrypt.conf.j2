@@ -1,0 +1,17 @@
+#jinja2: lstrip_blocks: True
+# {{ ansible_managed }}
+
+server {
+    listen 80;
+    listen [::]:80;
+    {% if organizr.host_name.split('.') | count == 2 %}
+    server_name {{ organizr.host_name }} www.{{ organizr.host_name }};
+    {% else %}
+    server_name {{ organizr.host_name }};
+    {% endif %}
+    include snippets/letsencrypt.conf;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}

@@ -25,7 +25,7 @@ server {
     server_name {{ organizr.host_name }};
     {% endif %}
     include conf.d/ssl-params.conf;
-    #include snippets/ssl-{{ organizr.host_name }}.conf;
+    include snippets/ssl-{{ organizr.host_name }}.conf;
 
     access_log {{ organizr.logs_dir }}/access.log;
     error_log  {{ organizr.logs_dir }}/error.log;
