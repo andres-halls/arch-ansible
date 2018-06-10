@@ -1,0 +1,54 @@
+---
+- name: Ensure Organizr directory structure exists
+  file: dest="{{ item }}" recurse=yes state=directory
+  with_items:
+    - "{{ organizr.config_dir }}"
+    - "{{ organizr.logs_dir }}"
+
+- name: Pull latest Organizr image and run docker container
+  docker_container:
+    name: organizr
+    image: 'lsiocommunity/organizr'
+    pull: yes
+    state: started
+    recreate: yes
+    restart_policy: always
+    hostname: "{{ organizr.host_name }}"
+    ports:
+      - "{{ organizr.port }}:80/tcp"
+    volumes:
+      - "{{ organizr.config_dir }}:/config"
+    env:
+      PUID: "{% if organizr.uid != '' %}{{ organizr.uid }}{% endif %}"
+      PGID: "{% if organizr.gid != '' %}{{ organizr.gid }}{% endif %}"
+
+- name: Deploy nginx vhost config
+  template: src=nginx_organizr.conf.j2 dest="/etc/nginx/vhosts.d/{{ organizr.host_name }}.conf"
+  when: organizr.nginx_proxy
+  notify:
+    - restart nginx
+
+- meta: flush_handlers
+
+- name: Generate SSL cert for {{ organizr.host_name }} with letsencrypt
+  command: "certbot certonly --webroot -w /var/lib/letsencrypt/ -d {{ organizr.host_name }}"
+  args:
+    creates: "/etc/letsencrypt/live/{{ organizr.host_name }}/fullchain.pem"
+  when: organizr.nginx_proxy and organizr.ssl_enabled
+  notify:
+    - restart nginx
+
+- name: Deploy nginx SSL config
+  template: src=nginx_ssl.conf.j2 dest="/etc/nginx/snippets/ssl-{{ organizr.host_name }}.conf"
+  when: organizr.nginx_proxy and organizr.ssl_enabled
+  notify:
+    - restart nginx
+
+- name: Enable organizr SSL
+  lineinfile:
+    path: "/etc/nginx/vhosts.d/{{ organizr.host_name }}.conf"
+    regexp: 'include snippets\/ssl'
+    line: '    include snippets/ssl-{{ organizr.host_name }}.conf;'
+  when: organizr.nginx_proxy and organizr.ssl_enabled
+  notify:
+    - restart nginx

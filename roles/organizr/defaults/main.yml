@@ -1,0 +1,10 @@
+---
+organizr:
+  config_dir: '/srv/organizr/config'
+  logs_dir: '/srv/organizr/logs'
+  host_name: 'organizr'
+  uid: ''
+  gid: ''
+  port: 80
+  nginx_proxy: yes
+  ssl_enabled: yes
