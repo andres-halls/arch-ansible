@@ -32,6 +32,7 @@ server {
 
     location / {
         allow 192.168.88.0/24;
+        allow 172.17.0.0/24;
         deny all;
         {% if naemon.http_port.split(':') | count == 2 %}
         proxy_pass http://127.0.0.1:{{ naemon.http_port.split(':')[1] }};

@@ -1,0 +1,23 @@
+---
+- name: Ensure Plex plugins directory structure exists
+  file: dest="{{ plex.config_dir }}/Library/Application Support/Plex Media Server/Plug-ins" recurse=yes state=directory
+
+- name: Download latest WebTools plug-in
+  shell: 'curl -s https://api.github.com/repos/ukdtom/WebTools.bundle/releases/latest | grep browser_download_url | cut -d \" -f 4 | wget -qi -'
+  args:
+    warn: no
+
+- name: Unzip WebTools plug-in
+  shell: "unzip WebTools.bundle.zip && rm WebTools.bundle.zip"
+  args:
+    warn: no
+
+- name: Install WebTools plug-in
+  shell: 'cp -r WebTools.bundle "{{ plex.config_dir }}/Library/Application Support/Plex Media Server/Plug-ins/" && rm -r WebTools.bundle'
+
+- name: Change WebTools folder owner and group
+  file:
+    dest: "{{ plex.config_dir }}/Library/Application Support/Plex Media Server/Plug-ins/WebTools.bundle"
+    recurse: yes
+    owner: "{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}"
+    group: "{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}"

@@ -12,6 +12,8 @@ plex:
   nginx_proxy: yes
   ssl_enabled: yes
   webtools: yes
+  tautulli: yes
+  tautulli_config_dir: '/srv/plex/tautulli'
 
 plex_ports:
   - "32400:32400/tcp"
