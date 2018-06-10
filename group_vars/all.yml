@@ -18,3 +18,4 @@ install:
   plex: no
   transmission: no
   flexget: no
+  organizr: no

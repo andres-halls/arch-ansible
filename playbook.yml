@@ -81,5 +81,10 @@
     - name: Include FlexGet
       import_role: name=flexget
       become: yes
-      tags: [flexget, transmission, docker]
+      tags: [flexget, flexget-only, transmission, docker]
       when: install.flexget
+    - name: Include Organizr
+      import_role: name=organizr
+      become: yes
+      tags: [organizr, docker, letsencrypt]
+      when: install.organizr
