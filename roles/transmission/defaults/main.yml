@@ -6,5 +6,7 @@ transmission:
   host_name: 'transmission'
   host_whitelist: ''
   time_zone: 'Etc/UTC'
+  web_user: 'transmission'
+  web_passwd: 'yourhorriblesecret69'
   uid: ''
   gid: ''

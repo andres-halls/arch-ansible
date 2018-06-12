@@ -36,7 +36,25 @@
     name: transmission
     state: stopped
 
-- name: Add host names to whitelist
+- name: Enable web auth
+  lineinfile:
+    path: "{{ transmission.config_dir }}/settings.json"
+    regexp: 'rpc-authentication-required'
+    line: '    "rpc-authentication-required": true,'
+
+- name: Set web username
+  lineinfile:
+    path: "{{ transmission.config_dir }}/settings.json"
+    regexp: 'rpc-username'
+    line: '    "rpc-username": "{{ transmission.web_user }}",'
+
+- name: Set web password
+  lineinfile:
+    path: "{{ transmission.config_dir }}/settings.json"
+    regexp: 'rpc-password'
+    line: '    "rpc-password": "{{ transmission.web_passwd }}",'
+
+- name: Add hostnames to whitelist
   lineinfile:
     path: "{{ transmission.config_dir }}/settings.json"
     regexp: 'rpc-host-whitelist'
