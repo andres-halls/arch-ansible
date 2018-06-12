@@ -9,7 +9,8 @@ gitlab:
   https_port: '127.0.0.1:10443'
   host_name: 'gitlab'
   host: 'https://localhost'
-  registry_host: '' # leave empty to disable the registry
+  registry: no
+  registry_host: ''
   registry_protocol: 'https'
   registry_port: '127.0.0.1:5001'
   nginx_proxy: yes

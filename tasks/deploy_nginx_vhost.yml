@@ -1,0 +1,13 @@
+---
+- import_tasks: deploy_nginx_letsencrypt.yml
+  when: ssl
+
+- meta: flush_handlers
+
+- import_tasks: gen_ssl_cert.yml
+  when: ssl
+
+- import_tasks: deploy_nginx_ssl.yml
+  when: ssl
+
+- import_tasks: deploy_nginx_config.yml

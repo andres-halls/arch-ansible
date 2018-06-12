@@ -1,0 +1,7 @@
+#jinja2: lstrip_blocks: True
+
+{% if ssl %}
+    {% include 'nginx_https.conf.j2' %}
+{% else %}
+    {% include 'nginx_http.conf.j2' %}
+[% endif %}

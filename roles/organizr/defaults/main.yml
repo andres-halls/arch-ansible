@@ -5,6 +5,6 @@ organizr:
   host_name: 'organizr'
   uid: ''
   gid: ''
-  port: 80
+  http_port: 80
   nginx_proxy: yes
   ssl_enabled: yes

@@ -15,43 +15,22 @@
     restart_policy: always
     hostname: "{{ organizr.host_name }}"
     ports:
-      - "{{ organizr.port }}:80/tcp"
+      - "{{ organizr.http_port }}:80/tcp"
     volumes:
       - "{{ organizr.config_dir }}:/config"
     env:
-      PUID: "{% if organizr.uid != '' %}{{ organizr.uid }}{% endif %}"
-      PGID: "{% if organizr.gid != '' %}{{ organizr.gid }}{% endif %}"
+      PUID: "{{ organizr.uid }}"
+      PGID: "{{ organizr.gid }}"
 
-- name: Deploy nginx vhost config
-  template: src=nginx_organizr.conf.j2 dest="/etc/nginx/vhosts.d/{{ organizr.host_name }}.conf"
-  when: organizr.nginx_proxy and not organizr.ssl_enabled
-  notify:
-    - restart nginx
+- name: Deploy nginx organizr auth config snippet
+  template: src=nginx_organizr_auth.conf.j2 dest="/etc/nginx/snippets/organizr_auth.conf"
+  when: install.nginx
 
-- name: Deploy temporary letsencrypt nginx vhost config
-  template: src=nginx_letsencrypt.conf.j2 dest="/etc/nginx/vhosts.d/{{ organizr.host_name }}.conf"
-  when: organizr.nginx_proxy and organizr.ssl_enabled
-  notify:
-    - restart nginx
-
-- meta: flush_handlers
-
-- name: Generate SSL cert for {{ organizr.host_name }} with letsencrypt
-  command: "certbot certonly --webroot -w /var/lib/letsencrypt/ -d {{ organizr.host_name }}"
-  args:
-    creates: "/etc/letsencrypt/live/{{ organizr.host_name }}/fullchain.pem"
-  when: organizr.nginx_proxy and organizr.ssl_enabled
-  notify:
-    - restart nginx
-
-- name: Deploy nginx SSL config
-  template: src=nginx_ssl.conf.j2 dest="/etc/nginx/snippets/ssl-{{ organizr.host_name }}.conf"
-  when: organizr.nginx_proxy and organizr.ssl_enabled
-  notify:
-    - restart nginx
-
-- name: Deploy nginx vhost config
-  template: src=nginx_organizr.conf.j2 dest="/etc/nginx/vhosts.d/{{ organizr.host_name }}.conf"
-  when: organizr.nginx_proxy and organizr.ssl_enabled
-  notify:
-    - restart nginx
+- name: Deploy organizr nginx vhost
+  include_tasks: deploy_nginx_vhost.yml
+  vars:
+    host_name: "{{ organizr.host_name }}"
+    http_port: "{{ organizr.http_port }}"
+    logs_dir: "{{ organizr.logs_dir }}"
+    ssl: "{{ organizr.ssl_enabled }}"
+  when: gitlab.nginx_proxy

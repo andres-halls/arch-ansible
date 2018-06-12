@@ -37,3 +37,4 @@ antigen apply
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 _per-directory-history-set-global-history
 setopt share_history
+setopt hist_ignore_dups

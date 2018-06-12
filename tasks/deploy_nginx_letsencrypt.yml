@@ -1,0 +1,5 @@
+---
+- name: Deploy temp letsencrypt nginx vhost config
+  template: src=nginx_letsencrypt.conf.j2 dest="/etc/nginx/vhosts.d/{{ host_name }}.conf"
+  notify:
+    - restart nginx

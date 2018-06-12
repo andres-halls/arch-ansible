@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+
+location /auth-admin {
+    internal;
+    proxy_pass http://127.0.0.1:{{ organizr.http_port }}/auth.php?admin;
+    proxy_set_header Content-Length "";
+}
+
+location /auth-user {
+    internal;
+    proxy_pass http://127.0.0.1:{{ organizr.http_port }}/auth.php?user;
+    proxy_set_header Content-Length "";
+}

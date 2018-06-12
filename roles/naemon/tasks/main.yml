@@ -38,36 +38,18 @@
       NOTIFICATION_FROM: "{{ naemon.notification_from }}"
       WEB_ADMIN_PASSWORD: "{% if naemon.web_admin_pass != '' %}{{ naemon.web_admin_pass }}{% else %}{{ random_pass }}{% endif %}"
 
-- name: Deploy nginx vhost config
-  template: src=nginx_naemon.conf.j2 dest="/etc/nginx/vhosts.d/{{ naemon.host_name }}.conf"
+- name: Deploy naemon nginx vhost
+  include_tasks: deploy_nginx_vhost.yml
+  vars:
+    host_name: "{{ naemon.host_name }}"
+    http_port: "{{ naemon.http_port }}"
+    logs_dir: "{{ naemon.logs_dir }}"
+    ssl: "{{ naemon.ssl_enabled }}"
+    location_block_beginning: |
+        allow 192.168.88.0/24;
+        allow 172.17.0.0/24;
+        deny all;
   when: naemon.nginx_proxy
-  notify:
-    - restart nginx
-
-- meta: flush_handlers
-
-- name: Generate SSL cert for {{ naemon.host_name }} with letsencrypt
-  command: "certbot certonly --webroot -w /var/lib/letsencrypt/ -d {{ naemon.host_name }}"
-  args:
-    creates: "/etc/letsencrypt/live/{{ naemon.host_name }}/fullchain.pem"
-  when: naemon.nginx_proxy and naemon.ssl_enabled
-  notify:
-    - restart nginx
-
-- name: Deploy nginx SSL config
-  template: src=nginx_ssl.conf.j2 dest="/etc/nginx/snippets/ssl-{{ naemon.host_name }}.conf"
-  when: naemon.nginx_proxy and naemon.ssl_enabled
-  notify:
-    - restart nginx
-
-- name: Enable naemon SSL
-  lineinfile:
-    path: "/etc/nginx/vhosts.d/{{ naemon.host_name }}.conf"
-    regexp: 'include snippets\/ssl'
-    line: '    include snippets/ssl-{{ naemon.host_name }}.conf;'
-  when: naemon.nginx_proxy and naemon.ssl_enabled
-  notify:
-    - restart nginx
 
 - name: Display Thruk user and pass
   debug:

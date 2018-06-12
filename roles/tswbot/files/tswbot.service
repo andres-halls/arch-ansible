@@ -1,0 +1,15 @@
+[Unit]
+Description=TSW Chat Bot
+After=network-online.target
+
+[Service]
+User=http
+Group=http
+Type=simple
+ExecStart=/srv/irc/tsw/tswbot
+ExecReload=/usr/bin/kill -USR1 $MAINPID
+WorkingDirectory=/srv/irc/tsw
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target

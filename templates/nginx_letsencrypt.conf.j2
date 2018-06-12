@@ -1,0 +1,17 @@
+#jinja2: lstrip_blocks: True
+# {{ ansible_managed }}
+
+server {
+    listen 80;
+    listen [::]:80;
+    {% if host_name.split('.') | count == 2 %}
+    server_name {{ host_name }} www.{{ host_name }};
+    {% else %}
+    server_name {{ host_name }};
+    {% endif %}
+    include snippets/letsencrypt.conf;
+
+    location / {
+        return 444;
+    }
+}
