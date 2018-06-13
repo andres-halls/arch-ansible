@@ -33,4 +33,4 @@
     http_port: "{{ organizr.http_port }}"
     logs_dir: "{{ organizr.logs_dir }}"
     ssl: "{{ organizr.ssl_enabled }}"
-  when: gitlab.nginx_proxy
+  when: organizr.nginx_proxy
