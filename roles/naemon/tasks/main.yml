@@ -46,9 +46,11 @@
     logs_dir: "{{ naemon.logs_dir }}"
     ssl: "{{ naemon.ssl_enabled }}"
     location_block_beginning: |
-        allow 192.168.88.0/24;
-        allow 172.17.0.0/24;
-        deny all;
+      satisfy any;
+      allow 192.168.88.0/24;
+      allow 172.17.0.0/24;
+      deny all;
+      auth_request /auth-ip;
   when: naemon.nginx_proxy
 
 - name: Display Thruk user and pass
