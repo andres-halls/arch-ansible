@@ -14,3 +14,4 @@ naemon:
   time_zone: 'Etc/UTC'
   nginx_proxy: yes
   ssl_enabled: yes
+  ip_auth: no
