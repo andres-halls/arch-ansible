@@ -57,12 +57,12 @@
     http_port: "{{ gitlab.http_port }}"
     logs_dir: "{{ gitlab.logs_dir }}"
     ssl: "{{ gitlab.ssl_enabled }}"
-    server_block_beginning: |
-      client_max_body_size 10m;
+    server_block_beginning: |2
+          client_max_body_size 10m;
     location_block_ending: |
       {% if gitlab.ssl_enabled %}
-      proxy_set_header X-Forwarded-Port 443;
-      proxy_set_header X-Forwarded-Ssl on;
+              proxy_set_header X-Forwarded-Port 443;
+              proxy_set_header X-Forwarded-Ssl on;
       {% endif %}
   when: gitlab.nginx_proxy
 
