@@ -32,13 +32,24 @@
     {% if ghost.ip_auth %}
         include snippets/ip_auth.conf;
     {% endif %}
-  location_block_beginning: |+
+  server_block_ending: |
     {% if ghost.ip_auth %}
-            satisfy any;
-            allow 192.168.88.0/24;
-            allow 172.17.0.0/24;
-            deny all;
-            auth_request /auth-ip;
+        location /ghost {
+          satisfy any;
+          allow 192.168.88.0/24;
+          allow 172.17.0.0/24;
+          deny all;
+          auth_request /auth-ip;
 
+          {% if ghost.http_port.split(':') | count == 2 %}
+          proxy_pass http://127.0.0.1:{{ ghost.http_port.split(':')[1] }};
+          {% else %}
+          proxy_pass http://127.0.0.1:{{ ghost.http_port }};
+          {% endif %}
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        }
     {% endif %}
   when: ghost.nginx_proxy
