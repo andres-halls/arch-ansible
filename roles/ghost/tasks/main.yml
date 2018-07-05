@@ -18,6 +18,8 @@
       - "{{ ghost.http_port }}:2368/tcp"
     volumes:
       - "{{ ghost.content_dir }}:/var/lib/ghost/content"
+    env:
+      url: "{{ ghost.url }}"
 
 - name: Deploy Ghost nginx vhost
   include_tasks: deploy_nginx_vhost.yml
@@ -26,4 +28,17 @@
     http_port: "{{ ghost.http_port }}"
     logs_dir: "{{ ghost.logs_dir }}"
     ssl: "{{ ghost.ssl_enabled }}"
+  server_block_beginning: |
+    {% if ghost.ip_auth %}
+        include snippets/ip_auth.conf;
+    {% endif %}
+  location_block_beginning: |+
+    {% if ghost.ip_auth %}
+            satisfy any;
+            allow 192.168.88.0/24;
+            allow 172.17.0.0/24;
+            deny all;
+            auth_request /auth-ip;
+
+    {% endif %}
   when: ghost.nginx_proxy
