@@ -1,0 +1,29 @@
+---
+- name: Ensure Ghost directory structure exists
+  file: dest="{{ item }}" recurse=yes state=directory
+  with_items:
+    - "{{ ghost.content_dir }}"
+    - "{{ ghost.logs_dir }}"
+
+- name: Pull latest Ghost image and run docker container
+  docker_container:
+    name: ghost
+    image: 'ghost'
+    pull: yes
+    state: started
+    recreate: yes
+    restart_policy: always
+    hostname: "{{ ghost.host_name }}"
+    ports:
+      - "{{ ghost.http_port }}:2368/tcp"
+    volumes:
+      - "{{ ghost.content_dir }}:/var/lib/ghost/content"
+
+- name: Deploy Ghost nginx vhost
+  include_tasks: deploy_nginx_vhost.yml
+  vars:
+    host_name: "{{ ghost.host_name }}"
+    http_port: "{{ ghost.http_port }}"
+    logs_dir: "{{ ghost.logs_dir }}"
+    ssl: "{{ ghost.ssl_enabled }}"
+  when: ghost.nginx_proxy

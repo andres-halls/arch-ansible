@@ -88,3 +88,8 @@
       become: yes
       tags: [organizr, docker, letsencrypt]
       when: install.organizr
+    - name: Include Ghost
+      import_role: name=ghost
+      become: yes
+      tags: [ghost, docker, letsencrypt]
+      when: install.ghost

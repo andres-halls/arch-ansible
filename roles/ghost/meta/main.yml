@@ -1,0 +1,5 @@
+---
+dependencies:
+  - { role: docker }
+  - { role: nginx, when: ghost.nginx_proxy }
+  - { role: letsencrypt, when: ghost.nginx_proxy and ghost.ssl_enabled }

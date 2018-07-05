@@ -20,3 +20,4 @@ install:
   transmission: no
   flexget: no
   organizr: no
+  ghost: no

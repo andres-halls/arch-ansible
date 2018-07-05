@@ -1,0 +1,8 @@
+---
+ghost:
+  content_dir: '/srv/ghost/content'
+  logs_dir: '/srv/ghost/logs'
+  host_name: 'ghost'
+  http_port: '80'
+  nginx_proxy: yes
+  ssl_enabled: yes
