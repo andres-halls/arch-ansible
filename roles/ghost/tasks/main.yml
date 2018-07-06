@@ -31,6 +31,8 @@
   server_block_beginning: |
     {% if ghost.ip_auth %}
         include snippets/ip_auth.conf;
+
+        client_max_body_size 10m;
     {% endif %}
   server_block_ending: |
     {% if ghost.ip_auth %}
