@@ -64,9 +64,9 @@
     line: '    "rpc-host-whitelist": "{{ transmission.host_whitelist }}",'
 
 - name: Deploy torrent done script
-  copy:
-    src: "torrent-add.sh"
-    dest: "{{ transmission.config_dir }}"
+  template:
+    src: "torrent-add.sh.j2"
+    dest: "{{ transmission.config_dir }}/torrent-add.sh"
     owner: "{% if install.plex %}{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}{% else %}{{ transmission.uid }}{% endif %}"
     group: "{% if install.plex %}{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ transmission.gid }}{% endif %}"
 
