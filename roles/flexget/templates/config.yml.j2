@@ -34,6 +34,10 @@ tasks:
       port: 9091
       path: /downloads/tv_shows/{{ '{{' }}series_name{{ '}}' }}/Season {{ '{{' }}series_season{{ '}}' }}
       addpaused: no
+      {% if transmission.web_user != '' %}
+      username: {{ transmission.web_user }}
+      password: {{ transmission.web_passwd }}
+      {% endif %}
 
 schedules:
   - tasks: update_series

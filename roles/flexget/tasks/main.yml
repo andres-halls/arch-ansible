@@ -28,7 +28,7 @@
       PGID: "{% if install.plex %}{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ flexget.gid }}{% endif %}"
 
 - name: Copy flexget config.yml
-  template: src=config.yml dest="{{ flexget.config_dir }}"
+  template: src=config.yml.j2 dest="{{ flexget.config_dir }}/config.yml"
 
 - name: Change flexget docker container time zone
   command: docker exec flexget bash -c 'ln -sf "/usr/share/zoneinfo/{{ flexget.time_zone }}" /etc/localtime && echo "{{ flexget.time_zone }}" > /etc/timezone'

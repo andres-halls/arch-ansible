@@ -41,18 +41,21 @@
     path: "{{ transmission.config_dir }}/settings.json"
     regexp: 'rpc-authentication-required'
     line: '    "rpc-authentication-required": true,'
+  when: transmission.web_user
 
 - name: Set web username
   lineinfile:
     path: "{{ transmission.config_dir }}/settings.json"
     regexp: 'rpc-username'
     line: '    "rpc-username": "{{ transmission.web_user }}",'
+  when: transmission.web_user
 
 - name: Set web password
   lineinfile:
     path: "{{ transmission.config_dir }}/settings.json"
     regexp: 'rpc-password'
     line: '    "rpc-password": "{{ transmission.web_passwd }}",'
+  when: transmission.web_user
 
 - name: Add hostnames to whitelist
   lineinfile:
