@@ -1,4 +1,6 @@
 .idea
 *.retry
 hosts.yml
-vars.yml
+vars*.yml
+inventory/*
+!inventory/localhost.yml

@@ -31,9 +31,24 @@
   server_block_beginning: |
     {% if ghost.ip_auth %}
         include snippets/ip_auth.conf;
+    {% endif %}
 
         client_max_body_size 10m;
-    {% endif %}
+
+        if ($http_cache_control = "no-cache") {
+            set $no_cache "1";
+        }
+  location_block_beginning: |2+
+            proxy_cache one;
+            proxy_cache_valid 60m;
+            proxy_cache_valid 404 1m;
+            proxy_cache_bypass $no_cache;
+            proxy_ignore_headers Set-Cookie;
+            proxy_hide_header Set-Cookie;
+            proxy_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504;
+            proxy_ignore_headers Cache-Control;
+            add_header X-Cache-Status $upstream_cache_status;
+
   server_block_ending: |
     {% if ghost.ip_auth %}
         location /ghost {
