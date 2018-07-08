@@ -3,6 +3,7 @@
   file: dest="{{ item }}" recurse=yes state=directory
   with_items:
     - "{{ ghost.content_dir }}"
+    - "{{ ghost.content_dir }}/themes"
     - "{{ ghost.logs_dir }}"
 
 - name: Pull latest Ghost image and run docker container
@@ -21,6 +22,34 @@
     env:
       url: "{{ ghost.url }}"
 
+- name: Download latest Ghostium theme
+  shell: "wget https://github.com/oswaldoacauan/ghostium/archive/master.zip -O ghostium-master.zip"
+  args:
+    warn: no
+
+- name: Unzip Ghostium theme
+  shell: "unzip ghostium-master && rm ghostium-master.zip"
+  args:
+    warn: no
+
+- name: Install Ghostium theme
+  shell: |
+    if [ ! -d "{{ ghost.content_dir }}/themes/ghostium-master" ]; then
+      cp -r ghostium-master "{{ ghost.content_dir }}/themes/"
+    else
+      rsync -a --exclude="partials/custom" ghostium-master "{{ ghost.content_dir }}/themes/"
+    fi
+    rm -r ghostium-master
+  args:
+    warn: no
+
+- name: Change Ghostium theme folder owner and group
+  file:
+    dest: "{{ ghost.content_dir }}/themes/ghostium-master"
+    recurse: yes
+    owner: 1000
+    group: 1000
+
 - name: Deploy Ghost nginx vhost
   include_tasks: deploy_nginx_vhost.yml
   vars:
@@ -38,6 +67,15 @@
         if ($http_cache_control = "no-cache") {
             set $no_cache "1";
         }
+
+        location ^~ /assets/ {
+            root {{ ghost.content_dir }}/themes/ghostium-master;
+        }
+
+        location ^~ /content/images/ {
+            alias {{ ghost.content_dir }}/images/;
+        }
+
   location_block_beginning: |2+
             proxy_cache one;
             proxy_cache_valid 60m;
