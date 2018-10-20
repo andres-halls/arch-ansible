@@ -1,0 +1,12 @@
+---
+- name: Install fd
+  pacman: name=fd state=present update_cache=yes
+  become: yes
+
+- name: Install fuzzy finder (fzf)
+  pacman: name=fzf state=present
+  become: yes
+
+- name: Install ripgrep
+  pacman: name=ripgrep state=present
+  become: yes

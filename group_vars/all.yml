@@ -3,9 +3,10 @@ aur_user: aur_builder
 vhost_config_file: nginx_vhost.conf.j2
 install:
   aur: yes
-  sshd: yes
   zsh: yes
   vim: yes
+  tools: yes
+  sshd: yes
   syslog_ng: yes
   nginx: no
   letsencrypt: no
