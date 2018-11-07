@@ -19,5 +19,10 @@
   args:
     creates: /etc/nginx/conf.d/dhparam.pem
 
+- name: Generate a Self Signed OpenSSL certificate
+  command: "openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/nginx/ssl/default.key -out /etc/nginx/ssl/default.crt -days 3650 -subj '/CN=localhost'"
+  args:
+    creates: /etc/nginx/ssl/default.crt
+
 - name: Enable and start nginx daemon
   service: name=nginx enabled=yes state=started
