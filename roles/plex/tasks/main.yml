@@ -17,7 +17,7 @@
 - name: Pull latest Plex Media Server image and run docker container
   docker_container:
     name: plex
-    image: 'plexinc/pms-docker:public'
+    image: 'plexinc/pms-docker:plexpass'
     pull: yes
     state: started
     recreate: yes
