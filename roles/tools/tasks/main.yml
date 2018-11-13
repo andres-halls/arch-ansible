@@ -10,3 +10,12 @@
 - name: Install ripgrep
   pacman: name=ripgrep state=present
   become: yes
+
+- name: Install ncdu
+  pacman: name=ncdu state=present
+  become: yes
+
+- name: Install Ultimate Plumber (up) from AUR
+  aur: name=up-bin
+  become: yes
+  become_user: "{{ aur_user }}"

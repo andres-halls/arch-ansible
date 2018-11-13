@@ -15,7 +15,7 @@
       when: install.vim
     - name: Include tools
       import_role: name=tools
-      tags: [tools]
+      tags: [tools, aur]
       when: install.tools
     - name: Include sshd
       import_role: name=sshd
