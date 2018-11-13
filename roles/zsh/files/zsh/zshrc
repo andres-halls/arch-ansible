@@ -17,7 +17,7 @@ antigen bundle web-search
 antigen bundle psprint/history-search-multi-word
 antigen bundle horosgrisa/mysql-colorize
 antigen bundle skx/sysadmin-util
-antigen bundle peterhurford/up.zsh
+#antigen bundle peterhurford/up.zsh
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle djui/alias-tips
 antigen bundle bric3/nice-exit-code

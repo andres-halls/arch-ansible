@@ -3,6 +3,10 @@
   pacman: name=htop state=present update_cache=yes
   become: yes
 
+- name: Install bat
+  pacman: name=bat state=present
+  become: yes
+
 - name: Install fd
   pacman: name=fd state=present
   become: yes
