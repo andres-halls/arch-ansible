@@ -18,5 +18,5 @@
       - "{{ plex.config_dir }}/Library/Application Support/Plex Media Server/Logs:/logs:ro"
     env:
       TZ: "{{ plex.time_zone }}"
-      PUID: 0
-      PGID: 0
+      PUID: '0'
+      PGID: '0'
