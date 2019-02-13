@@ -13,7 +13,8 @@
 - name: Build Naemon+PNP4Nagios image
   docker_image:
     name: 'local/naemon'
-    path: .
+    force: yes
+    path: "{{ role_path }}/files"
     buildargs:
       TIME_ZONE: "{{ naemon.time_zone }}"
 

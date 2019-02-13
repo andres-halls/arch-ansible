@@ -1,6 +1,9 @@
 FROM xetusoss/naemon:latest
 
-# install dependencies
+ADD init.sh /init.sh
+RUN /init.sh && rm /init.sh
+
+# install pnp4nagios dependencies
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive \
   apt-get install -y \
