@@ -33,7 +33,7 @@ tasks:
       host: 172.17.0.1
       port: 9091
       path: /downloads/tv_shows/{{ '{{' }}series_name{{ '}}' }}/Season {{ '{{' }}series_season{{ '}}' }}
-      addpaused: no
+      add_paused: no
       {% if transmission.web_user != '' %}
       username: {{ transmission.web_user }}
       password: {{ transmission.web_passwd }}
