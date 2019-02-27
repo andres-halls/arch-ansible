@@ -8,7 +8,7 @@
 - name: Pull latest Organizr image and run docker container
   docker_container:
     name: organizr
-    image: 'lsiocommunity/organizr'
+    image: 'organizrtools/organizr-v2:plex'
     pull: yes
     state: started
     recreate: yes
