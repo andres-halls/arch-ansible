@@ -3,15 +3,14 @@
   user: name={{ aur_user }} group=wheel
   become: yes
 
-- name: Ensure {{ aur_user }} user has passwordless sudo access to pacman
-  lineinfile:
-    path: "/etc/sudoers.d/11-install-{{ aur_user }}"
-    line: "{{ aur_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
-    create: yes
-    validate: 'visudo -cf %s'
+- name: Install yay AUR helper with pacman
+  pacman: name=yay state=present update_cache=yes
   become: yes
+  register: pacman_result
+  ignore_errors: yes
 
-- name: Install yay AUR helper
+- name: Install yay AUR helper from AUR
   aur: name=yay-bin
   become: yes
   become_user: "{{ aur_user }}"
+  when: pacman_result is failed

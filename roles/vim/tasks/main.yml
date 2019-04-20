@@ -3,6 +3,11 @@
   pacman: name=gvim state=present update_cache=yes
   become: yes
 
+- name: Uninstall vi
+  pacman: name=vi state=absent
+  become: yes
+  ignore_errors: yes
+
 - name: Install vi-vim-symlink from AUR
   aur: name=vi-vim-symlink
   become: yes

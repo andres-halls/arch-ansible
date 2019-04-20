@@ -23,6 +23,17 @@
   pacman: name=ncdu state=present
   become: yes
 
+- name: Install diff-so-fancy
+  pacman: name=diff-so-fancy state=present
+  become: yes
+
+- name: Configure git to use diff-so-fancy
+  git_config:
+    name: core.pager
+    scope: system
+    value: 'diff-so-fancy | less --tabs=4 -RFX'
+  become: yes
+
 - name: Install Ultimate Plumber (up) from AUR
   aur: name=up-bin
   become: yes
