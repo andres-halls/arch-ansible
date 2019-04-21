@@ -1,7 +1,21 @@
 ---
 - name: Ensure {{ aur_user }} user exists
-  user: name={{ aur_user }} group=wheel
+  user: name={{ aur_user }}
   become: yes
+  when: not aur_sudo
+
+- name: Ensure {{ aur_user }} user exists and has sudo access
+  user: name={{ aur_user }} groups=wheel append=yes
+  become: yes
+  when: aur_sudo
+
+- name: Ensure {{ aur_user }} user has passwordless sudo access to pacman
+  lineinfile:
+    path: "/etc/sudoers.d/11-install-{{ aur_user }}"
+    line: "{{ aur_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+    create: yes
+    validate: 'visudo -cf %s'
+  when: aur_sudo
 
 - name: Install yay AUR helper with pacman
   pacman: name=yay state=present update_cache=yes

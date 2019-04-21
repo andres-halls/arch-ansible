@@ -1,5 +1,6 @@
 ---
 aur_user: aur_builder
+aur_sudo: yes
 vhost_config_file: nginx_vhost.conf.j2
 install:
   aur: yes
