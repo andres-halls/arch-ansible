@@ -56,7 +56,7 @@
     host_name: "{{ gitlab.host_name }}"
     http_port: "{{ gitlab.http_port }}"
     logs_dir: "{{ gitlab.logs_dir }}"
-    ssl: "{{ gitlab.ssl_enabled }}"
+    ssl: gitlab.ssl_enabled
     server_block_beginning: |2
           client_max_body_size 10m;
     location_block_ending: |
@@ -90,5 +90,5 @@
     host_name: "{{ gitlab.registry_host }}"
     http_port: "{{ gitlab.registry_port }}"
     logs_dir: "{{ gitlab.logs_dir }}"
-    ssl: "{{ gitlab.ssl_enabled }}"
+    ssl: gitlab.ssl_enabled
   when: gitlab.nginx_proxy and gitlab.registry
