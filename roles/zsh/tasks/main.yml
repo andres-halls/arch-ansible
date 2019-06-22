@@ -29,6 +29,8 @@
   become: yes
 
 - name: Include nodejs role
-  include_role: name=nodejs
-  become: yes
+  include_role:
+    name: nodejs
+    apply:
+      become: yes
   when: install.nodejs
