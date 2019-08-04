@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+
+/srv/irc/sanctuary/logs/output.log {
+  missingok
+  notifempty
+  su http log
+}

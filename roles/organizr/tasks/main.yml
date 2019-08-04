@@ -8,7 +8,7 @@
 - name: Pull latest Organizr image and run docker container
   docker_container:
     name: organizr
-    image: 'organizrtools/organizr-v2'
+    image: 'organizrtools/organizr-v2:dev-latest'
     pull: yes
     state: started
     recreate: yes

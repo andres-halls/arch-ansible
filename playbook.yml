@@ -1,3 +1,4 @@
+#!/usr/bin/env -S ansible-playbook -e @vars.yml --vault-id @prompt
 ---
 - hosts: all
   tasks:

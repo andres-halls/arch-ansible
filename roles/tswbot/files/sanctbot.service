@@ -1,0 +1,15 @@
+[Unit]
+Description=SWL Chat Bot - Sanctuary
+After=network-online.target
+
+[Service]
+User=http
+Group=http
+Type=simple
+ExecStart=/srv/irc/sanctuary/sanctbot
+ExecReload=/usr/bin/kill -USR1 $MAINPID
+WorkingDirectory=/srv/irc/sanctuary
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target

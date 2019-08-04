@@ -9,11 +9,25 @@
   notify:
     - reload systemd
 
+- name: Deploy sanctbot.service
+  copy: src=sanctbot.service dest=/etc/systemd/system/sanctbot.service
+  notify:
+    - reload systemd
+
 - name: Deploy tswbot logrotate configuration file
   template: src=tswbot.logrotate.j2 dest='/etc/logrotate.d/tswbot'
 
 - name: Deploy tswbot syslog-ng configuration file
   template: src=tswbot.conf.j2 dest='/etc/syslog-ng/log.d/tswbot.conf'
+  notify:
+    - restart syslog-ng
+  when: install.syslog_ng
+
+- name: Deploy sanctbot logrotate configuration file
+  template: src=sanctbot.logrotate.j2 dest='/etc/logrotate.d/sanctbot'
+
+- name: Deploy sanctbot syslog-ng configuration file
+  template: src=sanctbot.conf.j2 dest='/etc/syslog-ng/log.d/sanctbot.conf'
   notify:
     - restart syslog-ng
   when: install.syslog_ng

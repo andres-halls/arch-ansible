@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+log {
+	source(src);
+	filter { program("sanctbot"); };
+	destination {
+		file("/srv/irc/sanctuary/logs/output.log" template(no_header));
+		pipe("/srv/irc/sanctuary/pipe.out" template(no_header));
+	};
+};
