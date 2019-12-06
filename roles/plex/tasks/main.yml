@@ -4,7 +4,7 @@
 
 - name: Create plex user
   user: name=plex shell=/sbin/nologin
-  when: not getent_passwd.plex and plex.media_dir | search('/home/plex')
+  when: not getent_passwd.plex and plex.media_dir is match('/home/plex')
 
 - name: Ensure plex directory structure exists
   file: dest="{{ item }}" recurse=yes state=directory
