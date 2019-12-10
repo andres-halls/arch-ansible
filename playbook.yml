@@ -1,100 +1,80 @@
 #!/usr/bin/env -S ansible-playbook -e @vars.yml --vault-id @prompt
 ---
 - hosts: all
-  tasks:
-    - name: Include AUR
-      import_role: name=aur
-      tags: [aur, aur-only]
-      when: install.aur or install.zsh or install.vim
-    - name: Include zsh
-      import_role: name=zsh
-      tags: [zsh, aur]
-      when: install.zsh
-    - name: Include vim
-      import_role: name=vim
-      tags: [vim, aur]
-      when: install.vim
-    - name: Include tools
-      import_role: name=tools
-      tags: [tools, aur]
-      when: install.tools
-    - name: Include sshd
-      import_role: name=sshd
-      become: yes
-      tags: [sshd]
-      when: install.sshd
-    - name: Include syslog-ng
-      import_role: name=syslog-ng
-      become: yes
-      tags: [syslog-ng]
-      when: install.syslog_ng
-    - name: Include nginx
-      import_role: name=nginx
-      become: yes
-      tags: [nginx]
-      when: install.nginx
-    - name: Include letsencrypt
-      import_role: name=letsencrypt
-      become: yes
-      tags: [letsencrypt, letsencrypt-only]
-      when: install.letsencrypt or (install.gitlab and gitlab.ssl_enabled)
-    - name: Include nodejs
-      import_role: name=nodejs
-      become: yes
-      tags: [nodejs]
-      when: install.nodejs
-    - name: Include redis
-      import_role: name=redis
-      become: yes
-      tags: [redis]
-      when: install.redis
-    - name: Include mongodb
-      import_role: name=mongodb
-      become: yes
-      tags: [mongodb]
-      when: install.mongodb
-    - name: Include tswbot
-      import_role: name=tswbot
-      become: yes
-      tags: [tswbot]
-      when: install.tswbot
-    - name: Include docker
-      import_role: name=docker
-      become: yes
-      tags: [docker, docker-only]
-      when: install.docker or install.gitlab
-    - name: Include Gitlab
-      import_role: name=gitlab
-      become: yes
-      tags: [gitlab, docker, letsencrypt]
-      when: install.gitlab
-    - name: Include Naemon
-      import_role: name=naemon
-      become: yes
-      tags: [naemon, docker, letsencrypt]
-      when: install.naemon
-    - name: Include Plex
-      import_role: name=plex
-      become: yes
-      tags: [plex, docker, letsencrypt]
-      when: install.plex
-    - name: Include Transmission
-      import_role: name=transmission
-      become: yes
-      tags: [transmission, transmission-only, docker]
-      when: install.transmission
-    - name: Include FlexGet
-      import_role: name=flexget
-      become: yes
-      tags: [flexget, transmission, docker]
-      when: install.flexget
-    - name: Include Organizr
-      import_role: name=organizr
-      become: yes
-      tags: [organizr, docker, letsencrypt]
-      when: install.organizr
-    - name: Include Ghost
-      import_role: name=ghost
-      become: yes
-      tags: [ghost, docker, letsencrypt]
-      when: install.ghost
+  roles:
+  - role: aur
+    tags: [aur, aur-only]
+    when: install.aur or install.zsh or install.vim
+  - role: zsh
+    tags: [zsh, aur]
+    when: install.zsh
+  - role: vim
+    tags: [vim, aur]
+    when: install.vim
+  - role: tools
+    tags: [tools, aur]
+    when: install.tools
+  - role: sshd
+    become: yes
+    tags: [sshd]
+    when: install.sshd
+  - role: syslog-ng
+    become: yes
+    tags: [syslog-ng]
+    when: install.syslog_ng
+  - role: nginx
+    become: yes
+    tags: [nginx]
+    when: install.nginx
+  - role: letsencrypt
+    become: yes
+    tags: [letsencrypt, letsencrypt-only]
+    when: install.letsencrypt or (install.gitlab and gitlab.ssl_enabled)
+  - role: nodejs
+    become: yes
+    tags: [nodejs]
+    when: install.nodejs
+  - role: redis
+    become: yes
+    tags: [redis]
+    when: install.redis
+  - role: mongodb
+    become: yes
+    tags: [mongodb]
+    when: install.mongodb
+  - role: tswbot
+    become: yes
+    tags: [tswbot]
+    when: install.tswbot
+  - role: docker
+    become: yes
+    tags: [docker, docker-only]
+    when: install.docker or install.gitlab
+  - role: gitlab
+    become: yes
+    tags: [gitlab, docker, letsencrypt]
+    when: install.gitlab
+  - role: naemon
+    become: yes
+    tags: [naemon, docker, letsencrypt]
+    when: install.naemon
+  - role: plex
+    become: yes
+    tags: [plex, docker, letsencrypt]
+    when: install.plex
+  - role: transmission
+    become: yes
+    tags: [transmission, transmission-only, docker]
+    when: install.transmission
+  - role: flexget
+    become: yes
+    tags: [flexget, transmission, docker]
+    when: install.flexget
+  - role: organizr
+    become: yes
+    tags: [organizr, docker, letsencrypt]
+    when: install.organizr
+  - role: ghost
+    become: yes
+    tags: [ghost, docker, letsencrypt]
+    when: install.ghost
