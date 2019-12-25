@@ -1,6 +1,7 @@
 ---
 cardano:
   host_name: 'ada-stake-pool'
+  base_dir: '/srv/cardano'
   data_dir: '/srv/cardano/data'
   time_zone: 'Etc/UTC'
   port: 3000

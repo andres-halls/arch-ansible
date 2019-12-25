@@ -2,6 +2,7 @@
 - name: Ensure directory structure exists
   file: dest="{{ item }}" recurse=yes state=directory
   with_items:
+    - "{{ cardano.base_dir }}"
     - "{{ cardano.data_dir }}"
 
 - name: Build jormungandr image
@@ -31,3 +32,12 @@
     volumes:
       - "{{ cardano.data_dir }}:/data"
     command: "jormungandr --genesis-block-hash {{ cardano.genesis_hash }} --config /stakepool-config.yaml"
+
+- name: Check if pool operator account exists
+  stat:
+    path: "{{ cardano.base_dir }}/account.txt"
+  register: account
+
+- name: Create pool operator account
+  include_tasks: create_account.yml
+  when: account.stat.exists == False
