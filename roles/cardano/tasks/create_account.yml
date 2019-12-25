@@ -8,7 +8,7 @@
   register: ACCOUNT_PK
 
 - name: Generate account address
-  shell: "echo {{ ACCOUNT_PK.stdout }} | docker exec -i cardano jcli address account --testing"
+  shell: "docker exec -i cardano jcli address account {{ ACCOUNT_PK.stdout }} --testing"
   register: ACCOUNT_ADDR
 
 - name: Save account.txt file
