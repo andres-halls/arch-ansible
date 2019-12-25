@@ -17,6 +17,7 @@
     force_source: yes
     build:
       path: "{{ role_path }}/files"
+      pull: yes
       args:
         TIME_ZONE: "{{ naemon.time_zone }}"
 
