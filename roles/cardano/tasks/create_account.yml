@@ -4,16 +4,16 @@
   register: ACCOUNT_SK
 
 - name: Generate account public key
-  shell: "echo {{ ACCOUNT_SK }} | docker exec -i cardano jcli key to-public"
+  shell: "echo {{ ACCOUNT_SK.stdout }} | docker exec -i cardano jcli key to-public"
   register: ACCOUNT_PK
 
 - name: Generate account address
-  shell: "echo {{ ACCOUNT_PK }} | docker exec -i cardano jcli address account - --testing"
+  shell: "echo {{ ACCOUNT_PK.stdout }} | docker exec -i cardano jcli address account --testing"
   register: ACCOUNT_ADDR
 
 - name: Save account.txt file
   lineinfile: path="{{ cardano.base_dir }}/account.txt" line="{{ item.line }}" create=yes
   with_items:
-    - { line: "ACCOUNT_SK: {{ ACCOUNT_SK }}" }
-    - { line: "ACCOUNT_PK: {{ ACCOUNT_PK }}" }
-    - { line: "ACCOUNT_ADDR: {{ ACCOUNT_ADDR }}" }
+    - { line: "ACCOUNT_SK: {{ ACCOUNT_SK.stdout }}" }
+    - { line: "ACCOUNT_PK: {{ ACCOUNT_PK.stdout }}" }
+    - { line: "ACCOUNT_ADDR: {{ ACCOUNT_ADDR.stdout }}" }
