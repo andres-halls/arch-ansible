@@ -1,6 +1,6 @@
 FROM xetusoss/naemon:latest
 
-ADD init.sh /init.sh
+COPY init.sh /init.sh
 RUN /init.sh && rm /init.sh
 
 # install pnp4nagios dependencies
@@ -42,6 +42,6 @@ RUN mv /etc/httpd/conf.d/pnp4nagios.conf /etc/apache2/conf-available && \
 ARG TIME_ZONE=Etc/UTC
 RUN ln -sf "/usr/share/zoneinfo/$TIME_ZONE" /etc/localtime && echo "$TIME_ZONE" > /etc/timezone
 
-VOLUME ["/usr/local/pnp4nagios/var"]
-ADD run.sh /run.sh
+VOLUME ["/data", "/usr/local/pnp4nagios/var"]
+COPY run.sh /run.sh
 ENTRYPOINT ["/run.sh"]
