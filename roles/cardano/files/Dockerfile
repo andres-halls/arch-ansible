@@ -6,8 +6,8 @@ RUN apk add --no-cache --upgrade curl wget tzdata
 COPY config.yaml /stakepool-config.yaml
 ARG LISTEN_ADDR='/ip4/0.0.0.0/tcp/3000'
 ARG PUBLIC_ADDR='/ip4/0.0.0.0/tcp/3000'
-RUN sed -i "s/\"listen_address\": \".*\"/\"listen_address\": \"$LISTEN_ADDR\"/" /stakepool-config.yaml && \
-    sed -i "s/\"public_address\": \".*\"/\"public_address\": \"$PUBLIC_ADDR\"/" /stakepool-config.yaml
+RUN sed -i "s|\"listen_address\": \".*\"|\"listen_address\": \"$LISTEN_ADDR\"|" /stakepool-config.yaml && \
+    sed -i "s|\"public_address\": \".*\"|\"public_address\": \"$PUBLIC_ADDR\"|" /stakepool-config.yaml
 
 # set time zone
 ARG TIME_ZONE=Etc/UTC
