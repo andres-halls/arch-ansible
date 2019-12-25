@@ -15,6 +15,7 @@
       args:
         LISTEN_ADDR: "{{ cardano.listen_addr }}"
         PUBLIC_ADDR: "{{ cardano.public_addr }}"
+        JORMUNGANDR_VERS: "{{ cardano.jormungandr_version }}"
         TIME_ZONE: "{{ cardano.time_zone }}"
 
 - name: Run jormungandr docker container

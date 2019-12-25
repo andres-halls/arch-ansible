@@ -6,4 +6,5 @@ cardano:
   port: 3000
   listen_addr: '/ip4/0.0.0.0/tcp/3000'
   public_addr: '/ip4/0.0.0.0/tcp/3000'
+  jormungandr_version: 'v0.8.3'
   genesis_hash: '8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676'
