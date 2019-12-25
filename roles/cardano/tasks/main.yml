@@ -7,10 +7,14 @@
 - name: Build jormungandr image
   docker_image:
     name: 'local/jormungandr'
-    force: yes
-    path: "{{ role_path }}/files"
-    buildargs:
-      TIME_ZONE: "{{ cardano.time_zone }}"
+    source: 'build'
+    force_source: yes
+    build:
+      path: "{{ role_path }}/files"
+      args:
+        LISTEN_ADDR: "{{ cardano.listen_addr }}"
+        PUBLIC_ADDR: "{{ cardano.public_addr }}"
+        TIME_ZONE: "{{ cardano.time_zone }}"
 
 - name: Run jormungandr docker container
   docker_container:
@@ -24,7 +28,4 @@
       - "{{ cardano.port }}:3000"
     volumes:
       - "{{ cardano.data_dir }}:/data"
-    env:
-      LISTEN_ADDR: "{{ cardano.listen_addr }}"
-      PUBLIC_ADDR: "{{ cardano.public_addr }}"
     command: "jormungandr --genesis-block-hash {{ cardano.genesis_hash }} --config /stakepool-config.yaml"
