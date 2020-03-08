@@ -1,4 +1,4 @@
-#!/usr/bin/env -S ansible-playbook -e @vars.yml --vault-id @prompt
+#!/usr/bin/env -S ansible-playbook
 ---
 - hosts: all
   roles:

@@ -2,5 +2,3 @@
 *.retry
 hosts*.y*
 vars*.y*
-inventory/*
-!inventory/localhost.yml
