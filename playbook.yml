@@ -78,7 +78,3 @@
     become: yes
     tags: [ghost, docker, letsencrypt]
     when: install.ghost
-  - role: cardano
-    become: yes
-    tags: [cardano, docker]
-    when: install.cardano
