@@ -39,6 +39,9 @@ tasks:
   update_series:
     rss: {{ flexget.rss_url }}
     all_series: yes
+    sort_by:
+      field: quality
+      reverse: yes
     transmission:
       host: 172.17.0.1
       port: 9091

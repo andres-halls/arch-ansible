@@ -28,6 +28,9 @@
       - "{{ transmission.watch_dir }}:/watch"
     env:
       TZ: "{{ transmission.time_zone }}"
+      USER: "{{ transmission.web_user }}"
+      PASS: "{{ transmission.web_passwd }}"
+      WHITELIST: "{{ transmission.host_whitelist }}"
       PUID: "{% if install.plex %}{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}{% else %}{{ transmission.uid }}{% endif %}"
       PGID: "{% if install.plex %}{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ transmission.gid }}{% endif %}"
 
@@ -35,33 +38,6 @@
   docker_container:
     name: transmission
     state: stopped
-
-- name: Enable web auth
-  lineinfile:
-    path: "{{ transmission.config_dir }}/settings.json"
-    regexp: 'rpc-authentication-required'
-    line: '    "rpc-authentication-required": true,'
-  when: transmission.web_user
-
-- name: Set web username
-  lineinfile:
-    path: "{{ transmission.config_dir }}/settings.json"
-    regexp: 'rpc-username'
-    line: '    "rpc-username": "{{ transmission.web_user }}",'
-  when: transmission.web_user
-
-- name: Set web password
-  lineinfile:
-    path: "{{ transmission.config_dir }}/settings.json"
-    regexp: 'rpc-password'
-    line: '    "rpc-password": "{{ transmission.web_passwd }}",'
-  when: transmission.web_user
-
-- name: Add hostnames to whitelist
-  lineinfile:
-    path: "{{ transmission.config_dir }}/settings.json"
-    regexp: 'rpc-host-whitelist'
-    line: '    "rpc-host-whitelist": "{{ transmission.host_whitelist }}",'
 
 - name: Deploy torrent done script
   template:
