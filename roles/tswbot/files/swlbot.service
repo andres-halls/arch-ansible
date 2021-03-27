@@ -3,8 +3,8 @@ Description=SWL Chat Bot
 After=network-online.target
 
 [Service]
-User=http
-Group=http
+User=nobody
+Group=nobody
 Type=simple
 ExecStart=/srv/irc/swl/swlbot
 ExecReload=/usr/bin/kill -USR1 $MAINPID

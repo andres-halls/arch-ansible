@@ -84,6 +84,9 @@
       - "/var/run/docker.sock:/var/run/docker.sock"
   when: gitlab.runner
 
+- name: Install rsync in gitlab runner docker container
+  command: docker exec gitlab-runner bash -c 'apt-get update && apt-get -y install rsync'
+
 - name: Deploy gitlab registry nginx vhost
   include_tasks: deploy_nginx_vhost.yml
   vars:
@@ -91,4 +94,6 @@
     http_port: "{{ gitlab.registry_port }}"
     logs_dir: "{{ gitlab.logs_dir }}"
     ssl: gitlab.ssl_enabled
+    server_block_beginning: |2
+          client_max_body_size 0;
   when: gitlab.nginx_proxy and gitlab.registry
