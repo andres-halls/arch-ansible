@@ -3,8 +3,8 @@ Description=SWL Chat Bot - Sanctuary
 After=network-online.target
 
 [Service]
-User=nobody
-Group=nobody
+User=http
+Group=http
 Type=simple
 ExecStart=/srv/irc/sanctuary/sanctbot
 ExecReload=/usr/bin/kill -USR1 $MAINPID
