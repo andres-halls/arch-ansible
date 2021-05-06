@@ -1,4 +1,4 @@
 ---
 dependencies:
   - { role: docker }
-  - { role: plex, when: install.plex }
+  - { role: plex, when: install_plex }

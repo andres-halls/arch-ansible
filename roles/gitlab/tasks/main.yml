@@ -2,9 +2,9 @@
 - name: Ensure gitlab directory structure exists
   file: dest="{{ item }}" recurse=yes state=directory
   with_items:
-    - "{{ gitlab.config_dir }}"
-    - "{{ gitlab.logs_dir }}"
-    - "{{ gitlab.data_dir }}"
+    - "{{ gitlab_config_dir }}"
+    - "{{ gitlab_logs_dir }}"
+    - "{{ gitlab_data_dir }}"
 
 - name: Pull latest Gitlab image and run docker container
   docker_container:
@@ -14,30 +14,30 @@
     state: started
     recreate: yes
     restart_policy: always
-    hostname: "{{ gitlab.host_name }}"
+    hostname: "{{ gitlab_host_name }}"
     ports:
-      - "{{ gitlab.ssh_port }}:22"
-      - "{{ gitlab.http_port }}:80"
-      - "{{ gitlab.https_port }}:443"
-      - "{{ gitlab.registry_port }}:{% if gitlab.registry_port.split(':') | count == 2 %}{{ gitlab.registry_port.split(':')[1] }}{% else %}{{ gitlab.registry_port }}{% endif %}"
+      - "{{ gitlab_ssh_port }}:22"
+      - "{{ gitlab_http_port }}:80"
+      - "{{ gitlab_https_port }}:443"
+      - "{{ gitlab_registry_port }}:{% if gitlab_registry_port.split(':') | count == 2 %}{{ gitlab_registry_port.split(':')[1] }}{% else %}{{ gitlab_registry_port }}{% endif %}"
     volumes:
-      - "{{ gitlab.config_dir }}:/etc/gitlab"
-      - "{{ gitlab.logs_dir }}:/var/log/gitlab"
-      - "{{ gitlab.data_dir }}:/var/opt/gitlab"
+      - "{{ gitlab_config_dir }}:/etc/gitlab"
+      - "{{ gitlab_logs_dir }}:/var/log/gitlab"
+      - "{{ gitlab_data_dir }}:/var/opt/gitlab"
     env:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url '{{ gitlab.host }}'
-        gitlab_rails['gitlab_shell_ssh_port'] = {{ gitlab.ssh_port }}
-        {% if gitlab.registry and gitlab.registry_host != '' %}registry_external_url '{{ gitlab.registry_protocol }}://{{ gitlab.registry_host }}'{% endif %}
+        external_url '{{ gitlab_host }}'
+        gitlab_rails['gitlab_shell_ssh_port'] = {{ gitlab_ssh_port }}
+        {% if gitlab_registry and gitlab_registry_host != '' %}registry_external_url '{{ gitlab_registry_protocol }}://{{ gitlab_registry_host }}'{% endif %}
 
-        {% if gitlab.nginx_proxy and gitlab.ssl_enabled %}
+        {% if gitlab_nginx_proxy and gitlab_ssl_enabled %}
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
         nginx['hsts_max_age'] = 0
-        {% if gitlab.registry_port.split(':') | count == 2 %}
-        registry_nginx['listen_port'] = {{ gitlab.registry_port.split(':')[1] }}
+        {% if gitlab_registry_port.split(':') | count == 2 %}
+        registry_nginx['listen_port'] = {{ gitlab_registry_port.split(':')[1] }}
         {% else %}
-        registry_nginx['listen_port'] = {{ gitlab.registry_port }}
+        registry_nginx['listen_port'] = {{ gitlab_registry_port }}
         {% endif %}
 
         registry_nginx['listen_https'] = false
@@ -53,22 +53,22 @@
 - name: Deploy gitlab nginx vhost
   include_tasks: deploy_nginx_vhost.yml
   vars:
-    host_name: "{{ gitlab.host_name }}"
-    http_port: "{{ gitlab.http_port }}"
-    logs_dir: "{{ gitlab.logs_dir }}"
-    ssl: gitlab.ssl_enabled
+    host_name: "{{ gitlab_host_name }}"
+    http_port: "{{ gitlab_http_port }}"
+    logs_dir: "{{ gitlab_logs_dir }}"
+    ssl: gitlab_ssl_enabled
     server_block_beginning: |2
           client_max_body_size 10m;
     location_block_ending: |
-      {% if gitlab.ssl_enabled %}
+      {% if gitlab_ssl_enabled %}
               proxy_set_header X-Forwarded-Port 443;
               proxy_set_header X-Forwarded-Ssl on;
       {% endif %}
-  when: gitlab.nginx_proxy
+  when: gitlab_nginx_proxy
 
 - name: Create gitlab-runner config dir
-  file: dest="{{ gitlab.runner_dir }}" recurse=yes state=directory
-  when: gitlab.runner
+  file: dest="{{ gitlab_runner_dir }}" recurse=yes state=directory
+  when: gitlab_runner
 
 - name: Pull latest Gitlab runner image and run docker container
   docker_container:
@@ -80,9 +80,9 @@
     restart_policy: always
     hostname: 'gitlab-runner'
     volumes:
-      - "{{ gitlab.runner_dir }}:/etc/gitlab-runner"
+      - "{{ gitlab_runner_dir }}:/etc/gitlab-runner"
       - "/var/run/docker.sock:/var/run/docker.sock"
-  when: gitlab.runner
+  when: gitlab_runner
 
 - name: Install rsync in gitlab runner docker container
   command: docker exec gitlab-runner bash -c 'apt-get update && apt-get -y install rsync'
@@ -90,10 +90,10 @@
 - name: Deploy gitlab registry nginx vhost
   include_tasks: deploy_nginx_vhost.yml
   vars:
-    host_name: "{{ gitlab.registry_host }}"
-    http_port: "{{ gitlab.registry_port }}"
-    logs_dir: "{{ gitlab.logs_dir }}"
-    ssl: gitlab.ssl_enabled
+    host_name: "{{ gitlab_registry_host }}"
+    http_port: "{{ gitlab_registry_port }}"
+    logs_dir: "{{ gitlab_logs_dir }}"
+    ssl: gitlab_ssl_enabled
     server_block_beginning: |2
           client_max_body_size 0;
-  when: gitlab.nginx_proxy and gitlab.registry
+  when: gitlab_nginx_proxy and gitlab_registry

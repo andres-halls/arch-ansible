@@ -23,8 +23,8 @@
 
 - name: Ensure nginx snippets dir exists
   file: dest=/etc/nginx/snippets state=directory
-  when: install.nginx
+  when: install_nginx
 
 - name: Deploy nginx letsencrypt config
   template: src=letsencrypt.conf.j2 dest=/etc/nginx/snippets/letsencrypt.conf
-  when: install.nginx
+  when: install_nginx

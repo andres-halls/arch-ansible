@@ -1,10 +1,9 @@
 ---
-ghost:
-  content_dir: '/srv/ghost/content'
-  logs_dir: '/srv/ghost/logs'
-  host_name: 'ghost'
-  url: 'localhost:2368'
-  http_port: '80'
-  nginx_proxy: yes
-  ssl_enabled: yes
-  ip_auth: no
+ghost_content_dir: '/srv/ghost/content'
+ghost_logs_dir: '/srv/ghost/logs'
+ghost_host_name: 'ghost'
+ghost_url: 'localhost:2368'
+ghost_http_port: '80'
+ghost_nginx_proxy: yes
+ghost_ssl_enabled: yes
+ghost_ip_auth: no

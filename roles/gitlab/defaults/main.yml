@@ -1,18 +1,17 @@
 ---
-gitlab:
-  config_dir: '/srv/gitlab/config'
-  logs_dir: '/srv/gitlab/logs'
-  data_dir: '/srv/gitlab/data'
-  runner_dir: '/srv/gitlab-runner/config'
-  ssh_port: '10022'
-  http_port: '127.0.0.1:10080'
-  https_port: '127.0.0.1:10443'
-  host_name: 'gitlab'
-  host: 'https://localhost'
-  registry: no
-  registry_host: ''
-  registry_protocol: 'https'
-  registry_port: '127.0.0.1:5001'
-  nginx_proxy: yes
-  ssl_enabled: yes
-  runner: yes
+gitlab_config_dir: '/srv/gitlab/config'
+gitlab_logs_dir: '/srv/gitlab/logs'
+gitlab_data_dir: '/srv/gitlab/data'
+gitlab_runner_dir: '/srv/gitlab-runner/config'
+gitlab_ssh_port: '10022'
+gitlab_http_port: '127.0.0.1:10080'
+gitlab_https_port: '127.0.0.1:10443'
+gitlab_host_name: 'gitlab'
+gitlab_host: 'https://localhost'
+gitlab_registry: no
+gitlab_registry_host: ''
+gitlab_registry_protocol: 'https'
+gitlab_registry_port: '127.0.0.1:5001'
+gitlab_nginx_proxy: yes
+gitlab_ssl_enabled: yes
+gitlab_runner: yes

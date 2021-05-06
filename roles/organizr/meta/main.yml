@@ -1,5 +1,5 @@
 ---
 dependencies:
   - { role: docker }
-  - { role: nginx, when: organizr.nginx_proxy }
-  - { role: letsencrypt, when: organizr.nginx_proxy and organizr.ssl_enabled }
+  - { role: nginx, when: organizr_nginx_proxy }
+  - { role: letsencrypt, when: organizr_nginx_proxy and organizr_ssl_enabled }

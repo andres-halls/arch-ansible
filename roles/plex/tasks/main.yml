@@ -4,15 +4,15 @@
 
 - name: Create plex user
   user: name=plex shell=/sbin/nologin
-  when: not getent_passwd.plex and plex.media_dir is match('/home/plex')
+  when: not getent_passwd.plex and plex_media_dir is match('/home/plex')
 
 - name: Ensure plex directory structure exists
   file: dest="{{ item }}" recurse=yes state=directory
   with_items:
-    - "{{ plex.config_dir }}"
-    - "{{ plex.transcode_dir }}"
-    - "{{ plex.media_dir }}"
-    - "{{ plex.logs_dir }}"
+    - "{{ plex_config_dir }}"
+    - "{{ plex_transcode_dir }}"
+    - "{{ plex_media_dir }}"
+    - "{{ plex_logs_dir }}"
 
 - name: Pull latest Plex Media Server image and run docker container
   docker_container:
@@ -22,36 +22,36 @@
     state: started
     recreate: yes
     restart_policy: always
-    hostname: "{{ plex.host_name }}"
-    exposed_ports: "{{ webtools_ports if plex.webtools else [] }}"
-    published_ports: "{{ plex_ports + webtools_ports if plex.webtools else plex_ports }}"
+    hostname: "{{ plex_host_name }}"
+    exposed_ports: "{{ webtools_ports if plex_webtools else [] }}"
+    published_ports: "{{ plex_ports + webtools_ports if plex_webtools else plex_ports }}"
     volumes:
-      - "{{ plex.config_dir }}:/config"
-      - "{{ plex.transcode_dir }}:/transcode"
-      - "{{ plex.media_dir }}:/data"
+      - "{{ plex_config_dir }}:/config"
+      - "{{ plex_transcode_dir }}:/transcode"
+      - "{{ plex_media_dir }}:/data"
     env:
-      TZ: "{{ plex.time_zone }}"
-      ADVERTISE_IP: "{{ plex.advertise_ip }}"
-      PLEX_UID: "{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}"
-      PLEX_GID: "{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}"
+      TZ: "{{ plex_time_zone }}"
+      ADVERTISE_IP: "{{ plex_advertise_ip }}"
+      PLEX_UID: "{% if plex_uid != '' %}{{ plex_uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}"
+      PLEX_GID: "{% if plex_gid != '' %}{{ plex_gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}"
 
 - name: Install WebTools plug-in
   include_tasks: webtools.yml
-  when: plex.webtools
+  when: plex_webtools
 
 - name: Install Tautulli
   include_tasks: tautulli.yml
-  when: plex.tautulli
+  when: plex_tautulli
 
 - name: Deploy plex nginx vhost
   include_tasks: deploy_nginx_vhost.yml
   vars:
-    host_name: "{{ plex.host_name }}"
+    host_name: "{{ plex_host_name }}"
     http_port: '32400'
-    logs_dir: "{{ plex.logs_dir }}"
-    ssl: "{{ plex.ssl_enabled }}"
+    logs_dir: "{{ plex_logs_dir }}"
+    ssl: "{{ plex_ssl_enabled }}"
     server_block_ending: |
-      {% if plex.webtools %}
+      {% if plex_webtools %}
           location /webtools {
               proxy_pass http://172.17.0.1:33400/webtools;
               proxy_set_header Host $host;
@@ -62,7 +62,7 @@
           }
       {% endif %}
 
-      {% if plex.tautulli %}
+      {% if plex_tautulli %}
           location /tautulli {
               proxy_pass http://172.17.0.1:8181;
               proxy_set_header Host $host;
@@ -72,7 +72,7 @@
               proxy_set_header X-Forwarded-Proto $scheme;
           }
       {% endif %}
-  when: plex.nginx_proxy
+  when: plex_nginx_proxy
 
 - name: Deploy plex update systemd timer
   copy: src="{{ item }}" dest="/etc/systemd/system/{{ item }}"

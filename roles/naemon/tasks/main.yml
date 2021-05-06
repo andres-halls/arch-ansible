@@ -2,13 +2,13 @@
 - name: Ensure Naemon directory structure exists
   file: dest="{{ item }}" recurse=yes state=directory
   with_items:
-    - "{{ naemon.data_dir }}"
-    - "{{ naemon.logs_dir }}"
-    - "{{ naemon.pnp4nagios_dir }}"
+    - "{{ naemon_data_dir }}"
+    - "{{ naemon_logs_dir }}"
+    - "{{ naemon_pnp4nagios_dir }}"
 
 - name: Generate random thrukadmin password
   set_fact: random_pass="{{ lookup('password', '/dev/null length=12 chars=ascii_letters') }}"
-  when: naemon.web_admin_pass == ''
+  when: naemon_web_admin_pass == ''
 
 - name: Build Naemon+PNP4Nagios image
   docker_image:
@@ -19,7 +19,7 @@
       path: "{{ role_path }}/files"
       pull: yes
       args:
-        TIME_ZONE: "{{ naemon.time_zone }}"
+        TIME_ZONE: "{{ naemon_time_zone }}"
 
 - name: Run Naemon docker container
   docker_container:
@@ -28,33 +28,33 @@
     state: started
     recreate: yes
     restart_policy: always
-    hostname: "{{ naemon.host_name }}"
+    hostname: "{{ naemon_host_name }}"
     ports:
-      - "{{ naemon.http_port }}:80"
+      - "{{ naemon_http_port }}:80"
     volumes:
-      - "{{ naemon.data_dir }}:/data"
-      - "{{ naemon.pnp4nagios_dir }}:/usr/local/pnp4nagios/var"
+      - "{{ naemon_data_dir }}:/data"
+      - "{{ naemon_pnp4nagios_dir }}:/usr/local/pnp4nagios/var"
     env:
-      SMTP_HOST: "{{ naemon.smtp_host }}"
-      SMTP_PORT: "{{ naemon.smtp_port }}"
-      SMTP_LOGIN: "{{ naemon.smtp_user }}"
-      SMTP_PASS: "{{ naemon.smtp_pass }}"
-      NOTIFICATION_FROM: "{{ naemon.notification_from }}"
-      WEB_ADMIN_PASSWORD: "{% if naemon.web_admin_pass != '' %}{{ naemon.web_admin_pass }}{% else %}{{ random_pass }}{% endif %}"
+      SMTP_HOST: "{{ naemon_smtp_host }}"
+      SMTP_PORT: "{{ naemon_smtp_port }}"
+      SMTP_LOGIN: "{{ naemon_smtp_user }}"
+      SMTP_PASS: "{{ naemon_smtp_pass }}"
+      NOTIFICATION_FROM: "{{ naemon_notification_from }}"
+      WEB_ADMIN_PASSWORD: "{% if naemon_web_admin_pass != '' %}{{ naemon_web_admin_pass }}{% else %}{{ random_pass }}{% endif %}"
 
 - name: Deploy naemon nginx vhost
   include_tasks: deploy_nginx_vhost.yml
   vars:
-    host_name: "{{ naemon.host_name }}"
-    http_port: "{{ naemon.http_port }}"
-    logs_dir: "{{ naemon.logs_dir }}"
-    ssl: "{{ naemon.ssl_enabled }}"
+    host_name: "{{ naemon_host_name }}"
+    http_port: "{{ naemon_http_port }}"
+    logs_dir: "{{ naemon_logs_dir }}"
+    ssl: "{{ naemon_ssl_enabled }}"
     server_block_beginning: |
-      {% if naemon.ip_auth %}
+      {% if naemon_ip_auth %}
           include snippets/ip_auth.conf;
       {% endif %}
     location_block_beginning: |+
-      {% if naemon.ip_auth %}
+      {% if naemon_ip_auth %}
               satisfy any;
               allow 192.168.88.0/24;
               allow 172.17.0.0/24;
@@ -62,10 +62,10 @@
               auth_request /auth-ip;
 
       {% endif %}
-  when: naemon.nginx_proxy
+  when: naemon_nginx_proxy
 
 - name: Display Thruk user and pass
   debug:
     msg:
       - 'User: thrukadmin'
-      - "Pass: {% if naemon.web_admin_pass != '' %}{{ naemon.web_admin_pass }}{% else %}{{ random_pass }}{% endif %}"
+      - "Pass: {% if naemon_web_admin_pass != '' %}{{ naemon_web_admin_pass }}{% else %}{{ random_pass }}{% endif %}"

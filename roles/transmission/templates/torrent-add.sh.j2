@@ -1,7 +1,7 @@
 #!/bin/bash
 
-{% if transmission.web_user != '' %}
-/usr/bin/transmission-remote --auth '{{transmission.web_user}}:{{transmission.web_passwd}}' -t $TR_TORRENT_ID -r
+{% if transmission_web_user != '' %}
+/usr/bin/transmission-remote --auth '{{transmission_web_user}}:{{transmission_web_passwd}}' -t $TR_TORRENT_ID -r
 {% else %}
 /usr/bin/transmission-remote -t $TR_TORRENT_ID -r
 {% endif %}

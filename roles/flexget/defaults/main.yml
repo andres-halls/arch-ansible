@@ -1,9 +1,8 @@
 ---
-flexget:
-  config_dir: '/srv/flexget/config'
-  host_name: 'flexget'
-  time_zone: 'Etc/UTC'
-  web_passwd: 'yourhorriblesecret69'
-  uid: ''
-  gid: ''
-  rss_url: 'http://showrss.info'
+flexget_config_dir: '/srv/flexget/config'
+flexget_host_name: 'flexget'
+flexget_time_zone: 'Etc/UTC'
+flexget_web_passwd: 'yourhorriblesecret69'
+flexget_uid: ''
+flexget_gid: ''
+flexget_rss_url: 'http://showrss.info'

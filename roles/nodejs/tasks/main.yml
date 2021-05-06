@@ -10,4 +10,4 @@
 
 - name: Set PM2_HOME in zshrc
   lineinfile: path=/etc/zsh/zshrc line='export PM2_HOME=/srv/http/.pm2'
-  when: install.zsh
+  when: install_zsh

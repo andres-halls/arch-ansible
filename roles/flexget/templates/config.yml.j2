@@ -37,7 +37,7 @@ templates:
 
 tasks:
   update_series:
-    rss: {{ flexget.rss_url }}
+    rss: {{ flexget_rss_url }}
     all_series: yes
     sort_by:
       field: quality
@@ -47,9 +47,9 @@ tasks:
       port: 9091
       path: /downloads/tv_shows/{{ '{{' }}series_name{{ '}}' }}/Season {{ '{{' }}series_season{{ '}}' }}
       add_paused: no
-      {% if transmission.web_user != '' %}
-      username: {{ transmission.web_user }}
-      password: {{ transmission.web_passwd }}
+      {% if transmission_web_user != '' %}
+      username: {{ transmission_web_user }}
+      password: {{ transmission_web_passwd }}
       {% endif %}
 
 schedules:

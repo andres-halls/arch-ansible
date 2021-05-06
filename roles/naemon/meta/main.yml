@@ -1,5 +1,5 @@
 ---
 dependencies:
   - { role: docker }
-  - { role: nginx, when: naemon.nginx_proxy }
-  - { role: letsencrypt, when: naemon.nginx_proxy and naemon.ssl_enabled }
+  - { role: nginx, when: naemon_nginx_proxy }
+  - { role: letsencrypt, when: naemon_nginx_proxy and naemon_ssl_enabled }

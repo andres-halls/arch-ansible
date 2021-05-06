@@ -33,4 +33,4 @@
     name: nodejs
     apply:
       become: yes
-  when: install.nodejs
+  when: install_nodejs

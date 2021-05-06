@@ -2,9 +2,9 @@
 - name: Ensure Ghost directory structure exists
   file: dest="{{ item }}" recurse=yes state=directory
   with_items:
-    - "{{ ghost.content_dir }}"
-    - "{{ ghost.content_dir }}/themes"
-    - "{{ ghost.logs_dir }}"
+    - "{{ ghost_content_dir }}"
+    - "{{ ghost_content_dir }}/themes"
+    - "{{ ghost_logs_dir }}"
 
 - name: Pull latest Ghost image and run docker container
   docker_container:
@@ -14,13 +14,13 @@
     state: started
     recreate: yes
     restart_policy: always
-    hostname: "{{ ghost.host_name }}"
+    hostname: "{{ ghost_host_name }}"
     ports:
-      - "{{ ghost.http_port }}:2368/tcp"
+      - "{{ ghost_http_port }}:2368/tcp"
     volumes:
-      - "{{ ghost.content_dir }}:/var/lib/ghost/content"
+      - "{{ ghost_content_dir }}:/var/lib/ghost/content"
     env:
-      url: "{{ ghost.url }}"
+      url: "{{ ghost_url }}"
 
 - name: Download latest Ghostium theme
   shell: "wget https://github.com/oswaldoacauan/ghostium/archive/master.zip -O ghostium-master.zip"
@@ -34,10 +34,10 @@
 
 - name: Install Ghostium theme
   shell: |
-    if [ ! -d "{{ ghost.content_dir }}/themes/ghostium-master" ]; then
-      cp -r ghostium-master "{{ ghost.content_dir }}/themes/"
+    if [ ! -d "{{ ghost_content_dir }}/themes/ghostium-master" ]; then
+      cp -r ghostium-master "{{ ghost_content_dir }}/themes/"
     else
-      rsync -a --exclude="partials/custom" ghostium-master "{{ ghost.content_dir }}/themes/"
+      rsync -a --exclude="partials/custom" ghostium-master "{{ ghost_content_dir }}/themes/"
     fi
     rm -r ghostium-master
   args:
@@ -45,7 +45,7 @@
 
 - name: Change Ghostium theme folder owner and group
   file:
-    dest: "{{ ghost.content_dir }}/themes/ghostium-master"
+    dest: "{{ ghost_content_dir }}/themes/ghostium-master"
     recurse: yes
     owner: 1000
     group: 1000
@@ -53,12 +53,12 @@
 - name: Deploy Ghost nginx vhost
   include_tasks: deploy_nginx_vhost.yml
   vars:
-    host_name: "{{ ghost.host_name }}"
-    http_port: "{{ ghost.http_port }}"
-    logs_dir: "{{ ghost.logs_dir }}"
-    ssl: "{{ ghost.ssl_enabled }}"
+    host_name: "{{ ghost_host_name }}"
+    http_port: "{{ ghost_http_port }}"
+    logs_dir: "{{ ghost_logs_dir }}"
+    ssl: "{{ ghost_ssl_enabled }}"
     server_block_beginning: |
-      {% if ghost.ip_auth %}
+      {% if ghost_ip_auth %}
           include snippets/ip_auth.conf;
       {% endif %}
 
@@ -69,11 +69,11 @@
           }
 
           location ^~ /assets/ {
-              root {{ ghost.content_dir }}/themes/ghostium-master;
+              root {{ ghost_content_dir }}/themes/ghostium-master;
           }
 
           location ^~ /content/images/ {
-              alias {{ ghost.content_dir }}/images/;
+              alias {{ ghost_content_dir }}/images/;
           }
 
     location_block_beginning: |2+
@@ -88,7 +88,7 @@
               add_header X-Cache-Status $upstream_cache_status;
 
     server_block_ending: |
-      {% if ghost.ip_auth %}
+      {% if ghost_ip_auth %}
           location ~ ^/(ghost|p)/ {
               satisfy any;
               allow 192.168.88.0/24;
@@ -96,10 +96,10 @@
               deny all;
               auth_request /auth-ip;
 
-      {% if ghost.http_port.split(':') | count == 2 %}
-              proxy_pass http://127.0.0.1:{{ ghost.http_port.split(':')[1] }};
+      {% if ghost_http_port.split(':') | count == 2 %}
+              proxy_pass http://127.0.0.1:{{ ghost_http_port.split(':')[1] }};
       {% else %}
-              proxy_pass http://127.0.0.1:{{ ghost.http_port }};
+              proxy_pass http://127.0.0.1:{{ ghost_http_port }};
       {% endif %}
               proxy_set_header Host $host;
               proxy_set_header X-Real-IP $remote_addr;
@@ -107,4 +107,4 @@
               proxy_set_header X-Forwarded-Proto $scheme;
           }
       {% endif %}
-  when: ghost.nginx_proxy
+  when: ghost_nginx_proxy

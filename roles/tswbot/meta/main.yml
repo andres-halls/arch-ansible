@@ -1,4 +1,4 @@
 ---
 dependencies:
   - { role: systemd }
-  - { role: syslog-ng, when: install.syslog_ng }
+  - { role: syslog-ng, when: install_syslog_ng }

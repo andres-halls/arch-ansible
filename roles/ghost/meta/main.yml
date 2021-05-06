@@ -2,5 +2,5 @@
 dependencies:
   - { role: rsync }
   - { role: docker }
-  - { role: nginx, when: ghost.nginx_proxy }
-  - { role: letsencrypt, when: ghost.nginx_proxy and ghost.ssl_enabled }
+  - { role: nginx, when: ghost_nginx_proxy }
+  - { role: letsencrypt, when: ghost_nginx_proxy and ghost_ssl_enabled }

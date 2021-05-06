@@ -1,14 +1,14 @@
 ---
 - name: Check if plex user exists
   getent: database=passwd key=plex fail_key=no
-  when: install.plex
+  when: install_plex
 
 - name: Ensure transmission directory structure exists
   file: dest="{{ item }}" recurse=yes state=directory
   with_items:
-    - "{{ transmission.config_dir }}"
-    - "{% if install.plex %}{{ plex.media_dir }}{% else %}{{ transmission.downloads_dir }}{% endif %}"
-    - "{{ transmission.watch_dir }}"
+    - "{{ transmission_config_dir }}"
+    - "{% if install_plex %}{{ plex_media_dir }}{% else %}{{ transmission_downloads_dir }}{% endif %}"
+    - "{{ transmission_watch_dir }}"
 
 - name: Pull latest Transmission image and run docker container
   docker_container:
@@ -18,21 +18,21 @@
     state: started
     recreate: yes
     restart_policy: always
-    hostname: "{{ transmission.host_name }}"
+    hostname: "{{ transmission_host_name }}"
     ports:
       - "9091:9091"
       - "51413:51413/udp"
     volumes:
-      - "{{ transmission.config_dir }}:/config"
-      - "{% if install.plex %}{{ plex.media_dir }}{% else %}{{ transmission.downloads_dir }}{% endif %}:/downloads"
-      - "{{ transmission.watch_dir }}:/watch"
+      - "{{ transmission_config_dir }}:/config"
+      - "{% if install_plex %}{{ plex_media_dir }}{% else %}{{ transmission_downloads_dir }}{% endif %}:/downloads"
+      - "{{ transmission_watch_dir }}:/watch"
     env:
-      TZ: "{{ transmission.time_zone }}"
-      USER: "{{ transmission.web_user }}"
-      PASS: "{{ transmission.web_passwd }}"
-      WHITELIST: "{{ transmission.host_whitelist }}"
-      PUID: "{% if install.plex %}{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}{% else %}{{ transmission.uid }}{% endif %}"
-      PGID: "{% if install.plex %}{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ transmission.gid }}{% endif %}"
+      TZ: "{{ transmission_time_zone }}"
+      USER: "{{ transmission_web_user }}"
+      PASS: "{{ transmission_web_passwd }}"
+      WHITELIST: "{{ transmission_host_whitelist }}"
+      PUID: "{% if install_plex %}{% if plex_uid != '' %}{{ plex_uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}{% else %}{{ transmission_uid }}{% endif %}"
+      PGID: "{% if install_plex %}{% if plex_gid != '' %}{{ plex_gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ transmission_gid }}{% endif %}"
 
 - name: Stop transmission docker container before config change
   docker_container:
@@ -42,25 +42,25 @@
 - name: Deploy torrent done script
   template:
     src: "torrent-add.sh.j2"
-    dest: "{{ transmission.config_dir }}/torrent-add.sh"
-    owner: "{% if install.plex %}{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}{% else %}{{ transmission.uid }}{% endif %}"
-    group: "{% if install.plex %}{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ transmission.gid }}{% endif %}"
+    dest: "{{ transmission_config_dir }}/torrent-add.sh"
+    owner: "{% if install_plex %}{% if plex_uid != '' %}{{ plex_uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}{% else %}{{ transmission_uid }}{% endif %}"
+    group: "{% if install_plex %}{% if plex_gid != '' %}{{ plex_gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ transmission_gid }}{% endif %}"
 
 - name: Enable torrent done script
   lineinfile:
-    path: "{{ transmission.config_dir }}/settings.json"
+    path: "{{ transmission_config_dir }}/settings.json"
     regexp: 'script-torrent-done-enabled'
     line: '    "script-torrent-done-enabled": true,'
 
 - name: Remove torrent after completion
   lineinfile:
-    path: "{{ transmission.config_dir }}/settings.json"
+    path: "{{ transmission_config_dir }}/settings.json"
     regexp: 'script-torrent-done-filename'
     line: '    "script-torrent-done-filename": "/config/torrent-add.sh",'
 
 - name: Download one torrent at a time
   lineinfile:
-    path: "{{ transmission.config_dir }}/settings.json"
+    path: "{{ transmission_config_dir }}/settings.json"
     regexp: 'download-queue-size'
     line: '    "download-queue-size": 1,'
 

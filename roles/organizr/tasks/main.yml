@@ -2,8 +2,8 @@
 - name: Ensure Organizr directory structure exists
   file: dest="{{ item }}" recurse=yes state=directory
   with_items:
-    - "{{ organizr.config_dir }}"
-    - "{{ organizr.logs_dir }}"
+    - "{{ organizr_config_dir }}"
+    - "{{ organizr_logs_dir }}"
 
 - name: Pull latest Organizr image and run docker container
   docker_container:
@@ -13,24 +13,24 @@
     state: started
     recreate: yes
     restart_policy: always
-    hostname: "{{ organizr.host_name }}"
+    hostname: "{{ organizr_host_name }}"
     ports:
-      - "{{ organizr.http_port }}:80/tcp"
+      - "{{ organizr_http_port }}:80/tcp"
     volumes:
-      - "{{ organizr.config_dir }}:/config"
+      - "{{ organizr_config_dir }}:/config"
     env:
-      PUID: "{{ organizr.uid }}"
-      PGID: "{{ organizr.gid }}"
+      PUID: "{{ organizr_uid }}"
+      PGID: "{{ organizr_gid }}"
 
 - name: Deploy nginx organizr auth config snippet
   template: src=nginx_organizr_auth.conf.j2 dest="/etc/nginx/snippets/organizr_auth.conf"
-  when: install.nginx
+  when: install_nginx
 
 - name: Deploy organizr nginx vhost
   include_tasks: deploy_nginx_vhost.yml
   vars:
-    host_name: "{{ organizr.host_name }}"
-    http_port: "{{ organizr.http_port }}"
-    logs_dir: "{{ organizr.logs_dir }}"
-    ssl: "{{ organizr.ssl_enabled }}"
-  when: organizr.nginx_proxy
+    host_name: "{{ organizr_host_name }}"
+    http_port: "{{ organizr_http_port }}"
+    logs_dir: "{{ organizr_logs_dir }}"
+    ssl: "{{ organizr_ssl_enabled }}"
+  when: organizr_nginx_proxy

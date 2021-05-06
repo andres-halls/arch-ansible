@@ -2,24 +2,23 @@
 aur_user: aur_builder
 aur_sudo: yes
 vhost_config_file: nginx_vhost.conf.j2
-install:
-  aur: yes
-  zsh: yes
-  vim: yes
-  tools: yes
-  sshd: yes
-  syslog_ng: yes
-  nginx: no
-  letsencrypt: no
-  nodejs: no
-  tswbot: no
-  redis: no
-  mongodb: no
-  docker: no
-  gitlab: no
-  naemon: no
-  plex: no
-  transmission: no
-  flexget: no
-  organizr: no
-  ghost: no
+install_aur: yes
+install_zsh: yes
+install_vim: yes
+install_tools: yes
+install_sshd: yes
+install_syslog_ng: yes
+install_nginx: no
+install_letsencrypt: no
+install_nodejs: no
+install_tswbot: no
+install_redis: no
+install_mongodb: no
+install_docker: no
+install_gitlab: no
+install_naemon: no
+install_plex: no
+install_transmission: no
+install_flexget: no
+install_organizr: no
+install_ghost: no

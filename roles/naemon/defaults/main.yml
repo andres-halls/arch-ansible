@@ -1,17 +1,16 @@
 ---
-naemon:
-  host_name: 'naemon'
-  data_dir: '/srv/naemon/data'
-  logs_dir: '/srv/naemon/logs'
-  pnp4nagios_dir: '/srv/naemon/data/pnp4nagios/var'
-  http_port: '127.0.0.1:11080'
-  smtp_host: ''
-  smtp_port: '25'
-  smtp_user: ''
-  smtp_pass: ''
-  notification_from: ''
-  web_admin_pass: ''
-  time_zone: 'Etc/UTC'
-  nginx_proxy: yes
-  ssl_enabled: yes
-  ip_auth: no
+naemon_host_name: 'naemon'
+naemon_data_dir: '/srv/naemon/data'
+naemon_logs_dir: '/srv/naemon/logs'
+naemon_pnp4nagios_dir: '/srv/naemon/data/pnp4nagios/var'
+naemon_http_port: '127.0.0.1:11080'
+naemon_smtp_host: ''
+naemon_smtp_port: '25'
+naemon_smtp_user: ''
+naemon_smtp_pass: ''
+naemon_notification_from: ''
+naemon_web_admin_pass: ''
+naemon_time_zone: 'Etc/UTC'
+naemon_nginx_proxy: yes
+naemon_ssl_enabled: yes
+naemon_ip_auth: no

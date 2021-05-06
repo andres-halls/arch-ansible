@@ -1,12 +1,12 @@
 ---
 - name: Check if plex user exists
   getent: database=passwd key=plex fail_key=no
-  when: install.plex
+  when: install_plex
 
 - name: Ensure flexget directory structure exists
   file: dest="{{ item }}" recurse=yes state=directory
   with_items:
-    - "{{ flexget.config_dir }}"
+    - "{{ flexget_config_dir }}"
 
 - name: Pull latest FlexGet image and run docker container
   docker_container:
@@ -16,22 +16,22 @@
     state: started
     recreate: yes
     restart_policy: always
-    hostname: "{{ flexget.host_name }}"
+    hostname: "{{ flexget_host_name }}"
     ports:
       - "5050:5050"
     volumes:
-      - "{{ flexget.config_dir }}:/config"
+      - "{{ flexget_config_dir }}:/config"
     env:
       TORRENT_PLUGIN: 'transmission'
-      WEB_PASSWD: "{{ flexget.web_passwd }}"
-      PUID: "{% if install.plex %}{% if plex.uid != '' %}{{ plex.uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}{% else %}{{ flexget.uid }}{% endif %}"
-      PGID: "{% if install.plex %}{% if plex.gid != '' %}{{ plex.gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ flexget.gid }}{% endif %}"
+      WEB_PASSWD: "{{ flexget_web_passwd }}"
+      PUID: "{% if install_plex %}{% if plex_uid != '' %}{{ plex_uid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[1] }}{% endif %}{% else %}{{ flexget_uid }}{% endif %}"
+      PGID: "{% if install_plex %}{% if plex_gid != '' %}{{ plex_gid }}{% elif getent_passwd.plex %}{{ getent_passwd.plex[2] }}{% endif %}{% else %}{{ flexget_gid }}{% endif %}"
 
 - name: Copy flexget config.yml
-  template: src=config.yml.j2 dest="{{ flexget.config_dir }}/config.yml" lstrip_blocks=yes
+  template: src=config.yml.j2 dest="{{ flexget_config_dir }}/config.yml" lstrip_blocks=yes
 
 - name: Change flexget docker container time zone
-  command: docker exec flexget bash -c 'ln -sf "/usr/share/zoneinfo/{{ flexget.time_zone }}" /etc/localtime && echo "{{ flexget.time_zone }}" > /etc/timezone'
+  command: docker exec flexget bash -c 'ln -sf "/usr/share/zoneinfo/{{ flexget_time_zone }}" /etc/localtime && echo "{{ flexget_time_zone }}" > /etc/timezone'
 
 - name: Deploy flexget update systemd timer
   copy: src="{{ item }}" dest="/etc/systemd/system/{{ item }}"

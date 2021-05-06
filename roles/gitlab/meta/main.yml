@@ -1,5 +1,5 @@
 ---
 dependencies:
   - { role: docker }
-  - { role: nginx, when: gitlab.nginx_proxy }
-  - { role: letsencrypt, when: gitlab.nginx_proxy and gitlab.ssl_enabled }
+  - { role: nginx, when: gitlab_nginx_proxy }
+  - { role: letsencrypt, when: gitlab_nginx_proxy and gitlab_ssl_enabled }

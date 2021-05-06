@@ -1,6 +1,6 @@
 ---
 - name: Ensure Tautulli directory exists
-  file: dest="{{ plex.tautulli_config_dir }}" recurse=yes state=directory
+  file: dest="{{ plex_tautulli_config_dir }}" recurse=yes state=directory
 
 - name: Pull latest Tautulli image and run docker container
   docker_container:
@@ -14,9 +14,9 @@
     ports:
       - "8181:8181/tcp"
     volumes:
-      - "{{ plex.tautulli_config_dir }}:/config"
-      - "{{ plex.config_dir }}/Library/Application Support/Plex Media Server/Logs:/logs:ro"
+      - "{{ plex_tautulli_config_dir }}:/config"
+      - "{{ plex_config_dir }}/Library/Application Support/Plex Media Server/Logs:/logs:ro"
     env:
-      TZ: "{{ plex.time_zone }}"
+      TZ: "{{ plex_time_zone }}"
       PUID: '0'
       PGID: '0'

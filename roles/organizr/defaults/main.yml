@@ -1,10 +1,9 @@
 ---
-organizr:
-  config_dir: '/srv/organizr/config'
-  logs_dir: '/srv/organizr/logs'
-  host_name: 'organizr'
-  uid: ''
-  gid: ''
-  http_port: '80'
-  nginx_proxy: yes
-  ssl_enabled: yes
+organizr_config_dir: '/srv/organizr/config'
+organizr_logs_dir: '/srv/organizr/logs'
+organizr_host_name: 'organizr'
+organizr_uid: ''
+organizr_gid: ''
+organizr_http_port: '80'
+organizr_nginx_proxy: yes
+organizr_ssl_enabled: yes

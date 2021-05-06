@@ -1,19 +1,18 @@
 ---
-plex:
-  config_dir: '/srv/plex/config'
-  transcode_dir: '/srv/plex/transcode'
-  logs_dir: '/srv/plex/logs'
-  media_dir: '/home/plex/media'
-  host_name: 'plex'
-  time_zone: 'Etc/UTC'
-  uid: ''
-  gid: ''
-  advertise_ip: ''
-  nginx_proxy: yes
-  ssl_enabled: yes
-  webtools: yes
-  tautulli: yes
-  tautulli_config_dir: '/srv/plex/tautulli'
+plex_config_dir: '/srv/plex/config'
+plex_transcode_dir: '/srv/plex/transcode'
+plex_logs_dir: '/srv/plex/logs'
+plex_media_dir: '/home/plex/media'
+plex_host_name: 'plex'
+plex_time_zone: 'Etc/UTC'
+plex_uid: ''
+plex_gid: ''
+plex_advertise_ip: ''
+plex_nginx_proxy: yes
+plex_ssl_enabled: yes
+plex_webtools: yes
+plex_tautulli: yes
+plex_tautulli_config_dir: '/srv/plex/tautulli'
 
 plex_ports:
   - "32400:32400/tcp"

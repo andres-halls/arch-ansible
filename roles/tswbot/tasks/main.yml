@@ -21,7 +21,7 @@
   template: src=tswbot.conf.j2 dest='/etc/syslog-ng/log.d/tswbot.conf'
   notify:
     - restart syslog-ng
-  when: install.syslog_ng
+  when: install_syslog_ng
 
 - name: Deploy sanctbot logrotate configuration file
   template: src=sanctbot.logrotate.j2 dest='/etc/logrotate.d/sanctbot'
@@ -30,4 +30,4 @@
   template: src=sanctbot.conf.j2 dest='/etc/syslog-ng/log.d/sanctbot.conf'
   notify:
     - restart syslog-ng
-  when: install.syslog_ng
+  when: install_syslog_ng

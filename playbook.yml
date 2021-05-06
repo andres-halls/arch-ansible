@@ -4,77 +4,77 @@
   roles:
   - role: aur
     tags: [aur, aur-only]
-    when: install.aur or install.zsh or install.vim
+    when: install_aur or install_zsh or install_vim
   - role: zsh
     tags: [zsh, aur]
-    when: install.zsh
+    when: install_zsh
   - role: vim
     tags: [vim, aur]
-    when: install.vim
+    when: install_vim
   - role: tools
     tags: [tools, aur]
-    when: install.tools
+    when: install_tools
   - role: sshd
     become: yes
     tags: [sshd]
-    when: install.sshd
+    when: install_sshd
   - role: syslog-ng
     become: yes
     tags: [syslog-ng]
-    when: install.syslog_ng
+    when: install_syslog_ng
   - role: nginx
     become: yes
     tags: [nginx]
-    when: install.nginx
+    when: install_nginx
   - role: letsencrypt
     become: yes
     tags: [letsencrypt, letsencrypt-only]
-    when: install.letsencrypt or (install.gitlab and gitlab.ssl_enabled)
+    when: install_letsencrypt or (install_gitlab and gitlab_ssl_enabled)
   - role: nodejs
     become: yes
     tags: [nodejs]
-    when: install.nodejs
+    when: install_nodejs
   - role: redis
     become: yes
     tags: [redis]
-    when: install.redis
+    when: install_redis
   - role: mongodb
     become: yes
     tags: [mongodb]
-    when: install.mongodb
+    when: install_mongodb
   - role: tswbot
     become: yes
     tags: [tswbot]
-    when: install.tswbot
+    when: install_tswbot
   - role: docker
     become: yes
     tags: [docker, docker-only]
-    when: install.docker or install.gitlab
+    when: install_docker or install_gitlab
   - role: gitlab
     become: yes
     tags: [gitlab, docker, letsencrypt]
-    when: install.gitlab
+    when: install_gitlab
   - role: naemon
     become: yes
     tags: [naemon, docker, letsencrypt]
-    when: install.naemon
+    when: install_naemon
   - role: plex
     become: yes
     tags: [plex, docker, letsencrypt]
-    when: install.plex
+    when: install_plex
   - role: transmission
     become: yes
     tags: [transmission, transmission-only, docker]
-    when: install.transmission
+    when: install_transmission
   - role: flexget
     become: yes
     tags: [flexget, transmission, docker]
-    when: install.flexget
+    when: install_flexget
   - role: organizr
     become: yes
     tags: [organizr, docker, letsencrypt]
-    when: install.organizr
+    when: install_organizr
   - role: ghost
     become: yes
     tags: [ghost, docker, letsencrypt]
-    when: install.ghost
+    when: install_ghost
