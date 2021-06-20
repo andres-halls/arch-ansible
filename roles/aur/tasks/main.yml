@@ -23,6 +23,11 @@
   register: pacman_result
   ignore_errors: yes
 
+- name: Ensure binutils is installed
+  pacman: name=binutils state=present
+  become: yes
+  when: pacman_result is failed
+
 - name: Install yay AUR helper from AUR
   aur: name=yay-bin
   become: yes
