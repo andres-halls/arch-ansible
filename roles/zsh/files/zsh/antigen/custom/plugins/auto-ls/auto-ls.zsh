@@ -5,7 +5,7 @@ if [[ $#AUTO_LS_COMMANDS -eq 0 ]]; then
 fi
 
 auto-ls-ls () {
-  ls -lh
+  lsd -lh
   [[ $AUTO_LS_NEWLINE != false ]] && echo ""
 }
 

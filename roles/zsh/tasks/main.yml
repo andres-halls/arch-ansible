@@ -3,8 +3,13 @@
   pacman: name=zsh,zsh-completions state=present update_cache=yes
   become: yes
 
-- name: Install autojump from AUR
-  aur: name=autojump
+- name: Install zoxide from AUR
+  aur: name=zoxide-bin
+  become: yes
+  become_user: "{{ aur_user }}"
+
+- name: Install zoxide from AUR
+  aur: name=zoxide-bin
   become: yes
   become_user: "{{ aur_user }}"
 

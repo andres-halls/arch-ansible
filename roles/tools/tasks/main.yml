@@ -3,6 +3,26 @@
   pacman: name=htop state=present update_cache=yes
   become: yes
 
+- name: Install procs
+  pacman: name=procs state=present
+  become: yes
+
+- name: Install tldr
+  pacman: name=tldr state=present
+  become: yes
+
+- name: Install lsd
+  pacman: name=lsd state=present
+  become: yes
+
+- name: Install ripgrep (rg)
+  pacman: name=ripgrep state=present
+  become: yes
+
+- name: Install curlie
+  pacman: name=curlie state=present
+  become: yes
+
 - name: Install bat
   pacman: name=bat state=present
   become: yes
@@ -15,24 +35,58 @@
   pacman: name=fzf state=present
   become: yes
 
-- name: Install ripgrep (rg)
-  pacman: name=ripgrep state=present
-  become: yes
-
 - name: Install ncdu
   pacman: name=ncdu state=present
   become: yes
 
-- name: Install diff-so-fancy
-  pacman: name=diff-so-fancy state=present
+- name: Install broot
+  pacman: name=broot state=present
   become: yes
 
-- name: Configure git to use diff-so-fancy
-  git_config:
-    name: core.pager
-    scope: system
-    value: 'diff-so-fancy | less --tabs=4 -RFX'
+- name: Install sd
+  pacman: name=sd state=present
   become: yes
+
+- name: Install delta
+  aur: name=git-delta-bin
+  become: yes
+  become_user: "{{ aur_user }}"
+
+- name: Configure git to use delta
+  git_config:
+    name: "{{ item.name }}"
+    scope: system
+    value: "{{ item.value }}"
+  become: yes
+  with_items:
+    - { name: core.pager, value: delta }
+    - { name: interactive.diffFilter, value: 'delta --color-only' }
+
+- name: Configure delta style
+  git_config:
+    name: "{{ item.name }}"
+    scope: system
+    value: "{{ item.value }}"
+  become: yes
+  with_items:
+    - { name: delta.navigate, value: true }
+    - { name: delta.line-numbers, value: true }
+    - { name: delta.side-by-side, value: true }
+
+- name: Install duf from AUR
+  aur: name=duf-bin
+  become: yes
+  become_user: "{{ aur_user }}"
+
+- name: Install choose from AUR
+  aur: name=choose-rust-git
+  become: yes
+  become_user: "{{ aur_user }}"
+
+- name: Install bottom from AUR
+  aur: name=bottom-bin
+  become: yes
+  become_user: "{{ aur_user }}"
 
 - name: Install Ultimate Plumber (up) from AUR
   aur: name=up-bin

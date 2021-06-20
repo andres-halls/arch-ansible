@@ -1,3 +1,4 @@
+eval "$(zoxide init zsh)"
 export ADOTDIR="/etc/zsh/antigen"
 source /usr/share/zsh/share/antigen.zsh
 
@@ -13,7 +14,7 @@ antigen bundle history
 antigen bundle per-directory-history
 antigen bundle rsync
 #antigen bundle fasd
-antigen bundle autojump
+#antigen bundle autojump
 antigen bundle web-search
 antigen bundle psprint/history-search-multi-word
 antigen bundle horosgrisa/mysql-colorize
