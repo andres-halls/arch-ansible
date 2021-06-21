@@ -8,11 +8,6 @@
   become: yes
   become_user: "{{ aur_user }}"
 
-- name: Install zoxide from AUR
-  aur: name=zoxide-bin
-  become: yes
-  become_user: "{{ aur_user }}"
-
 - name: Install antigen-git from AUR
   aur: name=antigen-git
   become: yes
