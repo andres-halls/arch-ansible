@@ -6,4 +6,4 @@ ghost_url: 'localhost:2368'
 ghost_http_port: '80'
 ghost_nginx_proxy: yes
 ghost_ssl_enabled: yes
-ghost_ip_auth: no
+ghost_ip_auth: yes

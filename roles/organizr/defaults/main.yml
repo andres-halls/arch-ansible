@@ -7,3 +7,4 @@ organizr_gid: ''
 organizr_http_port: '80'
 organizr_nginx_proxy: yes
 organizr_ssl_enabled: yes
+organizr_ip_auth: yes

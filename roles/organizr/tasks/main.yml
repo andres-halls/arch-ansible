@@ -8,7 +8,7 @@
 - name: Pull latest Organizr image and run docker container
   docker_container:
     name: organizr
-    image: 'organizrtools/organizr-v2:dev-latest'
+    image: 'organizr/organizr:latest'
     pull: yes
     state: started
     recreate: yes
@@ -33,4 +33,17 @@
     http_port: "{{ organizr_http_port }}"
     logs_dir: "{{ organizr_logs_dir }}"
     ssl: "{{ organizr_ssl_enabled }}"
+    server_block_beginning: |
+      {% if organizr_ip_auth %}
+          include snippets/ip_auth.conf;
+      {% endif %}
+    location_block_beginning: |+
+      {% if organizr_ip_auth %}
+              satisfy any;
+              allow 192.168.88.0/24;
+              allow 172.17.0.0/24;
+              deny all;
+              auth_request /auth-ip;
+
+      {% endif %}
   when: organizr_nginx_proxy

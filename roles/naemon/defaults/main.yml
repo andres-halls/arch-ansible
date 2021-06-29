@@ -13,4 +13,4 @@ naemon_web_admin_pass: ''
 naemon_time_zone: 'Etc/UTC'
 naemon_nginx_proxy: yes
 naemon_ssl_enabled: yes
-naemon_ip_auth: no
+naemon_ip_auth: yes
