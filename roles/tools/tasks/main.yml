@@ -48,9 +48,8 @@
   become: yes
 
 - name: Install delta
-  aur: name=git-delta-bin
+  pacman: name=git-delta state=present
   become: yes
-  become_user: "{{ aur_user }}"
 
 - name: Configure git to use delta
   git_config:
