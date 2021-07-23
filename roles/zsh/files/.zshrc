@@ -11,7 +11,7 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-[ -r .zsh_aliases ] && source .zsh_aliases
+[ -r ~/.zsh_aliases ] && source ~/.zsh_aliases
 
 # vim mode bindings
 #bindkey '^P' up-history

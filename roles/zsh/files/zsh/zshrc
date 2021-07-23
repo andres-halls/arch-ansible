@@ -37,7 +37,7 @@ antigen apply
 
 autoload -Uz zmv
 
-[ -r /etc/zsh/zsh_aliases ] && . /etc/zsh/zsh_aliases
+[ -r /etc/zsh/zsh_aliases ] && source /etc/zsh/zsh_aliases
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 _per-directory-history-set-global-history
 setopt share_history
