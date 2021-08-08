@@ -7,6 +7,10 @@
   pacman: name=procs state=present
   become: yes
 
+- name: Install bottom
+  pacman: name=bottom state=present
+  become: yes
+
 - name: Install tldr
   pacman: name=tldr state=present
   become: yes
@@ -47,7 +51,7 @@
   pacman: name=sd state=present
   become: yes
 
-- name: Install delta
+- name: Install git-delta
   pacman: name=git-delta state=present
   become: yes
 
@@ -79,11 +83,6 @@
 
 - name: Install choose from AUR
   aur: name=choose-rust-git
-  become: yes
-  become_user: "{{ aur_user }}"
-
-- name: Install bottom from AUR
-  aur: name=bottom-bin
   become: yes
   become_user: "{{ aur_user }}"
 
