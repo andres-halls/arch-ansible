@@ -3,10 +3,9 @@
   pacman: name=zsh,zsh-completions state=present update_cache=yes
   become: yes
 
-- name: Install zoxide from AUR
-  aur: name=zoxide-bin
+- name: Install zoxide
+  pacman: name=zoxide
   become: yes
-  become_user: "{{ aur_user }}"
 
 - name: Install antigen-git from AUR
   aur: name=antigen-git
