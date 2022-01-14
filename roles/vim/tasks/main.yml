@@ -2,6 +2,7 @@
 - name: Uninstall any existing vim
   pacman: name=vim state=absent
   become: yes
+  ignore_errors: yes
 
 - name: Install vim
   pacman: name=gvim state=present update_cache=yes
