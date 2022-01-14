@@ -1,3 +1,0 @@
-alias xclip='xclip -selection c'
-alias docker-ps='docker ps --format "{{.Names}} {{.Status}}"'
-alias docker-psa='docker ps -a --format "{{.Names}} {{.Status}}"'
