@@ -55,6 +55,10 @@
   pacman: name=git-delta state=present
   become: yes
 
+- name: Install duf
+  pacman: name=duf state=present
+  become: yes
+
 - name: Configure git to use delta
   git_config:
     name: "{{ item.name }}"
@@ -75,11 +79,6 @@
     - { name: delta.navigate, value: true }
     - { name: delta.line-numbers, value: true }
     - { name: delta.side-by-side, value: true }
-
-- name: Install duf from AUR
-  aur: name=duf-bin
-  become: yes
-  become_user: "{{ aur_user }}"
 
 - name: Install choose from AUR
   aur: name=choose-rust-git
