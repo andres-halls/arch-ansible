@@ -25,4 +25,3 @@
   aur: name=yay-bin
   become: yes
   become_user: "{{ aur_user }}"
-  when: pacman_result is failed

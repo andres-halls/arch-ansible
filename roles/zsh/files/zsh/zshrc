@@ -1,45 +1,35 @@
-eval "$(zoxide init zsh)"
-export ADOTDIR="/etc/zsh/antigen"
-source /usr/share/zsh/share/antigen.zsh
+# The following lines were added by compinstall
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
 
-# Load the oh-my-zsh's library.
+export ANTIBODY_HOME="/etc/zsh/antibody"
+export ZSH="$(antibody path ohmyzsh/ohmyzsh)"
+export ZSH_CUSTOM="/etc/zsh/custom"
+
+# oh-my-zsh
 DISABLE_MAGIC_FUNCTIONS=true
-antigen use oh-my-zsh
 
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle colored-man-pages
-antigen bundle systemd
-antigen bundle git
-antigen bundle history
-antigen bundle per-directory-history
-antigen bundle rsync
-#antigen bundle fasd
-#antigen bundle autojump
-antigen bundle web-search
-antigen bundle psprint/history-search-multi-word
-antigen bundle horosgrisa/mysql-colorize
-antigen bundle skx/sysadmin-util
-#antigen bundle peterhurford/up.zsh
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle djui/alias-tips
-antigen bundle bric3/nice-exit-code
-antigen bundle "$ADOTDIR/custom/plugins/auto-ls"
-#antigen bundle desyncr/auto-ls
+# zsh-autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
+# auto-ls
+AUTO_LS_COMMANDS=(/bin/lsd git-status)
+AUTO_LS_NEWLINE=false
 
-# Load the theme.
-antigen theme "$ADOTDIR/custom/themes/juanghurtado"
+# zsh-syntax-highlighting
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-# Tell Antigen that you're done.
-antigen apply
+# load plugins
+source /etc/zsh/zsh_plugins.sh
 
+# load theme
+source "$ZSH_CUSTOM/themes/juanghurtado/juanghurtado.zsh-theme"
+
+# set global history as default
+_per-directory-history-set-global-history
+
+# load built-in zsh zmv function
 autoload -Uz zmv
 
 [ -r /etc/zsh/zsh_aliases ] && source /etc/zsh/zsh_aliases
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-_per-directory-history-set-global-history
-setopt share_history
-setopt hist_ignore_dups
-export EDITOR=vim
