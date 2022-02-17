@@ -7,7 +7,7 @@ export ANTIBODY_HOME="/etc/zsh/antibody"
 export ZSH="$(antibody path ohmyzsh/ohmyzsh)"
 export ZSH_CUSTOM="/etc/zsh/custom"
 
-# oh-my-zsh
+# oh-my-zsh, speed up pasting into shell
 DISABLE_MAGIC_FUNCTIONS=true
 
 # zsh-autosuggestions
@@ -20,14 +20,14 @@ AUTO_LS_NEWLINE=false
 # zsh-syntax-highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
+# set global history as default
+HISTORY_START_WITH_GLOBAL=true
+
 # load plugins
 source /etc/zsh/zsh_plugins.sh
 
 # load theme
 source "$ZSH_CUSTOM/themes/juanghurtado/juanghurtado.zsh-theme"
-
-# set global history as default
-_per-directory-history-set-global-history
 
 # load built-in zsh zmv function
 autoload -Uz zmv
