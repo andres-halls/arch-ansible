@@ -23,6 +23,10 @@
   pacman: name=ripgrep state=present
   become: yes
 
+- name: Install httpie
+  pacman: name=httpie state=present
+  become: yes
+
 - name: Install curlie
   pacman: name=curlie state=present
   become: yes
