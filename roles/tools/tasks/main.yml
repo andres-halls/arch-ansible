@@ -51,6 +51,10 @@
   pacman: name=broot state=present
   become: yes
 
+- name: Install ranger
+  pacman: name=ranger state=present
+  become: yes
+
 - name: Install sd
   pacman: name=sd state=present
   become: yes
