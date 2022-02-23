@@ -5,6 +5,18 @@
 - name: Install xorg-xauth
   pacman: name=xorg-xauth state=present
 
+- name: Configure OpenSSH client configuration file
+  lineinfile: path=/etc/ssh/ssh_config line="{{ item.line }}"
+  with_items:
+    - { line: 'TCPKeepAlive no' }
+    - { line: 'ServerAliveInterval 120' }
+    - { line: 'ServerAliveCountMax 10' }
+    - { line: 'ControlMaster auto' }
+    - { line: 'ControlPath /tmp/ssh_mux_%h_%p_%r' }
+    - { line: 'ControlPersist 10m' }
+    - { line: 'ForwardX11Trusted yes' }
+    - { line: 'VerifyHostKeyDNS yes' }
+
 - name: Configure OpenSSH daemon configuration file
   lineinfile: path=/etc/ssh/sshd_config line="{{ item.line }}"
   with_items:
