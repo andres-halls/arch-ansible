@@ -4,7 +4,11 @@
   become: yes
 
 - name: Install zoxide
-  pacman: name=zoxide
+  pacman: name=zoxide state=present
+  become: yes
+
+- name: Install fuzzy finder (fzf)
+  pacman: name=fzf state=present
   become: yes
 
 - name: Install antibody-bin from AUR
