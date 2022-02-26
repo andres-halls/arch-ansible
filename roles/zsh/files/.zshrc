@@ -5,4 +5,4 @@ SAVEHIST=100000
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
-[ -r ~/.zsh_aliases ] && source ~/.zsh_aliases
+[[ -r ~/.zsh_aliases ]] && source ~/.zsh_aliases

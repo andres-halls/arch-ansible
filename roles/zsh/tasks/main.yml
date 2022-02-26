@@ -34,7 +34,7 @@
   when: "not result.stat.exists or 'zsh-with-home-conf' in ansible_run_tags"
 
 - name: Download zsh plugins with antibody
-  shell: antibody bundle < /etc/zsh/zsh_plugins > /etc/zsh/zsh_plugins.sh
+  shell: antibody bundle < /etc/zsh/zsh_plugins > /etc/zsh/zsh_plugins.zsh
   environment:
     ANTIBODY_HOME: /etc/zsh/antibody
   become: yes
