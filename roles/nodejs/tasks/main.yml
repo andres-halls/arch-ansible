@@ -8,6 +8,6 @@
 - name: Install pm2
   pacman: name=pm2 state=present
 
-- name: Set PM2_HOME in zshrc
-  lineinfile: path=/etc/zsh/zshrc line='export PM2_HOME=/srv/http/.pm2'
+- name: Set PM2_HOME in ~/.zshrc
+  lineinfile: path=~/.zshrc line='export PM2_HOME=/srv/http/.pm2'
   when: install_zsh
