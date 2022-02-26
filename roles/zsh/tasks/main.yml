@@ -3,6 +3,10 @@
   pacman: name=zsh,zsh-completions state=present update_cache=yes
   become: yes
 
+- name: Install lsd
+  pacman: name=lsd state=present
+  become: yes
+
 - name: Install zoxide
   pacman: name=zoxide state=present
   become: yes
