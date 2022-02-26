@@ -1,4 +1,4 @@
 .idea
 *.retry
-hosts*.y*
-vars*.y*
+host_vars
+custom*
