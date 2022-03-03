@@ -26,9 +26,7 @@
   become_user: "{{ aur_user }}"
 
 - name: Copy zsh configuration files to /etc/
-  synchronize: src="{{ item.src }}" dest="{{ item.dest }}"
-  with_items:
-    - { src: 'zsh', dest: '/etc/' }
+  synchronize: src="zsh" dest="/etc/"
   become: yes
 
 - name: Check if .zshrc exists in {{ ansible_env.HOME }}

@@ -1,0 +1,12 @@
+---
+- name: Install kitty
+  pacman: name=kitty state=present update_cache=yes
+  become: yes
+
+- name: Check if kitty.conf exists in {{ ansible_env.HOME }}/.config/kitty
+  stat: path="{{ ansible_env.HOME }}/.config/kitty/kitty.conf"
+  register: result
+
+- name: Copy kitty configuration files to {{ ansible_env.HOME }}/.config/kitty
+  synchronize: src="kitty" dest="{{ ansible_env.HOME }}/.config/"
+  when: "not result.stat.exists or 'kitty-override-conf' in ansible_run_tags"

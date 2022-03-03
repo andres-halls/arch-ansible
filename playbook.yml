@@ -4,7 +4,7 @@
   roles:
   - role: aur
     tags: [aur, aur-only]
-    when: install_aur or install_zsh or install_vim
+    when: install_aur
   - role: zsh
     tags: [zsh, aur]
     when: install_zsh
@@ -22,6 +22,9 @@
     become: yes
     tags: [syslog-ng]
     when: install_syslog_ng
+  - role: kitty
+    tags: [kitty]
+    when: install_kitty
   - role: nginx
     become: yes
     tags: [nginx]
@@ -29,7 +32,7 @@
   - role: letsencrypt
     become: yes
     tags: [letsencrypt, letsencrypt-only]
-    when: install_letsencrypt or (install_gitlab and gitlab_ssl_enabled)
+    when: install_letsencrypt
   - role: nodejs
     become: yes
     tags: [nodejs]
@@ -49,7 +52,7 @@
   - role: docker
     become: yes
     tags: [docker, docker-only]
-    when: install_docker or install_gitlab
+    when: install_docker
   - role: gitlab
     become: yes
     tags: [gitlab, docker, letsencrypt]
