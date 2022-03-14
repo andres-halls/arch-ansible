@@ -50,7 +50,7 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
 # load plugins
-source /etc/zsh/zsh_plugins.zsh
+source "$ZSH_HOME/zsh_plugins.zsh"
 # ==================================================
 
 # ==================== THEME/PROMPT ====================
