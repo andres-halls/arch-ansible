@@ -47,6 +47,10 @@
   pacman: name=ncdu state=present
   become: yes
 
+- name: Install dua
+  pacman: name=dua-cli state=present
+  become: yes
+
 - name: Install broot
   pacman: name=broot state=present
   become: yes
