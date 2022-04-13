@@ -2,6 +2,7 @@
 aur_user: aur_builder
 aur_sudo: yes
 vhost_config_file: nginx_vhost.conf.j2
+arch_setup: yes
 install_aur: yes
 install_zsh: yes
 install_vim: yes

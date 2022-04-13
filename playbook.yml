@@ -2,6 +2,10 @@
 ---
 - hosts: all
   roles:
+  - role: arch_setup
+    become: yes
+    tags: [arch_setup]
+    when: arch_setup
   - role: aur
     tags: [aur, aur-only]
     when: install_aur
