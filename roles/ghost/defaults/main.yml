@@ -2,8 +2,12 @@
 ghost_content_dir: '/srv/ghost/content'
 ghost_logs_dir: '/srv/ghost/logs'
 ghost_host_name: 'ghost'
-ghost_url: 'localhost:2368'
-ghost_http_port: '80'
+ghost_url: 'http://localhost:2368'
+ghost_email_from: ''
+ghost_smtp_host: ''
+ghost_smtp_port: '25'
+ghost_smtp_user: ''
+ghost_smtp_pass: ''
 ghost_nginx_proxy: yes
 ghost_ssl_enabled: yes
 ghost_ip_auth: yes
