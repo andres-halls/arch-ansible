@@ -1,8 +1,10 @@
 ---
-ghost_content_dir: '/srv/ghost/content'
+ghost_dir: '/srv/ghost'
 ghost_logs_dir: '/srv/ghost/logs'
 ghost_host_name: 'ghost'
 ghost_url: 'http://localhost:2368'
+ghost_mysql_root_pass: 'yourhorriblesecret69'
+ghost_mysql_user_pass: 'yourhorriblesecret69'
 ghost_email_from: ''
 ghost_smtp_host: ''
 ghost_smtp_port: '25'

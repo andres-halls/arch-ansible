@@ -1,0 +1,15 @@
+---
+name: ghost
+services:
+  db:
+    image: 'mysql'
+    restart: always
+  web:
+    depends_on:
+      - db
+    image: 'ghost'
+    restart: always
+    ports:
+      - "2368:2368"
+    volumes:
+      - "{{ ghost_dir }}/content:/var/lib/ghost/content"

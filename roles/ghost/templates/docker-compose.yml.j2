@@ -1,0 +1,33 @@
+---
+name: ghost
+services:
+  db:
+    image: 'mysql'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "{{ ghost_mysql_root_pass }}"
+      MYSQL_DATABASE: ghost
+      MYSQL_USER: ghost
+      MYSQL_PASSWORD: "{{ ghost_mysql_user_pass }}"
+  web:
+    depends_on:
+      - db
+    image: 'ghost'
+    restart: always
+    ports:
+      - "2368:2368"
+    volumes:
+      - "{{ ghost_dir }}/content:/var/lib/ghost/content"
+    environment:
+      url: "{{ ghost_url }}"
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: ghost
+      database__connection__password: "{{ ghost_mysql_user_pass }}"
+      database__connection__database: ghost
+      mail__transport: 'SMTP'
+      mail__from: "{{ ghost_email_from }}"
+      mail__options__host: "{{ ghost_smtp_host }}"
+      mail__options__port: "{{ ghost_smtp_port }}"
+      mail__options__auth__user: "{{ ghost_smtp_user }}"
+      mail__options__auth__pass: "{{ ghost_smtp_pass }}"
