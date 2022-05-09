@@ -16,7 +16,7 @@ server {
     listen [::]:443 ssl http2;
     server_name example.com www.example.com;
     include snippets/ssl-example.com.conf;
-    #include snippets/cache-control.conf;
+    #include snippets/cache_control.conf;
 
     access_log /srv/http/example.com/logs/access.log;
     error_log  /srv/http/example.com/logs/error.log;
@@ -29,6 +29,4 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         #proxy_hide_header Cache-Control;
     }
-
-    #add_header Service-Worker-Allowed '/';
 }

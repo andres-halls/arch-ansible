@@ -25,7 +25,6 @@
   docker_container:
     name: naemon
     image: 'local/naemon'
-    state: started
     recreate: yes
     restart_policy: always
     hostname: "{{ naemon_host_name }}"
@@ -55,11 +54,7 @@
       {% endif %}
     location_block_beginning: |+
       {% if naemon_ip_auth %}
-              satisfy any;
-              allow 192.168.88.0/24;
-              allow 172.17.0.0/24;
-              deny all;
-              auth_request /auth-ip;
+              include snippets/ip_auth_check.conf;
 
       {% endif %}
   when: naemon_nginx_proxy

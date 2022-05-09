@@ -24,7 +24,6 @@ server {
     {% else %}
     server_name {{ host_name }};
     {% endif %}
-    include conf.d/ssl-params.conf;
     include snippets/ssl-{{ host_name }}.conf;
 
     access_log {{ logs_dir }}/{{ host_name }}_access.log;

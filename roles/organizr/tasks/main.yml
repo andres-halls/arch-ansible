@@ -10,12 +10,11 @@
     name: organizr
     image: 'organizr/organizr:latest'
     pull: yes
-    state: started
     recreate: yes
     restart_policy: always
     hostname: "{{ organizr_host_name }}"
     ports:
-      - "{{ organizr_http_port }}:80/tcp"
+      - "{{ organizr_http_port }}:80"
     volumes:
       - "{{ organizr_config_dir }}:/config"
     env:
@@ -39,11 +38,7 @@
       {% endif %}
     location_block_beginning: |+
       {% if organizr_ip_auth %}
-              satisfy any;
-              allow 192.168.88.0/24;
-              allow 172.17.0.0/24;
-              deny all;
-              auth_request /auth-ip;
+              include snippets/ip_auth_check.conf;
 
       {% endif %}
   when: organizr_nginx_proxy
