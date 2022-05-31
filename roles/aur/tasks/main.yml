@@ -21,7 +21,7 @@
   pacman: name=binutils state=present
   become: yes
 
-- name: Install yay AUR helper from AUR
-  aur: name=yay-bin
+- name: Install paru AUR helper from AUR
+  aur: name=paru-bin
   become: yes
   become_user: "{{ aur_user }}"
