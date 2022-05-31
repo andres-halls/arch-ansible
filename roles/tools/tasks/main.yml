@@ -98,6 +98,6 @@
   become_user: "{{ aur_user }}"
 
 - name: Install Ultimate Plumber (up) from AUR
-  aur: name=up-bin
+  aur: name=up-git
   become: yes
   become_user: "{{ aur_user }}"
