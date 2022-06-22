@@ -42,7 +42,7 @@ Tarrasch/zsh-bd
 zpm-zsh/clipboard
 b4b4r07/emoji-cli
 Aloxaf/fzf-tab
-momo-lab/zsh-smartinput
+# momo-lab/zsh-smartinput
 unixorn/git-extra-commands
 Bhupesh-V/ugit
 bigH/git-fuzzy path:bin kind:path
