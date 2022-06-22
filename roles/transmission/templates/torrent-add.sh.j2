@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sleep 5
 {% if transmission_web_user != '' %}
 /usr/bin/transmission-remote --auth '{{transmission_web_user}}:{{transmission_web_passwd}}' -t $TR_TORRENT_ID -r
 {% else %}
