@@ -1,0 +1,23 @@
+---
+- name: Ensure CouchDB config directory {{ couchdb_config_dir }} exists
+  file: dest="{{ couchdb_config_dir }}" recurse=yes state=directory
+
+- name: Deploy obsidian.ini to {{ couchdb_config_dir }}
+  copy: src=obsidian.ini dest="{{ couchdb_config_dir }}/obsidian.ini"
+  when: couchdb_obsidian
+
+- name: Pull latest CouchDB image and run docker container
+  docker_container:
+    name: couchdb
+    image: 'couchdb'
+    pull: yes
+    recreate: yes
+    restart_policy: always
+    hostname: 'couchdb'
+    ports:
+      - "5984:5984"
+    volumes:
+      - "{{ couchdb_config_dir }}:/opt/couchdb/etc/local.d"
+    env:
+      COUCHDB_USER: "{{ couchdb_user }}"
+      COUCHDB_PASSWORD: "{{ couchdb_pass }}"

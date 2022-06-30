@@ -85,3 +85,7 @@
     become: yes
     tags: [ghost, docker, letsencrypt]
     when: install_ghost
+  - role: couchdb
+    become: yes
+    tags: [couchdb, docker]
+    when: install_couchdb

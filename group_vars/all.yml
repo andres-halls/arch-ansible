@@ -24,3 +24,4 @@ install_transmission: no
 install_flexget: no
 install_organizr: no
 install_ghost: no
+install_couchdb: no

@@ -1,0 +1,5 @@
+---
+couchdb_user: admin
+couchdb_pass: password
+couchdb_config_dir: /etc/couchdb
+couchdb_obsidian: no
