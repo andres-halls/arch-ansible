@@ -1,6 +1,9 @@
 ---
-- name: Ensure CouchDB config directory {{ couchdb_config_dir }} exists
-  file: dest="{{ couchdb_config_dir }}" recurse=yes state=directory
+- name: Ensure CouchDB directory structure exists
+  file: dest="{{ item }}" recurse=yes state=directory
+  with_items:
+    - "{{ couchdb_config_dir }}"
+    - "{{ couchdb_data_dir }}"
 
 - name: Deploy obsidian.ini to {{ couchdb_config_dir }}
   copy: src=obsidian.ini dest="{{ couchdb_config_dir }}/obsidian.ini"
@@ -18,6 +21,7 @@
       - "5984:5984"
     volumes:
       - "{{ couchdb_config_dir }}:/opt/couchdb/etc/local.d"
+      - "{{ couchdb_data_dir }}:/opt/couchdb/data"
     env:
       COUCHDB_USER: "{{ couchdb_user }}"
       COUCHDB_PASSWORD: "{{ couchdb_pass }}"

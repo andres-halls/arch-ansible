@@ -1,5 +1,6 @@
 ---
 couchdb_user: admin
 couchdb_pass: password
-couchdb_config_dir: /etc/couchdb
+couchdb_config_dir: '/srv/couchdb/config'
+couchdb_data_dir: '/srv/couchdb/data'
 couchdb_obsidian: no

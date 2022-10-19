@@ -18,6 +18,7 @@ alias dua='dua --format binary'
 
 alias docker-ps='docker ps --format "{{.Names}} {{.Status}}"'
 alias docker-psa='docker ps -a --format "{{.Names}} {{.Status}}"'
+alias docker-ps-stopped='docker ps -f "status=exited"'
 alias docker-dangling-images='docker images -f dangling=true'
 alias docker-unused-images='docker images --format {{.Repository}}:{{.Tag}} | grep -v "$(docker ps --format {{.Image}})"'
 
