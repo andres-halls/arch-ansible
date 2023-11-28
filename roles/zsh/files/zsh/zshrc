@@ -63,4 +63,3 @@ source "$ZSH_HOME/p10k_custom_segments.zsh"
 
 # load aliases
 [[ -r "$ZSH_HOME/zsh_aliases" ]] && source "$ZSH_HOME/zsh_aliases"
-
