@@ -2,3 +2,4 @@
 *.retry
 host_vars
 custom*
+*.log
