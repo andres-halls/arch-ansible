@@ -6,7 +6,7 @@
   pacman: name=xorg-xauth state=present
 
 - name: Configure OpenSSH client configuration file
-  lineinfile: path=/etc/ssh/ssh_config.d/custom.conf line="{{ item.line }}"
+  lineinfile: path=/etc/ssh/ssh_config.d/custom.conf line="{{ item.line }}" create=yes
   with_items:
     - { line: 'TCPKeepAlive no' }
     - { line: 'ServerAliveInterval 120' }
@@ -18,7 +18,7 @@
     - { line: 'VerifyHostKeyDNS yes' }
 
 - name: Configure OpenSSH daemon configuration file
-  lineinfile: path=/etc/ssh/sshd_config.d/custom.conf line="{{ item.line }}"
+  lineinfile: path=/etc/ssh/sshd_config.d/custom.conf line="{{ item.line }}" create=yes
   with_items:
     - { line: 'X11Forwarding yes' }
     - { line: 'PermitRootLogin yes' }
