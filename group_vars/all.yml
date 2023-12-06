@@ -1,14 +1,14 @@
 ---
-aur_user: aur_builder
-aur_sudo: yes
 vhost_config_file: nginx_vhost.conf.j2
+aur_user: aur_builder
+aur_sudo_setup: yes
 arch_setup: yes
 install_aur: yes
 install_zsh: yes
 install_vim: yes
 install_tools: yes
 install_sshd: yes
-install_syslog_ng: yes
+install_syslog_ng: no
 install_kitty: no
 install_nginx: no
 install_letsencrypt: no

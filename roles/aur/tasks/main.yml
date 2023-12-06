@@ -2,12 +2,12 @@
 - name: Ensure {{ aur_user }} user exists
   user: name={{ aur_user }}
   become: yes
-  when: not aur_sudo
+  when: not aur_sudo_setup
 
 - name: Ensure {{ aur_user }} user exists and has sudo access
   user: name={{ aur_user }} groups=wheel append=yes
   become: yes
-  when: aur_sudo
+  when: aur_sudo_setup
 
 - name: Ensure {{ aur_user }} user has passwordless sudo access to pacman
   lineinfile:
@@ -15,7 +15,7 @@
     line: "{{ aur_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
     create: yes
     validate: 'visudo -cf %s'
-  when: aur_sudo
+  when: aur_sudo_setup
 
 - name: Ensure binutils is installed
   pacman: name=binutils state=present
