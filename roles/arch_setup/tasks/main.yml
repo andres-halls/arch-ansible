@@ -14,5 +14,8 @@
 - name: Enable and start reflector.timer
   service: name='reflector.timer' enabled=yes state=started
 
+- name: Ensure pacman hooks directory exists
+  file: dest='/etc/pacman.d/hooks' recurse=yes state=directory
+
 - name: Deploy mirrorupgrade.hook pacman hook
   copy: src=mirrorupgrade.hook dest=/etc/pacman.d/hooks/mirrorupgrade.hook
