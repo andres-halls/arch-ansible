@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+bind = "{{ neolink_bind_addr }}"
+
+{% for camera in neolink_cameras %}
+[[cameras]]
+name = "{{ camera.name }}"
+username = "{{ camera.username }}"
+password = "{{ camera.password }}"
+address = "{{ camera.address }}"
+
+{% endfor %}

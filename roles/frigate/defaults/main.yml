@@ -1,0 +1,8 @@
+---
+frigate_version: '0.13.0-beta6'
+frigate_shm_size: '4G'
+frigate_hostname: 'frigate'
+frigate_config_path: '/srv/frigate/config.yml'
+frigate_storage_path: '/srv/frigate/media'
+frigate_rtsp_username: 'admin'
+frigate_rtsp_password: 'password'

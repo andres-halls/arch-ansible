@@ -1,0 +1,10 @@
+---
+neolink_hostname: 'neolink'
+neolink_config_path: '/srv/neolink/config.toml'
+neolink_bind_addr: '0.0.0.0'
+neolink_rtsp_port: '8554'
+neolink_cameras:
+  - name: 'camera'
+    username: 'admin'
+    password: 'password'
+    address: '192.168.1.100:9000'

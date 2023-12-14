@@ -89,3 +89,11 @@
     become: yes
     tags: [couchdb, docker]
     when: install_couchdb
+  - role: frigate
+    become: yes
+    tags: [frigate, docker]
+    when: install_frigate
+  - role: neolink
+    become: yes
+    tags: [neolink, docker]
+    when: install_neolink

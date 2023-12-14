@@ -1,0 +1,24 @@
+---
+- name: Ensure {{ neolink_config_path | dirname }} directory exists
+  file:
+    path: "{{ neolink_config_path | dirname }}"
+    state: directory
+
+- name: Deploy Neolink config.toml to {{ neolink_config_path }}
+  ansible.builtin.template:
+    src: config.toml.j2
+    dest: "{{ neolink_config_path }}"
+
+- name: Pull latest Neolink image and run docker container
+  community.docker.docker_container:
+    name: neolink
+    image: 'quantumentangledandy/neolink:latest'
+    pull: true
+    recreate: true
+    restart_policy: 'unless-stopped'
+    hostname: "{{ neolink_hostname }}"
+    ports:
+      - "{{ neolink_rtsp_port }}:8554"
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+      - "{{ neolink_config_path }}:/etc/neolink.toml"

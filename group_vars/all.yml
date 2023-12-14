@@ -25,3 +25,5 @@ install_flexget: no
 install_organizr: no
 install_ghost: no
 install_couchdb: no
+install_frigate: no
+install_neolink: no
