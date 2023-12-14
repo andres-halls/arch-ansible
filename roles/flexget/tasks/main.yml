@@ -13,7 +13,6 @@
     name: flexget
     image: 'cpoppema/docker-flexget'
     pull: yes
-    state: started
     recreate: yes
     restart_policy: always
     hostname: "{{ flexget_host_name }}"

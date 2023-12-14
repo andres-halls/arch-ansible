@@ -11,7 +11,6 @@
     name: gitlab
     image: 'gitlab/gitlab-ce:latest'
     pull: yes
-    state: started
     recreate: yes
     restart_policy: always
     hostname: "{{ gitlab_host_name }}"
@@ -75,7 +74,6 @@
     name: 'gitlab-runner'
     image: 'gitlab/gitlab-runner:latest'
     pull: yes
-    state: started
     recreate: yes
     restart_policy: always
     hostname: 'gitlab-runner'
@@ -85,7 +83,7 @@
   when: gitlab_runner
 
 - name: Install rsync in gitlab runner docker container
-  command: docker exec gitlab-runner bash -c 'apt-get update && apt-get -y install rsync'
+  command: "docker exec gitlab-runner bash -c 'apt-get update && apt-get -y install rsync'"
 
 - name: Deploy gitlab registry nginx vhost
   include_tasks: deploy_nginx_vhost.yml
