@@ -1,5 +1,5 @@
 ---
-frigate_version: '0.13.0-beta6'
+frigate_version: '0.13.0-beta7'
 frigate_shm_size: '4G'
 frigate_hostname: 'frigate'
 frigate_config_path: '/srv/frigate/config.yml'
