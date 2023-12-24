@@ -1,6 +1,6 @@
 ---
 - name: Ensure {{ neolink_config_path | dirname }} directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ neolink_config_path | dirname }}"
     state: directory
 

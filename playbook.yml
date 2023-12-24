@@ -93,6 +93,10 @@
     become: yes
     tags: [frigate, docker]
     when: install_frigate
+  - role: homeassistant
+    become: yes
+    tags: [homeassistant, docker]
+    when: install_homeassistant
   - role: neolink
     become: yes
     tags: [neolink, docker]

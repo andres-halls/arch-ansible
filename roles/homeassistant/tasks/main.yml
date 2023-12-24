@@ -1,0 +1,37 @@
+---
+- name: Ensure {{ homeassistant_config_path }} directory exists
+  ansible.builtin.file:
+    path: "{{ homeassistant_config_path }}"
+    state: directory
+
+- name: Pull latest HA image and run docker container
+  community.docker.docker_container:
+    name: homeassistant
+    image: 'ghcr.io/home-assistant/home-assistant:stable'
+    pull: true
+    recreate: true
+    privileged: true
+    network_mode: host
+    restart_policy: 'unless-stopped'
+    hostname: "{{ homeassistant_hostname }}"
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+      - "{{ homeassistant_config_path }}:/config"
+
+- name: Check if HACS is installed
+  ansible.builtin.stat:
+    path: "{{ homeassistant_config_path }}/custom_components/hacs"
+  register: hacs
+
+- name: Install HACS
+  community.docker.docker_container_exec:
+    container: homeassistant
+    command: /bin/bash -c 'wget -O - https://get.hacs.xyz | bash -'
+    chdir: /config
+  when: not hacs.stat.exists
+  notify:
+    - restart homeassistant
+
+- name: Install Mosquitto MQTT broker
+  ansible.builtin.include_tasks: mosquitto.yml
+  when: homeassistant_mosquitto

@@ -26,4 +26,5 @@ install_organizr: no
 install_ghost: no
 install_couchdb: no
 install_frigate: no
+install_homeassistant: no
 install_neolink: no

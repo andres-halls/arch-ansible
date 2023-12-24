@@ -1,0 +1,33 @@
+---
+- name: Ensure Mosquitto directory structure exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ homeassistant_mosquitto_path }}/config"
+    - "{{ homeassistant_mosquitto_path }}/data"
+    - "{{ homeassistant_mosquitto_path }}/log"
+
+- name: Deploy {{ homeassistant_mosquitto_path }}/config/mosquitto.conf
+  ansible.builtin.template:
+    src: mosquitto.conf.j2
+    dest: "{{ homeassistant_mosquitto_path }}/config/mosquitto.conf"
+
+- name: Pull latest Mosquitto image and run docker container
+  community.docker.docker_container:
+    name: mosquitto
+    image: eclipse-mosquitto
+    pull: true
+    recreate: true
+    restart_policy: 'unless-stopped'
+    hostname: mosquitto
+    ports:
+      - '127.0.0.1:1883:1883'
+      - '172.17.0.1:1883:1883'
+      - '127.0.0.1:9001:9001'
+      - '172.17.0.1:9001:9001'
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+      - "{{ homeassistant_mosquitto_path }}/config:/mosquitto/config"
+      - "{{ homeassistant_mosquitto_path }}/data:/mosquitto/data"
+      - "{{ homeassistant_mosquitto_path }}/log:/mosquitto/log"

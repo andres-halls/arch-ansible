@@ -1,0 +1,5 @@
+---
+homeassistant_hostname: 'homeassistant'
+homeassistant_config_path: '/srv/homeassistant/config'
+homeassistant_mosquitto: true
+homeassistant_mosquitto_path: '/srv/homeassistant/mosquitto'

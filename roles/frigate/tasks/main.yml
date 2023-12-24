@@ -1,6 +1,6 @@
 ---
 - name: Ensure {{ frigate_config_path | dirname }} directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ frigate_config_path | dirname }}"
     state: directory
 
@@ -14,12 +14,12 @@
   community.docker.docker_container:
     name: frigate
     image: "ghcr.io/blakeblackshear/frigate:{{ frigate_version }}"
-    shm_size: "{{ frigate_shm_size }}"
-    privileged: true
     pull: true
     recreate: true
+    privileged: true
     restart_policy: 'unless-stopped'
     hostname: "{{ frigate_hostname }}"
+    shm_size: "{{ frigate_shm_size }}"
     ports:
       - '5000:5000'
       - '8554:8554' # RTSP feeds
