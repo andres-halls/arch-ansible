@@ -1,5 +1,14 @@
 ---
-- name: Deploy temp letsencrypt nginx vhost config
-  template: src=nginx_letsencrypt.conf.j2 dest="/etc/nginx/vhosts.d/{{ host_name }}.conf"
+- name: Deploy temp letsencrypt nginx vhost config to sites-available
+  ansible.builtin.template:
+    src: nginx_letsencrypt.conf.j2
+    dest: "/etc/nginx/sites-available/{{ host_name }}.conf"
+
+- name: Create temp letsencrypt config symlink in sites-enabled
+  ansible.builtin.file:
+    src: "../sites-available/{{ host_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ host_name }}.conf"
+    state: link
+    force: true
   notify:
     - restart nginx

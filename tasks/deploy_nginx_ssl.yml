@@ -1,5 +1,7 @@
 ---
 - name: Deploy nginx SSL config
-  template: src=nginx_ssl.conf.j2 dest="/etc/nginx/snippets/ssl-{{ host_name }}.conf"
+  ansible.builtin.template:
+    src: nginx_ssl.conf.j2
+    dest: "/etc/nginx/snippets/ssl-{{ host_name }}.conf"
   notify:
     - restart nginx

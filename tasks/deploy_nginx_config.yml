@@ -1,5 +1,14 @@
 ---
-- name: Deploy nginx vhost config
-  template: src="{{ vhost_config_file }}" dest="/etc/nginx/vhosts.d/{{ host_name }}.conf"
+- name: Deploy nginx vhost config to sites-available
+  ansible.builtin.template:
+    src: "{{ vhost_config_file }}"
+    dest: "/etc/nginx/sites-available/{{ host_name }}.conf"
+
+- name: Create nginx vhost config symlink in sites-enabled
+  ansible.builtin.file:
+    src: "../sites-available/{{ host_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ host_name }}.conf"
+    state: link
+    force: true
   notify:
     - restart nginx

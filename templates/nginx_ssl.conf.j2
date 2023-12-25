@@ -1,3 +1,8 @@
 # {{ ansible_managed }}
 ssl_certificate /etc/letsencrypt/live/{{ host_name }}/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/{{ host_name }}/privkey.pem;
+ssl_trusted_certificate /etc/letsencrypt/live/{{ host_name }}/chain.pem; # for OCSP stapling
+
+# OCSP stapling
+ssl_stapling on;
+ssl_stapling_verify on;
