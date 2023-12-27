@@ -1,8 +1,17 @@
 ---
 frigate_version: '0.13.0-beta7'
 frigate_shm_size: '4G'
-frigate_hostname: 'frigate'
-frigate_config_path: '/srv/frigate/config.yml'
+frigate_host_name: 'frigate'
+frigate_path: '/srv/frigate'
 frigate_storage_path: '/srv/frigate/media'
+frigate_http_port: '5000'
 frigate_rtsp_username: 'admin'
 frigate_rtsp_password: 'password'
+
+frigate_nginx_proxy: true
+frigate_nginx_ssl: true
+frigate_nginx_logs_dir: '/srv/frigate/nginx-logs'
+frigate_nginx_ip_auth: false
+frigate_nginx_basic_auth: true
+frigate_nginx_basic_auth_htpasswd:
+  - 'user:$apr1$JdAvot6L$3D.q7MzkdGPhwDdCyg4gK1' # user:password

@@ -7,12 +7,11 @@
     name: tautulli
     image: 'tautulli/tautulli'
     pull: yes
-    state: started
     recreate: yes
     restart_policy: always
     hostname: 'tautulli'
     ports:
-      - "8181:8181/tcp"
+      - "8181:8181"
     volumes:
       - "{{ plex_tautulli_config_dir }}:/config"
       - "{{ plex_config_dir }}/Library/Application Support/Plex Media Server/Logs:/logs:ro"

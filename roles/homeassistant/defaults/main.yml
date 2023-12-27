@@ -1,5 +1,11 @@
 ---
-homeassistant_hostname: 'homeassistant'
-homeassistant_config_path: '/srv/homeassistant/config'
+homeassistant_host_name: 'homeassistant'
+homeassistant_path: '/srv/homeassistant'
+
 homeassistant_mosquitto: true
 homeassistant_mosquitto_path: '/srv/homeassistant/mosquitto'
+
+homeassistant_nginx_proxy: true
+homeassistant_nginx_ssl: true
+homeassistant_nginx_logs_dir: '/srv/homeassistant/nginx-logs'
+homeassistant_nginx_ip_auth: false

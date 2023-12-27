@@ -54,22 +54,14 @@
       {% if plex_webtools %}
           location /webtools {
               proxy_pass http://172.17.0.1:33400/webtools;
-              proxy_set_header Host $host;
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Real-Port $remote_port;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
+              include snippets/proxy_params.conf;
           }
       {% endif %}
 
       {% if plex_tautulli %}
           location /tautulli {
               proxy_pass http://172.17.0.1:8181;
-              proxy_set_header Host $host;
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Real-Port $remote_port;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
+              include snippets/proxy_params.conf;
           }
       {% endif %}
   when: plex_nginx_proxy

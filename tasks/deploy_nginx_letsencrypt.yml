@@ -3,6 +3,9 @@
   ansible.builtin.template:
     src: nginx_letsencrypt.conf.j2
     dest: "/etc/nginx/sites-available/{{ host_name }}.conf"
+    lstrip_blocks: true
+  notify:
+    - restart nginx
 
 - name: Create temp letsencrypt config symlink in sites-enabled
   ansible.builtin.file:
@@ -10,5 +13,3 @@
     dest: "/etc/nginx/sites-enabled/{{ host_name }}.conf"
     state: link
     force: true
-  notify:
-    - restart nginx

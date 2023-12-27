@@ -91,11 +91,11 @@
     when: install_couchdb
   - role: frigate
     become: yes
-    tags: [frigate, docker]
+    tags: [frigate, docker, letsencrypt]
     when: install_frigate
   - role: homeassistant
     become: yes
-    tags: [homeassistant, docker]
+    tags: [homeassistant, docker, letsencrypt]
     when: install_homeassistant
   - role: neolink
     become: yes

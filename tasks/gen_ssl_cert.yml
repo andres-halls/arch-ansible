@@ -1,6 +1,6 @@
 ---
 - name: Generate SSL cert for {{ host_name }} with letsencrypt
-  ansible.builtin.command: "certbot certonly --webroot -w /var/lib/letsencrypt/ -d {{ host_name }}"
+  ansible.builtin.command: "certbot certonly --non-interactive --agree-tos -m {{ letsencrypt_email }} --webroot -w /var/lib/letsencrypt/ -d {{ host_name }}"
   args:
     creates: "/etc/letsencrypt/live/{{ host_name }}/fullchain.pem"
   notify:

@@ -3,5 +3,6 @@
   ansible.builtin.template:
     src: nginx_ssl.conf.j2
     dest: "/etc/nginx/snippets/ssl-{{ host_name }}.conf"
+    lstrip_blocks: true
   notify:
     - restart nginx

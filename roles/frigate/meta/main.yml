@@ -1,3 +1,5 @@
 ---
 dependencies:
   - { role: docker }
+  - { role: nginx, when: frigate_nginx_proxy }
+  - { role: letsencrypt, when: frigate_nginx_proxy and frigate_nginx_ssl }

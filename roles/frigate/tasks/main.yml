@@ -1,16 +1,25 @@
 ---
-- name: Ensure {{ frigate_config_path | dirname }} directory exists
+- name: Ensure Frigate directory structure exists
   ansible.builtin.file:
-    path: "{{ frigate_config_path | dirname }}"
+    path: "{{ item }}"
     state: directory
+  with_items:
+    - "{{ frigate_path }}/config"
+    - "{{ frigate_storage_path }}"
+
+- name: Ensure {{ frigate_nginx_logs_dir }} directory exists
+  ansible.builtin.file:
+    path: "{{ frigate_nginx_logs_dir }}"
+    state: directory
+  when: frigate_nginx_proxy
 
 - name: Deploy minimal config.yml if not existing
   ansible.builtin.template:
     src: config.yml.j2
-    dest: "{{ frigate_config_path }}"
+    dest: "{{ frigate_path }}/config/config.yml"
     force: false
 
-- name: Pull latest Frigate image and run docker container
+- name: Pull Frigate image version {{ frigate_version }} and run docker container
   community.docker.docker_container:
     name: frigate
     image: "ghcr.io/blakeblackshear/frigate:{{ frigate_version }}"
@@ -18,16 +27,16 @@
     recreate: true
     privileged: true
     restart_policy: 'unless-stopped'
-    hostname: "{{ frigate_hostname }}"
+    hostname: "{{ frigate_host_name }}"
     shm_size: "{{ frigate_shm_size }}"
     ports:
-      - '5000:5000'
-      - '8554:8554' # RTSP feeds
-      - '8555:8555/tcp' # WebRTC over tcp
-      - '8555:8555/udp' # WebRTC over udp
+      - "{{ frigate_http_port }}:5000"
+      - '127.0.0.1:8554:8554' # RTSP feeds
+      - '127.0.0.1:8555:8555/tcp' # WebRTC over tcp
+      - '127.0.0.1:8555:8555/udp' # WebRTC over udp
     volumes:
       - '/etc/localtime:/etc/localtime:ro'
-      - "{{ frigate_config_path }}:/config/config.yml"
+      - "{{ frigate_path }}/config:/config"
       - "{{ frigate_storage_path }}:/media/frigate"
     mounts:
       - type: tmpfs
@@ -43,3 +52,33 @@
     env:
       FRIGATE_RTSP_USER: "{{ frigate_rtsp_username }}"
       FRIGATE_RTSP_PASSWORD: "{{ frigate_rtsp_password }}"
+
+- name: Deploy {{ frigate_path }}/.htpasswd
+  ansible.builtin.template:
+    src: htpasswd.j2
+    dest: "{{ frigate_path }}/.htpasswd"
+    owner: root
+    group: http
+    mode: 'u=rw,g=r,o='
+  when: frigate_nginx_proxy and frigate_nginx_basic_auth
+
+- name: Deploy Frigate nginx vhost
+  ansible.builtin.include_tasks: deploy_nginx_vhost.yml
+  vars:
+    host_name: "{{ frigate_host_name }}"
+    http_port: "{{ frigate_http_port }}"
+    logs_dir: "{{ frigate_nginx_logs_dir }}"
+    ssl: "{{ frigate_nginx_ssl }}"
+    server_block_beginning: |
+      {% if frigate_nginx_ip_auth %}
+          include snippets/ip_auth.conf;
+      {% endif %}
+    location_block_beginning: |
+      {% if frigate_nginx_ip_auth %}
+              include snippets/ip_auth_check.conf;
+      {% endif %}
+      {% if frigate_nginx_basic_auth %}
+              auth_basic "Frigate";
+              auth_basic_user_file {{ frigate_path }}/.htpasswd;
+      {% endif %}
+  when: frigate_nginx_proxy

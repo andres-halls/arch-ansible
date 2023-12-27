@@ -52,10 +52,9 @@
       {% if naemon_ip_auth %}
           include snippets/ip_auth.conf;
       {% endif %}
-    location_block_beginning: |+
+    location_block_beginning: |
       {% if naemon_ip_auth %}
               include snippets/ip_auth_check.conf;
-
       {% endif %}
   when: naemon_nginx_proxy
 
