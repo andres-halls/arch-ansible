@@ -19,3 +19,7 @@ http:
   trusted_proxies:
     - 127.0.0.1
 {% endif %}
+
+{% if homeassistant_custom_config %}
+{{ homeassistant_custom_config }}
+{% endif %}

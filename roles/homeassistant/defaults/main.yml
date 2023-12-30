@@ -9,3 +9,5 @@ homeassistant_nginx_proxy: true
 homeassistant_nginx_ssl: true
 homeassistant_nginx_logs_dir: '/srv/homeassistant/nginx-logs'
 homeassistant_nginx_ip_auth: false
+
+homeassistant_custom_config: ''
