@@ -7,6 +7,11 @@
 - name: Install nginx-mainline
   pacman: name=nginx-mainline state=present update_cache=yes
 
+- name: Install nginx-mainline-mod-headers-more from AUR
+  aur: name=nginx-mainline-mod-headers-more
+  become: yes
+  become_user: "{{ aur_user }}"
+
 - name: Ensure directory structure exists
   file: dest="/etc/nginx/{{ item.path }}" state=directory
   with_filetree: '../templates'
