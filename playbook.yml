@@ -1,103 +1,234 @@
 #!/usr/bin/env -S ansible-playbook
 ---
 - hosts: all
-  roles:
-  - role: arch_setup
-    become: yes
-    tags: [arch_setup]
-    when: arch_setup
-  - role: aur
-    tags: [aur, aur-only]
-    when: install_aur
-  - role: zsh
-    tags: [zsh, aur]
-    when: install_zsh
-  - role: vim
-    tags: [vim, aur]
-    when: install_vim
-  - role: tools
-    tags: [tools, aur]
-    when: install_tools
-  - role: sshd
-    become: yes
-    tags: [sshd]
-    when: install_sshd
-  - role: syslog-ng
-    become: yes
-    tags: [syslog-ng]
-    when: install_syslog_ng
-  - role: kitty
-    tags: [kitty]
-    when: install_kitty
-  - role: nginx
-    become: yes
-    tags: [nginx]
-    when: install_nginx
-  - role: letsencrypt
-    become: yes
-    tags: [letsencrypt, letsencrypt-only]
-    when: install_letsencrypt
-  - role: nodejs
-    become: yes
-    tags: [nodejs]
-    when: install_nodejs
-  - role: redis
-    become: yes
-    tags: [redis]
-    when: install_redis
-  - role: mongodb
-    become: yes
-    tags: [mongodb]
-    when: install_mongodb
-  - role: tswbot
-    become: yes
-    tags: [tswbot]
-    when: install_tswbot
-  - role: docker
-    become: yes
-    tags: [docker, docker-only]
-    when: install_docker
-  - role: gitlab
-    become: yes
-    tags: [gitlab, docker, letsencrypt]
-    when: install_gitlab
-  - role: naemon
-    become: yes
-    tags: [naemon, docker, letsencrypt]
-    when: install_naemon
-  - role: plex
-    become: yes
-    tags: [plex, docker, letsencrypt]
-    when: install_plex
-  - role: transmission
-    become: yes
-    tags: [transmission, transmission-only, docker]
-    when: install_transmission
-  - role: flexget
-    become: yes
-    tags: [flexget, transmission, docker]
-    when: install_flexget
-  - role: organizr
-    become: yes
-    tags: [organizr, docker, letsencrypt]
-    when: install_organizr
-  - role: ghost
-    become: yes
-    tags: [ghost, docker, letsencrypt]
-    when: install_ghost
-  - role: couchdb
-    become: yes
-    tags: [couchdb, docker]
-    when: install_couchdb
-  - role: frigate
-    become: yes
-    tags: [frigate, docker, letsencrypt]
-    when: install_frigate
-  - role: homeassistant
-    become: yes
-    tags: [homeassistant, docker, letsencrypt]
-    when: install_homeassistant
-  - role: neolink
-    become: yes
-    tags: [neolink, docker]
-    when: install_neolink
+  tasks:
+    - name: Arch Setup
+      ansible.builtin.include_role:
+        name: arch_setup
+        apply:
+          become: yes
+          tags: [arch_setup]
+      tags: always
+      when: arch_setup
+
+    - name: Setup AUR
+      ansible.builtin.include_role:
+        name: aur
+        apply:
+          become: yes
+          tags: [aur, aur-only]
+      tags: always
+      when: install_aur
+
+    - name: Setup zsh
+      ansible.builtin.include_role:
+        name: zsh
+        apply:
+          tags: [zsh, aur]
+      tags: always
+      when: install_zsh
+
+    - name: Setup vim
+      ansible.builtin.include_role:
+        name: vim
+        apply:
+          tags: [vim, aur]
+      tags: always
+      when: install_vim
+
+    - name: Install common tools
+      ansible.builtin.include_role:
+        name: tools
+        apply:
+          become: yes
+          tags: [tools, aur]
+      tags: always
+      when: install_tools
+
+    - name: Setup sshd
+      ansible.builtin.include_role:
+        name: sshd
+        apply:
+          become: yes
+          tags: [sshd]
+      tags: always
+      when: install_sshd
+
+    - name: Setup syslog-ng
+      ansible.builtin.include_role:
+        name: syslog-ng
+        apply:
+          become: yes
+          tags: [syslog-ng]
+      tags: always
+      when: install_syslog_ng
+
+    - name: Install kitty
+      ansible.builtin.include_role:
+        name: kitty
+        apply:
+          tags: [kitty]
+      tags: always
+      when: install_kitty
+
+    - name: Install nginx
+      ansible.builtin.include_role:
+        name: nginx
+        apply:
+          become: yes
+          tags: [nginx, aur]
+      tags: always
+      when: install_nginx
+
+    - name: Install letsencrypt (certbot)
+      ansible.builtin.include_role:
+        name: letsencrypt
+        apply:
+          become: yes
+          tags: [letsencrypt, letsencrypt-only]
+      tags: always
+      when: install_letsencrypt
+
+    - name: Install nodejs
+      ansible.builtin.include_role:
+        name: nodejs
+        apply:
+          become: yes
+          tags: [nodejs]
+      tags: always
+      when: install_nodejs
+
+    - name: Install redis
+      ansible.builtin.include_role:
+        name: redis
+        apply:
+          become: yes
+          tags: [redis]
+      tags: always
+      when: install_redis
+
+    - name: Install mongodb
+      ansible.builtin.include_role:
+        name: mongodb
+        apply:
+          become: yes
+          tags: [mongodb]
+      tags: always
+      when: install_mongodb
+
+    - name: Install tswbot
+      ansible.builtin.include_role:
+        name: tswbot
+        apply:
+          become: yes
+          tags: [tswbot]
+      tags: always
+      when: install_tswbot
+
+    - name: Install docker
+      ansible.builtin.include_role:
+        name: docker
+        apply:
+          become: yes
+          tags: [docker, docker-only]
+      tags: always
+      when: install_docker
+
+    - name: Install gitlab
+      ansible.builtin.include_role:
+        name: gitlab
+        apply:
+          become: yes
+          tags: [gitlab, docker, letsencrypt]
+      tags: always
+      when: install_gitlab
+
+    - name: Install naemon
+      ansible.builtin.include_role:
+        name: naemon
+        apply:
+          become: yes
+          tags: [naemon, docker, letsencrypt]
+      tags: always
+      when: install_naemon
+
+    - name: Install plex
+      ansible.builtin.include_role:
+        name: plex
+        apply:
+          become: yes
+          tags: [plex, docker, letsencrypt]
+      tags: always
+      when: install_plex
+
+    - name: Install transmission
+      ansible.builtin.include_role:
+        name: transmission
+        apply:
+          become: yes
+          tags: [transmission, transmission-only, docker]
+      tags: always
+      when: install_transmission
+
+    - name: Install flexget
+      ansible.builtin.include_role:
+        name: flexget
+        apply:
+          become: yes
+          tags: [flexget, transmission, docker]
+      tags: always
+      when: install_flexget
+
+    - name: Install organizr
+      ansible.builtin.include_role:
+        name: organizr
+        apply:
+          become: yes
+          tags: [organizr, docker, letsencrypt]
+      tags: always
+      when: install_organizr
+
+    - name: Install ghost
+      ansible.builtin.include_role:
+        name: ghost
+        apply:
+          become: yes
+          tags: [ghost, docker, letsencrypt]
+      tags: always
+      when: install_ghost
+
+    - name: Install couchdb
+      ansible.builtin.include_role:
+        name: couchdb
+        apply:
+          become: yes
+          tags: [couchdb, docker]
+      tags: always
+      when: install_couchdb
+
+    - name: Install frigate
+      ansible.builtin.include_role:
+        name: frigate
+        apply:
+          become: yes
+          tags: [frigate, docker, letsencrypt]
+      tags: always
+      when: install_frigate
+
+    - name: Install homeassistant
+      ansible.builtin.include_role:
+        name: homeassistant
+        apply:
+          become: yes
+          tags: [homeassistant, docker, letsencrypt]
+      tags: always
+      when: install_homeassistant
+
+    - name: Install neolink
+      ansible.builtin.include_role:
+        name: neolink
+        apply:
+          become: yes
+          tags: [neolink, docker]
+      tags: always
+      when: install_neolink
