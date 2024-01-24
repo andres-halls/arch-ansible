@@ -3,6 +3,7 @@
   file: dest="{{ item }}" recurse=yes state=directory
   with_items:
     - "{{ ghost_dir }}"
+    - "{{ ghost_dir }}/mysql"
     - "{{ ghost_dir }}/content"
     - "{{ ghost_dir }}/content/themes"
     - "{{ ghost_logs_dir }}"
@@ -20,13 +21,9 @@
 
 - name: Download latest Attila theme
   shell: "wget https://github.com/zutrinken/attila/archive/refs/heads/master.zip -O attila-master.zip"
-  args:
-    warn: no
 
 - name: Unzip Attila theme
   shell: "unzip attila-master && rm attila-master.zip"
-  args:
-    warn: no
 
 - name: Install Attila theme
   shell: |
@@ -36,8 +33,6 @@
       rsync -a attila-master "{{ ghost_dir }}/content/themes/"
     fi
     rm -r attila-master
-  args:
-    warn: no
 
 - name: Change Attila theme folder owner and group
   file:

@@ -4,6 +4,8 @@ services:
   db:
     image: 'mysql'
     restart: always
+    volumes:
+      - "{{ ghost_dir }}/mysql:/var/lib/mysql"
   web:
     depends_on:
       - db
