@@ -1,5 +1,5 @@
 ---
-frigate_version: '0.13.0-rc1'
+frigate_version: '0.13.1'
 frigate_shm_size: '2G'
 frigate_host_name: 'frigate'
 frigate_path: '/srv/frigate'
