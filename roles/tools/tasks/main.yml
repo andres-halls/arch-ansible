@@ -73,9 +73,9 @@
     - { name: delta.side-by-side, value: true }
 
 - name: Install choose from AUR
-  aur: name=choose-rust-git
+  kewlfft.aur.aur: name=choose-rust-git
   become_user: "{{ aur_user }}"
 
 - name: Install Ultimate Plumber (up) from AUR
-  aur: name=up-git
+  kewlfft.aur.aur: name=up-git
   become_user: "{{ aur_user }}"

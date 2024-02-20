@@ -19,5 +19,5 @@
   pacman: name=binutils state=present
 
 - name: Install paru AUR helper from AUR
-  aur: name=paru-bin
+  kewlfft.aur.aur: name=paru-bin
   become_user: "{{ aur_user }}"

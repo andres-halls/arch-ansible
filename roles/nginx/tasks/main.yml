@@ -1,16 +1,16 @@
 ---
 - name: Uninstall any existing nginx
   pacman: name=nginx state=absent
-  become: yes
   ignore_errors: yes
 
 - name: Install nginx-mainline
   pacman: name=nginx-mainline state=present update_cache=yes
 
 - name: Install nginx-mainline-mod-headers-more from AUR
-  aur: name=nginx-mainline-mod-headers-more
+  kewlfft.aur.aur: name=nginx-mainline-mod-headers-more
   become: yes
   become_user: "{{ aur_user }}"
+  when: nginx_install_mod_headers_more
 
 - name: Ensure directory structure exists
   file: dest="/etc/nginx/{{ item.path }}" state=directory

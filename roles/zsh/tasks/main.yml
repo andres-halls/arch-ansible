@@ -16,12 +16,12 @@
   become: yes
 
 - name: Install antibody-bin from AUR
-  aur: name=antibody-bin
+  kewlfft.aur.aur: name=antibody-bin
   become: yes
   become_user: "{{ aur_user }}"
 
 - name: Install MesloLGS NF from AUR
-  aur: name=ttf-meslo-nerd-font-powerlevel10k
+  kewlfft.aur.aur: name=ttf-meslo-nerd-font-powerlevel10k
   become: yes
   become_user: "{{ aur_user }}"
 
