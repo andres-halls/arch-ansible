@@ -58,7 +58,7 @@ source "$ZSH_HOME/zsh_plugins.zsh"
 source "$ZSH_HOME/p10k_custom_segments.zsh"
 
 # To customize prompt, run `p10k configure` or edit p10k.zsh.
-[[ ! -f "$ZSH_HOME/p10k.zsh" ]] || source "$ZSH_HOME/p10k.zsh"
+[[ -r "$ZSH_HOME/p10k.zsh" ]] && source "$ZSH_HOME/p10k.zsh"
 # ==================================================
 
 # load aliases
