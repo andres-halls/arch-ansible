@@ -43,7 +43,8 @@
         target: /tmp/cache
         tmpfs_size: "1G"
     devices:
-      /dev/bus/usb:/dev/bus/usb # passes the USB Coral
+      # - /dev/bus/usb:/dev/bus/usb # passes the USB Coral
+      - /dev/apex_0:/dev/apex_0 # passes the PCIe Coral
     device_requests:
       - driver: nvidia
         count: -1  # this means we want all
