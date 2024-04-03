@@ -1,11 +1,17 @@
 ---
+- name: Check if SSL cert exists for {{ host_name }}
+  ansible.builtin.stat:
+    path: "/etc/letsencrypt/live/{{ host_name }}/fullchain.pem"
+  register: cert
+
 - ansible.builtin.import_tasks: deploy_nginx_letsencrypt.yml
-  when: ssl
+  when: ssl and not cert.stat.exists
 
 - ansible.builtin.meta: flush_handlers
+  when: ssl and not cert.stat.exists
 
 - ansible.builtin.import_tasks: gen_ssl_cert.yml
-  when: ssl
+  when: ssl and not cert.stat.exists
 
 - ansible.builtin.import_tasks: deploy_nginx_ssl.yml
   when: ssl
