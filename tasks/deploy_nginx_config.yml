@@ -1,7 +1,7 @@
 ---
 - name: Deploy nginx vhost config to sites-available
   ansible.builtin.template:
-    src: "{{ vhost_config_file }}"
+    src: nginx_vhost.conf.j2
     dest: "/etc/nginx/sites-available/{{ host_name }}.conf"
     lstrip_blocks: true
   notify:

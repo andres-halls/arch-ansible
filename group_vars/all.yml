@@ -1,5 +1,4 @@
 ---
-vhost_config_file: nginx_vhost.conf.j2
 aur_user: aur_builder
 aur_sudo_setup: yes
 arch_setup: yes
