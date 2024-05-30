@@ -1,6 +1,7 @@
 ---
 frigate_version: '0.13.2'
 frigate_shm_size: '2G'
+frigate_tmp_size: '2G'
 frigate_host_name: 'frigate'
 frigate_path: '/srv/frigate'
 frigate_storage_path: '/srv/frigate/media'

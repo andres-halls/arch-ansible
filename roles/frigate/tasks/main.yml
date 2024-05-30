@@ -41,7 +41,7 @@
     mounts:
       - type: tmpfs
         target: /tmp/cache
-        tmpfs_size: "1G"
+        tmpfs_size: "{{ frigate_tmp_size }}"
     devices:
       # - /dev/bus/usb:/dev/bus/usb # passes the USB Coral
       - /dev/apex_0:/dev/apex_0 # passes the PCIe Coral
