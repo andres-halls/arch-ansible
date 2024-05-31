@@ -1,0 +1,14 @@
+---
+- name: Deploy nginx vhosts
+  ansible.builtin.include_tasks: deploy_nginx_vhost.yml
+  vars:
+    host_name: "{{ item.host_name }}"
+    proxy_pass_host: "{{ item.proxy_pass_host }}"
+    http_port: "{{ item.http_port }}"
+    logs_dir: "{{ item.logs_dir }}"
+    ssl: "{{ item.ssl }}"
+    server_block_beginning: "{{ item.server_block_beginning }}"
+    location_block_beginning: "{{ item.location_block_beginning }}"
+    location_block_ending: "{{ item.location_block_ending }}"
+    server_block_ending: "{{ item.server_block_ending }}"
+  loop: "{{ nginx_vhosts }}"

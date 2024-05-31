@@ -80,6 +80,15 @@
       tags: always
       when: install_nginx
 
+    - name: Deploy nginx vhosts
+      ansible.builtin.include_role:
+        name: nginx_vhosts
+        apply:
+          become: yes
+          tags: [nginx_vhosts]
+      tags: always
+      when: nginx_vhosts
+
     - name: Install letsencrypt (certbot)
       ansible.builtin.include_role:
         name: letsencrypt

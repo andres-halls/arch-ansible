@@ -28,18 +28,18 @@ server {
     access_log {{ logs_dir }}/{{ host_name }}_access.log;
     error_log  {{ logs_dir }}/{{ host_name }}_error.log;
 
-    {% if server_block_beginning is defined %}{{ server_block_beginning }}{% endif %}
+    {% if server_block_beginning is defined and server_block_beginning %}{{ server_block_beginning }}{% endif %}
 
     location / {
-        {% if location_block_beginning is defined %}{{ location_block_beginning }}{% endif %}
+        {% if location_block_beginning is defined and location_block_beginning %}{{ location_block_beginning }}{% endif %}
         {% if http_port.split(':') | count == 2 %}
         proxy_pass http://{{ proxy_pass_host | default('127.0.0.1', true) }}:{{ http_port.split(':')[1] }};
         {% else %}
         proxy_pass http://{{ proxy_pass_host | default('127.0.0.1', true) }}:{{ http_port }};
         {% endif %}
         include snippets/proxy_params.conf;
-        {% if location_block_ending is defined %}{{ location_block_ending }}{% endif %}
+        {% if location_block_ending is defined and location_block_ending %}{{ location_block_ending }}{% endif %}
     }
 
-    {% if server_block_ending is defined %}{{ server_block_ending }}{% endif %}
+    {% if server_block_ending is defined and server_block_ending %}{{ server_block_ending }}{% endif %}
 }

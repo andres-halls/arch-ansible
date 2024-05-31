@@ -1,5 +1,5 @@
 ---
-- name: Deploy nginx SSL config
+- name: Deploy nginx SSL config for {{ host_name }}
   ansible.builtin.template:
     src: nginx_ssl.conf.j2
     dest: "/etc/nginx/snippets/ssl-{{ host_name }}.conf"

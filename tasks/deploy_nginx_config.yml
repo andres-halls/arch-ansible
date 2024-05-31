@@ -1,5 +1,5 @@
 ---
-- name: Deploy nginx vhost config to sites-available
+- name: Deploy nginx vhost config {{ host_name }}.conf to sites-available
   ansible.builtin.template:
     src: nginx_vhost.conf.j2
     dest: "/etc/nginx/sites-available/{{ host_name }}.conf"
