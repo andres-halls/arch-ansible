@@ -5,6 +5,7 @@
     host_name: "{{ item.host_name }}"
     proxy_pass_host: "{{ item.proxy_pass_host }}"
     http_port: "{{ item.http_port }}"
+    https_port: "{{ item.https_port }}"
     logs_dir: "{{ item.logs_dir }}"
     ssl: "{{ item.ssl }}"
     server_block_beginning: "{{ item.server_block_beginning }}"

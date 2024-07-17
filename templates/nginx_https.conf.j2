@@ -1,4 +1,9 @@
 # {{ ansible_managed }}
+{% set protocol = 'http://' %}
+{% if https_port is defined and https_port %}
+  {% set protocol = 'https://' %}
+  {% set http_port = https_port %}
+{% endif %}
 
 server {
     listen 80;
@@ -33,9 +38,9 @@ server {
     location / {
         {% if location_block_beginning is defined and location_block_beginning %}{{ location_block_beginning }}{% endif %}
         {% if http_port.split(':') | count == 2 %}
-        proxy_pass http://{{ proxy_pass_host | default('127.0.0.1', true) }}:{{ http_port.split(':')[1] }};
+        proxy_pass {{ protocol }}{{ proxy_pass_host | default('127.0.0.1', true) }}:{{ http_port.split(':')[1] }};
         {% else %}
-        proxy_pass http://{{ proxy_pass_host | default('127.0.0.1', true) }}:{{ http_port }};
+        proxy_pass {{ protocol }}{{ proxy_pass_host | default('127.0.0.1', true) }}:{{ http_port }};
         {% endif %}
         include snippets/proxy_params.conf;
         {% if location_block_ending is defined and location_block_ending %}{{ location_block_ending }}{% endif %}
