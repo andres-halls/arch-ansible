@@ -27,6 +27,7 @@
       GITLAB_OMNIBUS_CONFIG: |
         external_url '{{ gitlab_host }}'
         gitlab_rails['gitlab_shell_ssh_port'] = {{ gitlab_ssh_port }}
+        postgresql['shared_buffers'] = "512MB"
         {% if gitlab_registry and gitlab_registry_host != '' %}registry_external_url '{{ gitlab_registry_protocol }}://{{ gitlab_registry_host }}'{% endif %}
 
         {% if gitlab_nginx_proxy and gitlab_ssl_enabled %}
