@@ -30,7 +30,8 @@
     hostname: "{{ frigate_host_name }}"
     shm_size: "{{ frigate_shm_size }}"
     ports:
-      - "{{ frigate_http_port }}:5000"
+      - "{{ frigate_unauth_port }}:5000"
+      - "{{ frigate_auth_port }}:8971"
       - '127.0.0.1:8554:8554' # RTSP feeds
       - '127.0.0.1:8555:8555/tcp' # WebRTC over tcp
       - '127.0.0.1:8555:8555/udp' # WebRTC over udp
@@ -54,20 +55,11 @@
       FRIGATE_RTSP_USER: "{{ frigate_rtsp_username }}"
       FRIGATE_RTSP_PASSWORD: "{{ frigate_rtsp_password }}"
 
-- name: Deploy {{ frigate_path }}/.htpasswd
-  ansible.builtin.template:
-    src: htpasswd.j2
-    dest: "{{ frigate_path }}/.htpasswd"
-    owner: root
-    group: http
-    mode: 'u=rw,g=r,o='
-  when: frigate_nginx_proxy and frigate_nginx_basic_auth
-
 - name: Deploy Frigate nginx vhost
   ansible.builtin.include_tasks: deploy_nginx_vhost.yml
   vars:
     host_name: "{{ frigate_host_name }}"
-    http_port: "{{ frigate_http_port }}"
+    http_port: "{{ frigate_auth_port }}"
     logs_dir: "{{ frigate_nginx_logs_dir }}"
     ssl: "{{ frigate_nginx_ssl }}"
     server_block_beginning: |
@@ -77,9 +69,5 @@
     location_block_beginning: |
       {% if frigate_nginx_ip_auth %}
               include snippets/ip_auth_check.conf;
-      {% endif %}
-      {% if frigate_nginx_basic_auth %}
-              auth_basic "Frigate";
-              auth_basic_user_file {{ frigate_path }}/.htpasswd;
       {% endif %}
   when: frigate_nginx_proxy
