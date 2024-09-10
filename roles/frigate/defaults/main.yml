@@ -9,6 +9,8 @@ frigate_unauth_port: '5000'
 frigate_auth_port: '8971'
 frigate_rtsp_username: 'admin'
 frigate_rtsp_password: 'password'
+frigate_onvif_username: 'admin'
+frigate_onvif_password: 'password'
 
 frigate_nginx_proxy: true
 frigate_nginx_ssl: true

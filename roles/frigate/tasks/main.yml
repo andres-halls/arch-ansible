@@ -54,6 +54,8 @@
     env:
       FRIGATE_RTSP_USER: "{{ frigate_rtsp_username }}"
       FRIGATE_RTSP_PASSWORD: "{{ frigate_rtsp_password }}"
+      FRIGATE_ONVIF_USER: "{{ frigate_onvif_username }}"
+      FRIGATE_ONVIF_PASSWORD: "{{ frigate_onvif_password }}"
 
 - name: Deploy Frigate nginx vhost
   ansible.builtin.include_tasks: deploy_nginx_vhost.yml
