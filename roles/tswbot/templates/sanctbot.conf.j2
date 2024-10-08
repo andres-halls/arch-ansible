@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 
 log {
-	source(src);
+	source(s_local);
 	filter { program("sanctbot"); };
 	destination {
 		file("/srv/irc/sanctuary/logs/output.log" template(no_header));

@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 
 log {
-	source(src);
+	source(s_local);
 	filter { program("tswbot"); };
 	destination {
 		file("/srv/irc/tsw/logs/output.log" template(no_header));
@@ -10,7 +10,7 @@ log {
 };
 
 log {
-	source(src);
+	source(s_local);
 	filter { program("swlbot"); };
 	destination {
 		file("/srv/irc/swl/logs/output.log" template(no_header));
