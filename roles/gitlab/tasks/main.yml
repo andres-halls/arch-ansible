@@ -93,6 +93,13 @@
     http_port: "{{ gitlab_registry_port }}"
     logs_dir: "{{ gitlab_logs_dir }}"
     ssl: gitlab_ssl_enabled
-    server_block_beginning: |2
+    server_block_beginning: |
+      {% if gitlab_registry_ip_auth %}
+          include snippets/ip_auth.conf;
+      {% endif %}
           client_max_body_size 0;
+    location_block_beginning: |
+      {% if gitlab_registry_ip_auth %}
+              include snippets/ip_auth_check.conf;
+      {% endif %}
   when: gitlab_nginx_proxy and gitlab_registry

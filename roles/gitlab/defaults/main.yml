@@ -12,6 +12,7 @@ gitlab_registry: no
 gitlab_registry_host: ''
 gitlab_registry_protocol: 'https'
 gitlab_registry_port: '127.0.0.1:5001'
+gitlab_registry_ip_auth: yes
 gitlab_nginx_proxy: yes
 gitlab_ssl_enabled: yes
 gitlab_runner: yes
