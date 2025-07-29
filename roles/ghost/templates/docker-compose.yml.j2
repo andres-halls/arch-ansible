@@ -2,7 +2,7 @@
 name: ghost
 services:
   db:
-    image: 'mysql'
+    image: 'mysql:lts'
     restart: always
     volumes:
       - "{{ ghost_dir }}/mysql:/var/lib/mysql"
