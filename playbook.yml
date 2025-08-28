@@ -87,7 +87,7 @@
           become: yes
           tags: [nginx_vhosts]
       tags: always
-      when: nginx_vhosts
+      when: nginx_vhosts | length > 0
 
     - name: Install letsencrypt (certbot)
       ansible.builtin.include_role:

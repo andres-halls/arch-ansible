@@ -56,7 +56,7 @@
     host_name: "{{ gitlab_host_name }}"
     http_port: "{{ gitlab_http_port }}"
     logs_dir: "{{ gitlab_logs_dir }}"
-    ssl: gitlab_ssl_enabled
+    ssl: "{{ gitlab_ssl_enabled }}"
     server_block_beginning: |2
           client_max_body_size 10m;
     location_block_ending: |
@@ -92,7 +92,7 @@
     host_name: "{{ gitlab_registry_host }}"
     http_port: "{{ gitlab_registry_port }}"
     logs_dir: "{{ gitlab_logs_dir }}"
-    ssl: gitlab_ssl_enabled
+    ssl: "{{ gitlab_ssl_enabled }}"
     server_block_beginning: |
       {% if gitlab_registry_ip_auth %}
           include snippets/ip_auth.conf;
