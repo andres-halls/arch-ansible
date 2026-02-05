@@ -20,7 +20,10 @@ config.keys = {
   { key = 'z', mods = 'CTRL|SHIFT', action = act.ScrollToPrompt(-1) },
   { key = 'X', mods = 'CTRL|SHIFT', action = act.ScrollToPrompt(1) },
   { key = 'X', mods = 'CTRL|SHIFT|ALT', action = act.ActivateCopyMode },
-  { key = 'T', mods = 'CTRL|SHIFT|ALT', action = act.SpawnTab 'CurrentPaneDomain' },
+  { key = 'T', mods = 'CTRL|SHIFT|ALT', action = act.SpawnCommandInNewTab {
+      cwd = wezterm.home_dir
+    }
+  },
 
   -- New tab SSH handler
   {
@@ -217,15 +220,8 @@ end)
 
 local presentation = wezterm.plugin.require("https://gitlab.com/xarvex/presentation.wez")
 local sessions = wezterm.plugin.require("https://github.com/abidibo/wezterm-sessions")
-local ai_helper = wezterm.plugin.require("https://github.com/Michal1993r/ai-helper.wezterm")
 
 presentation.apply_to_config(config)
 sessions.apply_to_config(config)
-ai_helper.apply_to_config(config, {
-  type = "http",
-  api_url = "https://api.perplexity.ai/chat/completions",
-  api_key = "",
-  model = "sonar-pro"
-})
 
 return config
