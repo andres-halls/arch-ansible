@@ -15,8 +15,8 @@
   pacman: name=fzf state=present
   become: yes
 
-- name: Install antibody-bin from AUR
-  kewlfft.aur.aur: name=antibody-bin
+- name: Install zsh-antidote from AUR
+  kewlfft.aur.aur: name=zsh-antidote
   become: yes
   become_user: "{{ aur_user }}"
 
@@ -40,10 +40,10 @@
     - { src: '.zsh_aliases', dest: "{{ ansible_env.HOME }}/" }
   when: "not result.stat.exists or 'zsh-with-home-conf' in ansible_run_tags"
 
-- name: Download zsh plugins with antibody
-  shell: antibody bundle < /etc/zsh/zsh_plugins > /etc/zsh/zsh_plugins.zsh
+- name: Download zsh plugins with antidote
+  shell: antidote bundle < /etc/zsh/zsh_plugins > /etc/zsh/zsh_plugins.zsh
   environment:
-    ANTIBODY_HOME: /etc/zsh/antibody
+    ANTIDOTE_HOME: /etc/zsh/antidote
   become: yes
 
 - name: Change root shell to zsh

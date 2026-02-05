@@ -6,10 +6,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 # ====================================================================================
 
+# Load antidote
+source "/usr/share/zsh-antidote/antidote.zsh"
+
 # ==================== ENV ====================
 export ZSH_HOME="/etc/zsh"
-export ANTIBODY_HOME="$ZSH_HOME/antibody"
-export ZSH="$(antibody path ohmyzsh/ohmyzsh)"
+export ANTIDOTE_HOME="$ZSH_HOME/antidote"
+export ZSH="$(antidote path ohmyzsh/ohmyzsh)"
 export ZSH_CUSTOM="$ZSH_HOME/custom"
 # ==================================================
 
@@ -33,9 +36,8 @@ DISABLE_MAGIC_FUNCTIONS=true
 # zsh-autosuggestions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
-# auto-ls
-AUTO_LS_COMMANDS=(/bin/lsd git-status)
-AUTO_LS_NEWLINE=false
+# cd-ls
+CD_LS_COMMAND='lsd -F --hyperlink=auto --group-directories-first'
 
 # set global history as default
 HISTORY_START_WITH_GLOBAL=true

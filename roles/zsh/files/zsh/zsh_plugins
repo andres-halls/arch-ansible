@@ -17,7 +17,6 @@ ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z
 ohmyzsh/ohmyzsh path:plugins/git
 ohmyzsh/ohmyzsh path:plugins/git-lfs
 ohmyzsh/ohmyzsh path:plugins/isodate
-ohmyzsh/ohmyzsh path:plugins/node
 ohmyzsh/ohmyzsh path:plugins/per-directory-history
 ohmyzsh/ohmyzsh path:plugins/pip
 ohmyzsh/ohmyzsh path:plugins/rsync
@@ -26,25 +25,25 @@ ohmyzsh/ohmyzsh path:plugins/systemd
 ohmyzsh/ohmyzsh path:plugins/themes
 ohmyzsh/ohmyzsh path:plugins/universalarchive
 ohmyzsh/ohmyzsh path:plugins/urltools
-ohmyzsh/ohmyzsh path:plugins/web-search
 ohmyzsh/ohmyzsh path:plugins/zoxide
 
 # theme
 romkatv/powerlevel10k
 
 # others
-desyncr/auto-ls
+zshzoo/cd-ls
 bric3/nice-exit-code
-skx/sysadmin-util
 Tarrasch/zsh-bd
 zpm-zsh/clipboard
-b4b4r07/emoji-cli
 Aloxaf/fzf-tab
-# momo-lab/zsh-smartinput
 unixorn/git-extra-commands
 Bhupesh-V/ugit
 bigH/git-fuzzy path:bin kind:path
 zdharma-continuum/history-search-multi-word branch:main
+# desyncr/auto-ls
+# skx/sysadmin-util
+# b4b4r07/emoji-cli
+# momo-lab/zsh-smartinput
 
 # autosuggestions & syntax highlighting must be last
 zsh-users/zsh-autosuggestions
