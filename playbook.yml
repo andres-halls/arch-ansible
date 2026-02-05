@@ -63,6 +63,14 @@
       tags: always
       when: install_syslog_ng
 
+    - name: Install wezterm
+      ansible.builtin.include_role:
+        name: wezterm
+        apply:
+          tags: [wezterm]
+      tags: always
+      when: install_wezterm
+
     - name: Install kitty
       ansible.builtin.include_role:
         name: kitty

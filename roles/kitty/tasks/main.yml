@@ -9,4 +9,4 @@
 
 - name: Copy kitty configuration files to {{ ansible_env.HOME }}/.config/kitty
   synchronize: src="kitty" dest="{{ ansible_env.HOME }}/.config/"
-  when: "not result.stat.exists or 'kitty-override-conf' in ansible_run_tags"
+  when: "not result.stat.exists or 'kitty-overwrite-conf' in ansible_run_tags"

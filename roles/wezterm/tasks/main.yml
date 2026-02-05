@@ -1,0 +1,12 @@
+---
+- name: Install wezterm
+  community.general.pacman: name=wezterm state=present update_cache=yes
+  become: yes
+
+- name: Check if .wezterm.lua exists in {{ ansible_facts['env']['HOME'] }}/.wezterm.lua
+  ansible.builtin.stat: path="{{ ansible_facts['env']['HOME'] }}/.wezterm.lua"
+  register: result
+
+- name: Copy wezterm configuration file to {{ ansible_facts['env']['HOME'] }}/.wezterm.lua
+  ansible.builtin.copy: src=.wezterm.lua dest="{{ ansible_facts['env']['HOME'] }}/.wezterm.lua"
+  when: "not result.stat.exists or 'wezterm-overwrite-conf' in ansible_run_tags"

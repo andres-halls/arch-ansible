@@ -8,6 +8,7 @@ install_vim: yes
 install_tools: yes
 install_sshd: yes
 install_syslog_ng: no
+install_wezterm: no
 install_kitty: no
 install_nginx: no
 install_letsencrypt: no
