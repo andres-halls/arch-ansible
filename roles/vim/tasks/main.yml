@@ -4,7 +4,7 @@
   become: yes
   ignore_errors: yes
 
-- name: Install vim
+- name: Install gvim
   pacman: name=gvim state=present update_cache=yes
   become: yes
 
