@@ -3,10 +3,10 @@
   pacman: name=kitty state=present update_cache=yes
   become: yes
 
-- name: Check if kitty.conf exists in {{ ansible_env.HOME }}/.config/kitty
-  stat: path="{{ ansible_env.HOME }}/.config/kitty/kitty.conf"
+- name: Check if kitty.conf exists in {{ ansible_facts['env']['HOME'] }}/.config/kitty
+  stat: path="{{ ansible_facts['env']['HOME'] }}/.config/kitty/kitty.conf"
   register: result
 
-- name: Copy kitty configuration files to {{ ansible_env.HOME }}/.config/kitty
-  synchronize: src="kitty" dest="{{ ansible_env.HOME }}/.config/"
+- name: Copy kitty configuration files to {{ ansible_facts['env']['HOME'] }}/.config/kitty
+  synchronize: src="kitty" dest="{{ ansible_facts['env']['HOME'] }}/.config/"
   when: "not result.stat.exists or 'kitty-overwrite-conf' in ansible_run_tags"

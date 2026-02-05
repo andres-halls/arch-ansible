@@ -29,15 +29,15 @@
   synchronize: src="zsh" dest="/etc/"
   become: yes
 
-- name: Check if .zshrc exists in {{ ansible_env.HOME }}
-  stat: path="{{ ansible_env.HOME }}/.zshrc"
+- name: Check if .zshrc exists in {{ ansible_facts['env']['HOME'] }}
+  stat: path="{{ ansible_facts['env']['HOME'] }}/.zshrc"
   register: result
 
-- name: Copy zsh configuration files to {{ ansible_env.HOME }}
+- name: Copy zsh configuration files to {{ ansible_facts['env']['HOME'] }}
   synchronize: src="{{ item.src }}" dest="{{ item.dest }}"
   with_items:
-    - { src: '.zshrc', dest: "{{ ansible_env.HOME }}/" }
-    - { src: '.zsh_aliases', dest: "{{ ansible_env.HOME }}/" }
+    - { src: '.zshrc', dest: "{{ ansible_facts['env']['HOME'] }}/" }
+    - { src: '.zsh_aliases', dest: "{{ ansible_facts['env']['HOME'] }}/" }
   when: "not result.stat.exists or 'zsh-with-home-conf' in ansible_run_tags"
 
 - name: Download zsh plugins with antidote

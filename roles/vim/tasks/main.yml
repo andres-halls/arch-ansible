@@ -16,15 +16,15 @@
 - name: Deploy vim configuration via git
   git:
     repo: 'https://github.com/timss/vimconf.git'
-    dest: "{{ ansible_env.HOME }}/vimconf"
+    dest: "{{ ansible_facts['env']['HOME'] }}/vimconf"
 
 - name: Create .vimrc symlink
   file:
-    src: "{{ ansible_env.HOME }}/vimconf/.vimrc"
-    dest: "{{ ansible_env.HOME }}/.vimrc"
+    src: "{{ ansible_facts['env']['HOME'] }}/vimconf/.vimrc"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.vimrc"
     state: link
 
 - name: Deploy .vimrc.last
   template:
     src: '.vimrc.last.j2'
-    dest: "{{ ansible_env.HOME }}/.vimrc.last"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.vimrc.last"
