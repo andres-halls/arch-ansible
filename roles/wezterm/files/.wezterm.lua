@@ -110,6 +110,44 @@ config.keys = {
       end),
     },
   },
+  -- Perplexity
+  {
+    key = 'a',
+    mods = 'SUPER',
+    action = act.PromptInputLine({
+      description = "🤖 Enter AI prompt:",
+      action = wezterm.action_callback(function(window, pane, line)
+        if line then
+          window:perform_action(act.ResetTerminal, pane)
+          pane:inject_output("🤖 AI is thinking...")
+          local ok, success, stdout, stderr = pcall(
+            wezterm.run_child_process, { "pp", line }
+          )
+          window:perform_action(act.ResetTerminal, pane)
+
+          if ok and success then
+            local formatted_stdout = stdout:gsub("\n", "\r\n")
+            pane:inject_output(formatted_stdout)
+          else
+            local error_msg = "❌ AI request failed: "
+            local formatted_err = ""
+
+            if ok then
+              formatted_err = stderr:gsub("\n", "\r\n")
+            else
+              formatted_err = tostring(success):gsub("\n", "\r\n")
+            end
+
+            pane:inject_output("\r\n" .. error_msg .. formatted_err)
+          end
+
+          pane:inject_output("\r\n\r\n")
+          pane:send_text("\r")
+          window:perform_action(act.ScrollToTop, pane)
+        end
+      end),
+    }),
+  },
 }
 
 for i = 1, 8 do
