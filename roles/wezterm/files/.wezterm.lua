@@ -242,7 +242,7 @@ wezterm.on('open-uri', function(window, pane, uri)
         or editor .. ' "$_f"'
       local cmd = '_f="'
         .. url.file_path
-        .. '"; { test -d "$_f" && { cd "$_f" ; ls -a -p --hyperlink --group-directories-first; }; } '
+        .. '"; { test -d "$_f" && { cd "$_f" }; } '
         .. '|| { test "$(file --brief --mime-type "$_f" | cut -d/ -f1 || true)" = "text" && '
         .. edit_cmd
         .. '; }; echo'
