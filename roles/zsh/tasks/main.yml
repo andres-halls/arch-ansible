@@ -41,7 +41,11 @@
   when: "not result.stat.exists or 'zsh-with-home-conf' in ansible_run_tags"
 
 - name: Download zsh plugins with antidote
-  shell: antidote bundle < /etc/zsh/zsh_plugins > /etc/zsh/zsh_plugins.zsh
+  shell: |
+    source "/usr/share/zsh-antidote/antidote.zsh"
+    antidote bundle < /etc/zsh/zsh_plugins > /etc/zsh/zsh_plugins.zsh
+  args:
+    executable: /bin/zsh
   environment:
     ANTIDOTE_HOME: /etc/zsh/antidote
   become: yes
