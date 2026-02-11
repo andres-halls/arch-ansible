@@ -53,6 +53,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 
 # load plugins
 source "$ZSH_HOME/zsh_plugins.zsh"
+bindkey '^[^M' self-insert-unmeta # restore Esc+Enter to default
 # ==================================================
 
 # ==================== THEME/PROMPT ====================

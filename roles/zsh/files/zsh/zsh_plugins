@@ -40,6 +40,7 @@ unixorn/git-extra-commands
 Bhupesh-V/ugit
 bigH/git-fuzzy path:bin kind:path
 zdharma-continuum/history-search-multi-word branch:main
+PsychArch/nlsh
 # desyncr/auto-ls
 # skx/sysadmin-util
 # b4b4r07/emoji-cli
