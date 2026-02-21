@@ -17,7 +17,7 @@ ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z
 ohmyzsh/ohmyzsh path:plugins/git
 ohmyzsh/ohmyzsh path:plugins/git-lfs
 ohmyzsh/ohmyzsh path:plugins/isodate
-ohmyzsh/ohmyzsh path:plugins/per-directory-history
+# ohmyzsh/ohmyzsh path:plugins/per-directory-history
 ohmyzsh/ohmyzsh path:plugins/pip
 ohmyzsh/ohmyzsh path:plugins/rsync
 ohmyzsh/ohmyzsh path:plugins/sudo
@@ -41,6 +41,10 @@ Bhupesh-V/ugit
 bigH/git-fuzzy path:bin kind:path
 zdharma-continuum/history-search-multi-word branch:main
 PsychArch/nlsh
+andres-halls/zsh-mask
+andres-halls/per-directory-history
+andres-halls/zsh-history-on-success
+
 # desyncr/auto-ls
 # skx/sysadmin-util
 # b4b4r07/emoji-cli

@@ -6,17 +6,25 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 # ====================================================================================
 
-# Load antidote
-source "/usr/share/zsh-antidote/antidote.zsh"
+# load antidote
+if [[ -r "/usr/share/zsh-antidote/antidote.zsh" ]]; then
+  source "/usr/share/zsh-antidote/antidote.zsh"
+fi
 
-# ==================== ENV ====================
+# ==================== ENV =========================
 export ZSH_HOME="/etc/zsh"
 export ANTIDOTE_HOME="$ZSH_HOME/antidote"
 export ZSH="$(antidote path ohmyzsh/ohmyzsh)"
 export ZSH_CUSTOM="$ZSH_HOME/custom"
 # ==================================================
 
-# ==================== ZSH BUILT-INS ====================
+# ==================== ZSH BUILT-INS ===============
+# history configuration
+setopt HIST_IGNORE_SPACE
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+
 # The following lines were added by compinstall
 autoload -Uz compinit
 compinit
@@ -30,8 +38,9 @@ autoload -Uz zcalc zmv zargs zed
 # ==================================================
 
 # ==================== PLUGIN SETUP ====================
-# oh-my-zsh, speed up pasting into shell
-DISABLE_MAGIC_FUNCTIONS=true
+# oh-my-zsh
+DISABLE_MAGIC_FUNCTIONS=true # speed up pasting into shell
+HIST_STAMPS="yyyy-mm-dd"
 
 # zsh-autosuggestions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
@@ -41,6 +50,9 @@ CD_LS_COMMAND='lsd -F --hyperlink=auto --group-directories-first'
 
 # set global history as default
 HISTORY_START_WITH_GLOBAL=true
+
+# zsh-history-on-success
+ZSH_HISTORY_CTRL_C_DURATION_SECONDS=5
 
 # fzf-tabs
 # disable sort when completing `git checkout` or `git reset`
@@ -53,6 +65,8 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 
 # load plugins
 source "$ZSH_HOME/zsh_plugins.zsh"
+
+# plugin overrides
 bindkey '^[^M' self-insert-unmeta # restore Esc+Enter to default
 # ==================================================
 
