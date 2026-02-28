@@ -110,7 +110,7 @@ config.keys = {
       end),
     },
   },
-  -- Perplexity
+  -- AI Chat
   {
     key = 'a',
     mods = 'SUPER',
@@ -121,7 +121,7 @@ config.keys = {
           window:perform_action(act.ResetTerminal, pane)
           pane:inject_output("🤖 AI is thinking...")
           local ok, success, stdout, stderr = pcall(
-            wezterm.run_child_process, { "pp", line }
+            wezterm.run_child_process, { "ai", line }
           )
           window:perform_action(act.ResetTerminal, pane)
 
