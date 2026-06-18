@@ -31,16 +31,23 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = wezterm.action_callback(function(window, pane)
       local info = pane:get_foreground_process_info()
-
+      
       if info and info.argv then
-        local cmd_args = {}
-        -- Copy the original args (e.g., {"ssh", "-p", "2222", "user@host"})
-        for _, v in ipairs(info.argv) do
-          table.insert(cmd_args, v)
-        end
+        -- Check if the command is SSH first
+        if info.argv[1]:match("^ssh$") then
+          local cmd_args = {}
+          local has_t_flag = false
 
-        -- Check if the command is SSH
-        if cmd_args[1]:match("^ssh$") then
+          -- Copy the original args, but filter out our previous injections
+          for _, v in ipairs(info.argv) do
+            if not v:find("exec %$SHELL %-l") then
+              if v == "-t" then
+                has_t_flag = true
+              end
+              table.insert(cmd_args, v)
+            end
+          end
+          
           -- Get the current working directory from OSC 7
           local cwd_uri = pane:get_current_working_dir()
 
@@ -49,14 +56,15 @@ config.keys = {
             cwd = wezterm.home_dir,
           }
 
-          if cwd_uri.host ~= wezterm.hostname() then
+          if cwd_uri and cwd_uri.host and cwd_uri.host ~= wezterm.hostname() then
             -- Construct the remote command: cd /path; exec $SHELL -l
             -- We use 'exec $SHELL -l' to replace the temporary shell with an interactive one
             local remote_cmd = string.format("cd %q ; exec $SHELL -l", cwd_uri.file_path)
-
-            -- Append flags to force pseudo-terminal (-t) and run the command
-            -- We insert "-t" after "ssh" to ensure the remote shell is interactive
-            table.insert(cmd_args, 2, "-t")
+            
+            if not has_t_flag then
+              table.insert(cmd_args, 2, "-t")
+            end
+            
             table.insert(cmd_args, remote_cmd)
           end
 
