@@ -25,7 +25,7 @@
     image: "ghcr.io/blakeblackshear/frigate:{{ frigate_version }}"
     pull: true
     recreate: true
-    privileged: true
+    #privileged: true
     restart_policy: 'unless-stopped'
     hostname: "{{ frigate_host_name }}"
     shm_size: "{{ frigate_shm_size }}"
@@ -56,6 +56,7 @@
       FRIGATE_RTSP_PASSWORD: "{{ frigate_rtsp_password }}"
       FRIGATE_ONVIF_USER: "{{ frigate_onvif_username }}"
       FRIGATE_ONVIF_PASSWORD: "{{ frigate_onvif_password }}"
+      PLUS_API_KEY: "{{ frigate_plus_api_key }}"
 
 - name: Deploy Frigate nginx vhost
   ansible.builtin.include_tasks: deploy_nginx_vhost.yml
