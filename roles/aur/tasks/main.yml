@@ -1,14 +1,14 @@
 ---
 - name: Ensure {{ aur_user }} user exists
-  user: name={{ aur_user }}
+  ansible.builtin.user: name={{ aur_user }}
   when: not aur_sudo_setup
 
 - name: Ensure {{ aur_user }} user exists and has sudo access
-  user: name={{ aur_user }} groups=wheel append=yes
+  ansible.builtin.user: name={{ aur_user }} groups=wheel append=yes
   when: aur_sudo_setup
 
 - name: Ensure {{ aur_user }} user has passwordless sudo access to pacman
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "/etc/sudoers.d/11-install-{{ aur_user }}"
     line: "{{ aur_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
     create: yes
@@ -16,7 +16,7 @@
   when: aur_sudo_setup
 
 - name: Ensure binutils is installed
-  pacman: name=binutils state=present
+  community.general.pacman: name=binutils state=present
 
 - name: Install paru AUR helper from AUR
   kewlfft.aur.aur: name=paru-git
