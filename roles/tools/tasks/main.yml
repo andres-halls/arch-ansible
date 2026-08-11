@@ -1,60 +1,54 @@
 ---
 - name: Install htop
-  pacman: name=htop state=present update_cache=yes
+  community.general.pacman: name=htop state=present update_cache=yes
 
 - name: Install procs
-  pacman: name=procs state=present
-
-- name: Install bottom
-  pacman: name=bottom state=present
+  community.general.pacman: name=procs state=present
 
 - name: Install tldr
-  pacman: name=tldr state=present
+  community.general.pacman: name=tldr state=present
 
 - name: Install lsd
-  pacman: name=lsd state=present
+  community.general.pacman: name=lsd state=present
 
 - name: Install ripgrep (rg)
-  pacman: name=ripgrep state=present
+  community.general.pacman: name=ripgrep state=present
 
 - name: Install httpie
-  pacman: name=httpie state=present
-
-- name: Install curlie
-  pacman: name=curlie state=present
+  community.general.pacman: name=httpie state=present
 
 - name: Install bat
-  pacman: name=bat state=present
+  community.general.pacman: name=bat state=present
 
 - name: Install fd
-  pacman: name=fd state=present
+  community.general.pacman: name=fd state=present
 
 - name: Install fuzzy finder (fzf)
-  pacman: name=fzf state=present
+  community.general.pacman: name=fzf state=present
 
 - name: Install ncdu
-  pacman: name=ncdu state=present
+  community.general.pacman: name=ncdu state=present
 
 - name: Install dua
-  pacman: name=dua-cli state=present
+  community.general.pacman: name=dua-cli state=present
 
 - name: Install broot
-  pacman: name=broot state=present
+  community.general.pacman: name=broot state=present
 
 - name: Install ranger
-  pacman: name=ranger state=present
+  community.general.pacman: name=ranger state=present
 
 - name: Install sd
-  pacman: name=sd state=present
+  community.general.pacman: name=sd state=present
 
 - name: Install git-delta
-  pacman: name=git-delta state=present
+  community.general.pacman: name=git-delta state=present
 
 - name: Install duf
-  pacman: name=duf state=present
+  community.general.pacman: name=duf state=present
 
 - name: Configure git to use delta
-  git_config:
+  community.general.git_config:
     name: "{{ item.name }}"
     scope: system
     value: "{{ item.value }}"
@@ -63,7 +57,7 @@
     - { name: interactive.diffFilter, value: 'delta --color-only' }
 
 - name: Configure delta style
-  git_config:
+  community.general.git_config:
     name: "{{ item.name }}"
     scope: system
     value: "{{ item.value }}"
@@ -71,11 +65,3 @@
     - { name: delta.navigate, value: true }
     - { name: delta.line-numbers, value: true }
     - { name: delta.side-by-side, value: true }
-
-- name: Install choose from AUR
-  kewlfft.aur.aur: name=choose-rust-git
-  become_user: "{{ aur_user }}"
-
-- name: Install Ultimate Plumber (up) from AUR
-  kewlfft.aur.aur: name=up-git
-  become_user: "{{ aur_user }}"
