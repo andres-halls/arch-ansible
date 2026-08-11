@@ -18,6 +18,15 @@
 - name: Ensure binutils is installed
   community.general.pacman: name=binutils state=present
 
+- name: Ensure fakeroot is installed
+  community.general.pacman: name=fakeroot state=present
+
+- name: Ensure debugedit is installed
+  community.general.pacman: name=debugedit state=present
+
+- name: Ensure pkgconf is installed
+  community.general.pacman: name=pkgconf state=present
+
 - name: Install paru AUR helper from AUR
   kewlfft.aur.aur: name=paru-git
   become_user: "{{ aur_user }}"
