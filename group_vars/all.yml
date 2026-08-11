@@ -2,6 +2,8 @@
 aur_user: aur_builder
 aur_sudo_setup: yes
 arch_setup: yes
+setup_reflector: no
+
 install_aur: yes
 install_zsh: yes
 install_vim: yes
@@ -28,4 +30,5 @@ install_couchdb: no
 install_frigate: no
 install_homeassistant: no
 install_neolink: no
+
 nginx_vhosts: []

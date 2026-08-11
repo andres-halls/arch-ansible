@@ -1,21 +1,25 @@
 ---
 - name: Install pacman-contrib
-  pacman: name=pacman-contrib state=present update_cache=yes
-
-- name: Install reflector
-  pacman: name=reflector state=present
-
-- name: Install kernel-modules-hook
-  pacman: name=kernel-modules-hook state=present
+  community.general.pacman: name=pacman-contrib state=present update_cache=yes
 
 - name: Enable and start paccache.timer
-  service: name='paccache.timer' enabled=yes state=started
+  ansible.builtin.service: name='paccache.timer' enabled=yes state=started
+
+- name: Install kernel-modules-hook
+  community.general.pacman: name=kernel-modules-hook state=present
+
+- name: Install reflector
+  community.general.pacman: name=reflector state=present
+  when: setup_reflector
 
 - name: Enable and start reflector.timer
-  service: name='reflector.timer' enabled=yes state=started
+  ansible.builtin.service: name='reflector.timer' enabled=yes state=started
+  when: setup_reflector
 
 - name: Ensure pacman hooks directory exists
-  file: dest='/etc/pacman.d/hooks' recurse=yes state=directory
+  ansible.builtin.file: dest='/etc/pacman.d/hooks' recurse=yes state=directory
+  when: setup_reflector
 
 - name: Deploy mirrorupgrade.hook pacman hook
-  copy: src=mirrorupgrade.hook dest=/etc/pacman.d/hooks/mirrorupgrade.hook
+  ansible.builtin.copy: src=mirrorupgrade.hook dest=/etc/pacman.d/hooks/mirrorupgrade.hook
+  when: setup_reflector
