@@ -12,6 +12,7 @@ alias grep='grep --color=auto'
 alias rg='rg --hyperlink-format=kitty'
 
 alias ip='ip -color=auto'
+alias nethogs='nethogs -v 4'
 
 alias xclip='xclip -selection c'
 
