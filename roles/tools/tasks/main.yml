@@ -1,6 +1,12 @@
 ---
+- name: Install less
+  community.general.pacman: name=less state=present update_cache=yes
+
 - name: Install htop
-  community.general.pacman: name=htop state=present update_cache=yes
+  community.general.pacman: name=htop state=present
+
+- name: Install nethogs
+  community.general.pacman: name=nethogs state=present
 
 - name: Install procs
   community.general.pacman: name=procs state=present
