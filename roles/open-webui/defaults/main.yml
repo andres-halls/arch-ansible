@@ -1,0 +1,9 @@
+---
+openwebui_host_name: 'open-webui'
+openwebui_data_dir: '/srv/open-webui'
+openwebui_port: 3000
+
+openwebui_nginx_proxy: true
+openwebui_nginx_ssl: true
+openwebui_nginx_logs_dir: '/srv/open-webui/nginx-logs'
+openwebui_nginx_ip_auth: false

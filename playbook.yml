@@ -249,3 +249,12 @@
           tags: [neolink, docker]
       tags: always
       when: install_neolink
+
+    - name: Install open-webui
+      ansible.builtin.include_role:
+        name: open-webui
+        apply:
+          become: yes
+          tags: [openwebui, docker]
+      tags: always
+      when: install_openwebui

@@ -30,5 +30,6 @@ install_couchdb: no
 install_frigate: no
 install_homeassistant: no
 install_neolink: no
+install_openwebui: no
 
 nginx_vhosts: []

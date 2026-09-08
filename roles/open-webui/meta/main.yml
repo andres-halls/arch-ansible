@@ -1,0 +1,5 @@
+---
+dependencies:
+  - { role: docker }
+  - { role: nginx, when: openwebui_nginx_proxy }
+  - { role: letsencrypt, when: openwebui_nginx_proxy and openwebui_nginx_ssl }

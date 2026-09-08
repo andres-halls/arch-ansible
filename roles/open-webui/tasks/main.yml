@@ -1,0 +1,53 @@
+---
+- name: Ensure openwebui_secret_key is set
+  ansible.builtin.assert:
+    that:
+      - openwebui_secret_key is defined
+    fail_msg: |
+      Required variable 'openwebui_secret_key' not set. Generate with `openssl rand -hex 32` and store in host_vars.
+
+- name: Ensure {{ openwebui_data_dir }} directory exists
+  ansible.builtin.file:
+    path: "{{ openwebui_data_dir }}"
+    state: directory
+
+- name: Ensure {{ openwebui_nginx_logs_dir }} directory exists
+  ansible.builtin.file:
+    path: "{{ openwebui_nginx_logs_dir }}"
+    state: directory
+  when: openwebui_nginx_proxy
+
+- name: Pull Open WebUI image and run docker container
+  community.docker.docker_container:
+    name: open-webui
+    image: "ghcr.io/open-webui/open-webui:main"
+    pull: true
+    recreate: true
+    restart_policy: 'unless-stopped'
+    hostname: "{{ openwebui_host_name }}"
+    ports:
+      - "{{ openwebui_port }}:8080"
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+      - "{{ openwebui_data_dir }}:/app/backend/data"
+    extra_hosts:
+      host.docker.internal: host-gateway
+    env:
+      WEBUI_SECRET_KEY: "{{ openwebui_secret_key }}"
+
+- name: Deploy Open WebUI nginx vhost
+  ansible.builtin.include_tasks: deploy_nginx_vhost.yml
+  vars:
+    host_name: "{{ openwebui_host_name }}"
+    http_port: "{{ openwebui_port }}"
+    logs_dir: "{{ openwebui_nginx_logs_dir }}"
+    ssl: "{{ openwebui_nginx_ssl }}"
+    server_block_beginning: |
+      {% if openwebui_nginx_ip_auth %}
+          include snippets/ip_auth.conf;
+      {% endif %}
+    location_block_beginning: |
+      {% if openwebui_nginx_ip_auth %}
+              include snippets/ip_auth_check.conf;
+      {% endif %}
+  when: openwebui_nginx_proxy
