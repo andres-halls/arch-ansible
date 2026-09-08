@@ -102,7 +102,7 @@
         name: letsencrypt
         apply:
           become: yes
-          tags: [letsencrypt, letsencrypt-only]
+          tags: [letsencrypt]
       tags: always
       when: install_letsencrypt
 
@@ -156,7 +156,7 @@
         name: gitlab
         apply:
           become: yes
-          tags: [gitlab, docker, letsencrypt]
+          tags: [gitlab, docker]
       tags: always
       when: install_gitlab
 
@@ -165,7 +165,7 @@
         name: naemon
         apply:
           become: yes
-          tags: [naemon, docker, letsencrypt]
+          tags: [naemon, docker]
       tags: always
       when: install_naemon
 
@@ -174,7 +174,7 @@
         name: plex
         apply:
           become: yes
-          tags: [plex, docker, letsencrypt]
+          tags: [plex, docker]
       tags: always
       when: install_plex
 
@@ -183,7 +183,7 @@
         name: transmission
         apply:
           become: yes
-          tags: [transmission, transmission-only, docker]
+          tags: [transmission, docker]
       tags: always
       when: install_transmission
 
@@ -192,7 +192,7 @@
         name: flexget
         apply:
           become: yes
-          tags: [flexget, transmission, docker]
+          tags: [flexget, docker]
       tags: always
       when: install_flexget
 
@@ -201,7 +201,7 @@
         name: organizr
         apply:
           become: yes
-          tags: [organizr, docker, letsencrypt]
+          tags: [organizr, docker]
       tags: always
       when: install_organizr
 
@@ -210,7 +210,7 @@
         name: ghost
         apply:
           become: yes
-          tags: [ghost, docker, letsencrypt]
+          tags: [ghost, docker]
       tags: always
       when: install_ghost
 
@@ -228,7 +228,7 @@
         name: frigate
         apply:
           become: yes
-          tags: [frigate, docker, letsencrypt]
+          tags: [frigate, docker]
       tags: always
       when: install_frigate
 
@@ -237,7 +237,7 @@
         name: homeassistant
         apply:
           become: yes
-          tags: [homeassistant, docker, letsencrypt]
+          tags: [homeassistant, docker]
       tags: always
       when: install_homeassistant
 
