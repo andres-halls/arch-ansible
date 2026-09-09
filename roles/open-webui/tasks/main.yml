@@ -30,7 +30,7 @@
     volumes:
       - '/etc/localtime:/etc/localtime:ro'
       - "{{ openwebui_data_dir }}:/app/backend/data"
-    extra_hosts:
+    etc_hosts:
       host.docker.internal: host-gateway
     env:
       WEBUI_SECRET_KEY: "{{ openwebui_secret_key }}"
