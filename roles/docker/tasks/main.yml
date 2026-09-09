@@ -1,12 +1,23 @@
 ---
 - name: Install docker
-  pacman: name=docker state=present update_cache=yes
+  community.general.pacman: name=docker state=present update_cache=yes
 
 - name: Install docker-compose
-  pacman: name=docker-compose state=present
+  community.general.pacman: name=docker-compose state=present
 
 - name: Install python-docker
-  pacman: name=python-docker state=present
+  community.general.pacman: name=python-docker state=present
+
+- name: Ensure /etc/docker directory exists
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+
+- name: Deploy /etc/docker/daemon.json if not existing
+  ansible.builtin.copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    force: false
 
 - name: Enable and start docker daemon
-  service: name=docker enabled=yes state=started
+  ansible.builtin.service: name=docker enabled=yes state=started
