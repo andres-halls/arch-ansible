@@ -1,0 +1,19 @@
+---
+- name: Deploy unsloth-studio.service
+  ansible.builtin.copy:
+    src: unsloth-studio.service
+    dest: /etc/systemd/system/unsloth-studio.service
+  notify:
+    - reload systemd
+
+- name: Deploy unsloth-studio@.service
+  ansible.builtin.copy:
+    src: unsloth-studio@.service
+    dest: /etc/systemd/system/unsloth-studio@.service
+  notify:
+    - reload systemd
+
+- name: Deploy start_unsloth_studio.sh
+  ansible.builtin.copy:
+    src: start_unsloth_studio.sh
+    dest: /usr/local/bin/start_unsloth_studio.sh

@@ -1,0 +1,16 @@
+[Unit]
+Description=Unsloth Studio
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+; Environment="PATH=/root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/opt/rocm/bin"
+; Environment="HF_HOME=/root/data/huggingface"
+ExecStart=/usr/local/bin/start_unsloth_studio.sh
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -250,6 +250,15 @@
       tags: always
       when: install_neolink
 
+    - name: Install unsloth
+      ansible.builtin.include_role:
+        name: unsloth
+        apply:
+          become: yes
+          tags: [unsloth]
+      tags: always
+      when: install_unsloth
+
     - name: Install open-webui
       ansible.builtin.include_role:
         name: open-webui
