@@ -34,6 +34,9 @@
       host.docker.internal: host-gateway
     env:
       WEBUI_SECRET_KEY: "{{ openwebui_secret_key }}"
+      ENV: "{{ openwebui_env }}"
+      MEMORIES_USER_CHAR_LIMIT: "{{ openwebui_memories_user_char_limit }}"
+      MEMORIES_CONTEXT_CHAR_LIMIT: "{{ openwebui_memories_context_char_limit }}"
 
 - name: Deploy Open WebUI nginx vhost
   ansible.builtin.include_tasks: deploy_nginx_vhost.yml

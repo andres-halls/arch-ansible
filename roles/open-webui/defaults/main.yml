@@ -2,6 +2,9 @@
 openwebui_host_name: 'open-webui'
 openwebui_data_dir: '/srv/open-webui'
 openwebui_port: 3000
+openwebui_env: 'production'
+openwebui_memories_user_char_limit: '10000'
+openwebui_memories_context_char_limit: '10000'
 
 openwebui_nginx_proxy: true
 openwebui_nginx_ssl: true
