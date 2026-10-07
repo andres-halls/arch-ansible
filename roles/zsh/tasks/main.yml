@@ -15,6 +15,10 @@
   pacman: name=fzf state=present
   become: yes
 
+- name: Install atuin
+  pacman: name=atuin state=present
+  become: yes
+
 - name: Install zsh-antidote from AUR
   kewlfft.aur.aur: name=zsh-antidote
   become: yes

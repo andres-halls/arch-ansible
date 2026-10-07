@@ -41,9 +41,9 @@ Bhupesh-V/ugit
 bigH/git-fuzzy path:bin kind:path
 zdharma-continuum/history-search-multi-word branch:main
 PsychArch/nlsh
-andres-halls/zsh-mask
-andres-halls/per-directory-history
-andres-halls/zsh-history-on-success
+# andres-halls/zsh-mask
+# andres-halls/per-directory-history
+# andres-halls/zsh-history-on-success
 
 # desyncr/auto-ls
 # skx/sysadmin-util

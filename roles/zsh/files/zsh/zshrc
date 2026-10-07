@@ -66,6 +66,9 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 # load plugins
 source "$ZSH_HOME/zsh_plugins.zsh"
 
+# atuin
+eval "$(atuin init zsh --disable-up-arrow)"
+
 # plugin overrides
 bindkey '^[^M' self-insert-unmeta # restore Esc+Enter to default
 # ==================================================

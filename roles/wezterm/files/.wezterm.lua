@@ -158,15 +158,6 @@ config.keys = {
   },
 }
 
-for i = 1, 8 do
-  -- ALT + number to activate that tab
-  table.insert(config.keys, {
-    key = tostring(i),
-    mods = 'ALT',
-    action = act.ActivateTab(i - 1),
-  })
-end
-
 config.mouse_bindings = {
   {
     event = { Down = { streak = 1, button = 'Left' } },
