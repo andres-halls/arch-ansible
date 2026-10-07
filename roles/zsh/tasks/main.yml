@@ -53,10 +53,3 @@
 - name: Change root shell to zsh
   user: name=root shell='/usr/bin/zsh'
   become: yes
-
-- name: Include nodejs role
-  include_role:
-    name: nodejs
-    apply:
-      become: yes
-  when: install_nodejs

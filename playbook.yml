@@ -106,15 +106,6 @@
       tags: always
       when: install_letsencrypt
 
-    - name: Install nodejs
-      ansible.builtin.include_role:
-        name: nodejs
-        apply:
-          become: yes
-          tags: [nodejs]
-      tags: always
-      when: install_nodejs
-
     - name: Install redis
       ansible.builtin.include_role:
         name: redis

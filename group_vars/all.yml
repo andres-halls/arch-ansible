@@ -14,7 +14,6 @@ install_wezterm: no
 install_kitty: no
 install_nginx: no
 install_letsencrypt: no
-install_nodejs: no
 install_tswbot: no
 install_redis: no
 install_mongodb: no
