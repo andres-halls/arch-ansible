@@ -13,13 +13,6 @@ scene: !include scenes.yaml
 lovelace:
   mode: storage
 
-{% if homeassistant_nginx_proxy %}
-http:
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - 127.0.0.1
-{% endif %}
-
 {% if homeassistant_custom_config %}
 {{ homeassistant_custom_config }}
 {% endif %}
