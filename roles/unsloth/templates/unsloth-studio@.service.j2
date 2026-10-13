@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+
 [Unit]
 Description=Unsloth Studio - %i
 After=network-online.target
@@ -5,8 +7,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-; Environment="PATH=/root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/opt/rocm/bin"
-; Environment="HF_HOME=/root/data/huggingface"
+Environment="PATH={{ unsloth_path }}"
 ExecStart=/usr/local/bin/start_unsloth_studio.sh %i
 Restart=on-failure
 RestartSec=5

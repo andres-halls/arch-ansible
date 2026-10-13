@@ -1,19 +1,24 @@
 ---
-- name: Deploy unsloth-studio.service
-  ansible.builtin.copy:
-    src: unsloth-studio.service
-    dest: /etc/systemd/system/unsloth-studio.service
-  notify:
-    - reload systemd
-
-- name: Deploy unsloth-studio@.service
-  ansible.builtin.copy:
-    src: unsloth-studio@.service
-    dest: /etc/systemd/system/unsloth-studio@.service
-  notify:
-    - reload systemd
+- name: Create unsloth user with home directory
+  ansible.builtin.user:
+    name: unsloth
+    create_home: true
 
 - name: Deploy start_unsloth_studio.sh
   ansible.builtin.copy:
     src: start_unsloth_studio.sh
     dest: /usr/local/bin/start_unsloth_studio.sh
+
+- name: Deploy /etc/systemd/system/unsloth-studio.service
+  ansible.builtin.template:
+    src: unsloth-studio.service.j2
+    dest: /etc/systemd/system/unsloth-studio.service
+  notify:
+    - reload systemd
+
+- name: Deploy /etc/systemd/system/unsloth-studio@.service
+  ansible.builtin.template:
+    src: unsloth-studio@.service.j2
+    dest: /etc/systemd/system/unsloth-studio@.service
+  notify:
+    - reload systemd
