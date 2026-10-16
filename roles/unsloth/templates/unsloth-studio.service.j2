@@ -4,6 +4,8 @@
 Description=Unsloth Studio
 After=network-online.target
 Wants=network-online.target
+StartLimitIntervalSec=60
+StartLimitBurst=3
 
 [Service]
 Type=simple
@@ -12,8 +14,6 @@ ExecStart=/usr/local/bin/start_unsloth_studio.sh
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=5
-StartLimitIntervalSec=60
-StartLimitBurst=3
 
 [Install]
 WantedBy=multi-user.target
