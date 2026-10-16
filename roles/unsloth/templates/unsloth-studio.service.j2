@@ -9,6 +9,7 @@ StartLimitBurst=3
 
 [Service]
 Type=simple
+User=unsloth
 Environment="PATH={{ unsloth_path }}"
 ExecStart=/usr/local/bin/start_unsloth_studio.sh
 Restart=on-failure
