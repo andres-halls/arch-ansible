@@ -62,10 +62,11 @@
           include snippets/ip_auth.conf;
       {% endif %}
           client_max_body_size 10m;
-    location_block_ending: |
-      {% if gitlab_nginx_ip_auth %}
+    location_block_beginning: |
+      {% if gitlab_registry_ip_auth %}
               include snippets/ip_auth_check.conf;
       {% endif %}
+    location_block_ending: |
       {% if gitlab_nginx_ssl_enabled %}
               proxy_set_header X-Forwarded-Port 443;
               proxy_set_header X-Forwarded-Ssl on;
