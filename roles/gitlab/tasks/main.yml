@@ -30,7 +30,7 @@
         postgresql['shared_buffers'] = "512MB"
         {% if gitlab_registry and gitlab_registry_host != '' %}registry_external_url '{{ gitlab_registry_protocol }}://{{ gitlab_registry_host }}'{% endif %}
 
-        {% if gitlab_nginx_proxy and gitlab_ssl_enabled %}
+        {% if gitlab_nginx_proxy and gitlab_nginx_ssl_enabled %}
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
         nginx['hsts_max_age'] = 0
@@ -56,11 +56,17 @@
     host_name: "{{ gitlab_host_name }}"
     http_port: "{{ gitlab_http_port }}"
     logs_dir: "{{ gitlab_logs_dir }}"
-    ssl: "{{ gitlab_ssl_enabled }}"
-    server_block_beginning: |2
+    ssl: "{{ gitlab_nginx_ssl_enabled }}"
+    server_block_beginning: |
+      {% if gitlab_nginx_ip_auth %}
+          include snippets/ip_auth.conf;
+      {% endif %}
           client_max_body_size 10m;
     location_block_ending: |
-      {% if gitlab_ssl_enabled %}
+      {% if gitlab_nginx_ip_auth %}
+              include snippets/ip_auth_check.conf;
+      {% endif %}
+      {% if gitlab_nginx_ssl_enabled %}
               proxy_set_header X-Forwarded-Port 443;
               proxy_set_header X-Forwarded-Ssl on;
       {% endif %}
@@ -92,7 +98,7 @@
     host_name: "{{ gitlab_registry_host }}"
     http_port: "{{ gitlab_registry_port }}"
     logs_dir: "{{ gitlab_logs_dir }}"
-    ssl: "{{ gitlab_ssl_enabled }}"
+    ssl: "{{ gitlab_nginx_ssl_enabled }}"
     server_block_beginning: |
       {% if gitlab_registry_ip_auth %}
           include snippets/ip_auth.conf;
