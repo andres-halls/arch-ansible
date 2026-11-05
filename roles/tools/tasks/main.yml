@@ -1,57 +1,36 @@
 ---
-- name: Install less
-  community.general.pacman: name=less state=present update_cache=yes
-
-- name: Install htop
-  community.general.pacman: name=htop state=present
-
-- name: Install nethogs
-  community.general.pacman: name=nethogs state=present
-
-- name: Install procs
-  community.general.pacman: name=procs state=present
-
-- name: Install tldr
-  community.general.pacman: name=tldr state=present
-
-- name: Install lsd
-  community.general.pacman: name=lsd state=present
-
-- name: Install ripgrep (rg)
-  community.general.pacman: name=ripgrep state=present
-
-- name: Install httpie
-  community.general.pacman: name=httpie state=present
-
-- name: Install bat
-  community.general.pacman: name=bat state=present
-
-- name: Install fd
-  community.general.pacman: name=fd state=present
-
-- name: Install fuzzy finder (fzf)
-  community.general.pacman: name=fzf state=present
-
-- name: Install ncdu
-  community.general.pacman: name=ncdu state=present
-
-- name: Install dua
-  community.general.pacman: name=dua-cli state=present
-
-- name: Install broot
-  community.general.pacman: name=broot state=present
-
-- name: Install ranger
-  community.general.pacman: name=ranger state=present
-
-- name: Install sd
-  community.general.pacman: name=sd state=present
-
-- name: Install git-delta
-  community.general.pacman: name=git-delta state=present
-
-- name: Install duf
-  community.general.pacman: name=duf state=present
+- name: Install common tools
+  community.general.pacman:
+    name:
+      - less
+      - htop
+      - nethogs
+      - procs
+      - tldr
+      - lsd
+      - ripgrep
+      - httpie
+      - bat
+      - fd
+      - fzf
+      - dua-cli
+      - ncdu
+      - yazi
+      # yazi optional dependencies:
+      - ffmpeg
+      - poppler
+      - zoxide
+      - imagemagick
+      - xclip
+      # ------
+      - ranger
+      - sd
+      - git-delta
+      - duf
+      - jq
+      - yq
+    state: present
+    update_cache: true
 
 - name: Configure git to use delta
   community.general.git_config:
