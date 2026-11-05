@@ -11,6 +11,7 @@ config.enable_scroll_bar = true
 config.font_size = 11
 -- config.color_scheme = 'IR Black (base16)'
 config.color_scheme = 'Moonfly (Gogh)'
+config.window_close_confirmation = 'NeverPrompt'
 
 config.keys = {
   { key = 'UpArrow', mods = 'SHIFT', action = act.ScrollByLine(-1) },
@@ -22,6 +23,20 @@ config.keys = {
   { key = 'X', mods = 'CTRL|SHIFT|ALT', action = act.ActivateCopyMode },
   { key = 'T', mods = 'CTRL|SHIFT|ALT', action = act.SpawnCommandInNewTab {
       cwd = wezterm.home_dir
+    }
+  },
+  {
+    key = 'W', mods = 'CTRL|SHIFT',
+    action = wezterm.action.CloseCurrentTab { confirm = false },
+  },
+  -- Clears the scrollback and viewport, and then sends CTRL-L to ask the
+  -- shell to redraw its prompt
+  {
+    key = 'K',
+    mods = 'CTRL|SHIFT',
+    action = act.Multiple {
+      act.ClearScrollback 'ScrollbackAndViewport',
+      act.SendKey { key = 'L', mods = 'CTRL' }
     }
   },
 
@@ -179,7 +194,7 @@ config.mouse_bindings = {
 --
 
 local function is_shell(foreground_process_name)
-  local shell_names = { 'bash', 'zsh', 'fish', 'sh', 'ksh', 'dash' }
+  local shell_names = { 'bash', 'zsh', 'fish', 'sh', 'ksh', 'dash', 'atuin' }
   local process = string.match(foreground_process_name, '[^/\\]+$')
     or foreground_process_name
   for _, shell in ipairs(shell_names) do
