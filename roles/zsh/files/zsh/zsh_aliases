@@ -23,3 +23,11 @@ alias docker-psa='docker ps -a --format "{{.Names}} {{.Status}}"'
 alias docker-ps-stopped='docker ps -f "status=exited"'
 alias docker-dangling-images='docker images -f dangling=true'
 alias docker-unused-images='docker images --format {{.Repository}}:{{.Tag}} | grep -v "$(docker ps --format {{.Image}})"'
+
+function y() {
+  local tmp cwd; tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+  command yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd" || builtin true
+  command rm -f -- "$tmp"
+}
