@@ -12,6 +12,12 @@ config.font_size = 11
 -- config.color_scheme = 'IR Black (base16)'
 config.color_scheme = 'Moonfly (Gogh)'
 config.window_close_confirmation = 'NeverPrompt'
+config.skip_close_confirmation_for_processes_named = {
+  'sh',
+  'bash',
+  'zsh',
+  'atuin'
+}
 
 config.keys = {
   { key = 'UpArrow', mods = 'SHIFT', action = act.ScrollByLine(-1) },
@@ -46,53 +52,92 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = wezterm.action_callback(function(window, pane)
       local info = pane:get_foreground_process_info()
-      
-      if info and info.argv then
-        -- Check if the command is SSH first
-        if info.argv[1]:match("^ssh$") then
-          local cmd_args = {}
-          local has_t_flag = false
 
-          -- Copy the original args, but filter out our previous injections
-          for _, v in ipairs(info.argv) do
-            if not v:find("exec %$SHELL %-l") then
-              if v == "-t" then
-                has_t_flag = true
-              end
-              table.insert(cmd_args, v)
-            end
-          end
-          
-          -- Get the current working directory from OSC 7
-          local cwd_uri = pane:get_current_working_dir()
-
-          local spawn_args = {
-            args = cmd_args,
-            cwd = wezterm.home_dir,
-          }
-
-          if cwd_uri and cwd_uri.host and cwd_uri.host ~= wezterm.hostname() then
-            -- Construct the remote command: cd /path; exec $SHELL -l
-            -- We use 'exec $SHELL -l' to replace the temporary shell with an interactive one
-            local remote_cmd = string.format("cd %q ; exec $SHELL -l", cwd_uri.file_path)
-            
-            if not has_t_flag then
-              table.insert(cmd_args, 2, "-t")
-            end
-            
-            table.insert(cmd_args, remote_cmd)
-          end
-
-          -- Spawn the new tab with these args
-          window:perform_action(act.SpawnCommandInNewTab(spawn_args), pane)
-          return
+      local function basename(path)
+        if not path then
+          return nil
         end
+        return path:gsub('.*[\\/]', '')
       end
 
-      -- Fallback to just opening a normal tab
+      local function is_ssh(proc)
+        if not proc then
+          return false
+        end
+
+        local argv = proc.argv or {}
+        local executable = basename(proc.executable)
+        local name = basename(argv[1])
+
+        return name == 'ssh' or executable == 'ssh'
+      end
+
+      -- Recursively look for an ssh process, including beneath atuin pty-proxy.
+      local function find_ssh(proc)
+        if not proc then
+          return nil
+        end
+
+        if is_ssh(proc) then
+          return proc
+        end
+
+        for _, child in pairs(proc.children or {}) do
+          local found = find_ssh(child)
+          if found then
+            return found
+          end
+        end
+
+        return nil
+      end
+
+      local ssh_info = find_ssh(info)
+
+      if ssh_info then
+        local cmd_args = {}
+        local has_t_flag = false
+
+        -- Copy the original args, but filter out previous remote-shell injections.
+        for _, v in ipairs(ssh_info.argv) do
+          if not v:find('exec %$SHELL %-l') then
+            if v == '-t' then
+              has_t_flag = true
+            end
+            table.insert(cmd_args, v)
+          end
+        end
+
+        -- Get the current working directory from OSC 7.
+        local cwd_uri = pane:get_current_working_dir()
+
+        local spawn_args = {
+          args = cmd_args,
+          cwd = wezterm.home_dir,
+        }
+
+        if cwd_uri and cwd_uri.host and cwd_uri.host ~= wezterm.hostname() then
+          local remote_cmd = string.format(
+            'cd %q ; exec $SHELL -l',
+            cwd_uri.file_path
+          )
+
+          if not has_t_flag then
+            table.insert(cmd_args, 2, '-t')
+          end
+
+          table.insert(cmd_args, remote_cmd)
+        end
+
+        window:perform_action(act.SpawnCommandInNewTab(spawn_args), pane)
+        return
+      end
+
+      -- Fallback: open a normal tab.
       window:perform_action(act.SpawnTab 'CurrentPaneDomain', pane)
     end),
   },
+
   -- Rename current workspace
   {
     key = 'r',
@@ -108,6 +153,7 @@ config.keys = {
       ),
     },
   },
+
   -- Prompt for a name to use for a new workspace and switch to it.
   {
     key = 'w',
@@ -133,6 +179,7 @@ config.keys = {
       end),
     },
   },
+
   -- AI Chat
   {
     key = 'a',
