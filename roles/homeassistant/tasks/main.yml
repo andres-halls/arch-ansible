@@ -29,20 +29,6 @@
       - '/etc/localtime:/etc/localtime:ro'
       - "{{ homeassistant_path }}/config:/config"
 
-- name: Check if HACS is installed
-  ansible.builtin.stat:
-    path: "{{ homeassistant_path }}/config/custom_components/hacs"
-  register: hacs
-
-- name: Install HACS
-  community.docker.docker_container_exec:
-    container: homeassistant
-    command: /bin/bash -c 'wget -O - https://get.hacs.xyz | bash -'
-    chdir: /config
-  when: not hacs.stat.exists
-  notify:
-    - restart homeassistant
-
 - name: Install Mosquitto MQTT broker
   ansible.builtin.include_tasks: mosquitto.yml
   when: homeassistant_mosquitto
