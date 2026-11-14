@@ -8,6 +8,7 @@
   ansible.builtin.copy:
     src: start_unsloth_studio.sh
     dest: /usr/local/bin/start_unsloth_studio.sh
+    mode: '0755'
 
 - name: Deploy /etc/systemd/system/unsloth-studio.service
   ansible.builtin.template:
