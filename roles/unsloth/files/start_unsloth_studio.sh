@@ -3,7 +3,7 @@
 INSTANCE="${1:-}"
 
 if [[ -z "$INSTANCE" ]]; then
-  exec unsloth studio -H 0.0.0.0 -p 8888
+  exec unsloth studio -H 0.0.0.0 -p 8888 --disable-tools
   exit 0
 fi
 
@@ -15,4 +15,4 @@ if [[ ! -f "$ARGS_FILE" ]]; then
 fi
 
 mapfile -t args < "$ARGS_FILE"
-exec unsloth studio run -H 0.0.0.0 -p 8888 ${args[@]}
+exec unsloth studio run -H 0.0.0.0 -p 8888 --disable-tools ${args[@]}
